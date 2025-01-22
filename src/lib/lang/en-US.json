@@ -1,4 +1,10 @@
 {
+  "buttons": {
+    "connect": "Connect",
+    "connecting": "Connecting...",
+    "remove": "Remove",
+    "close": "Close"
+  },
   "title": "Pano Installer",
   "welcome-title": "Welcome",
   "welcome-description": "Let's start the installation with language selection.",
@@ -58,5 +64,6 @@
   "back-button": "Back",
   "next-button": "Next",
   "finish-button": "Finish",
-  "other-button": "Other"
+  "other-button": "Other",
+  "connect-failed-alert": "Connecting your Pano account has been failed! Try again."
 }

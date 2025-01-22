@@ -1,4 +1,10 @@
 {
+  "buttons": {
+    "connect": "Bağla",
+    "connecting": "Bağlanıyor...",
+    "remove": "Kaldır",
+    "close": "Kapat"
+  },
   "title": "Pano Kurulum",
   "welcome-title": "Hoş geldiniz",
   "welcome-description": "Kuruluma ilk olarak dil seçimi ile başlayalım.",
@@ -58,5 +64,6 @@
   "back-button": "Geri",
   "next-button": "İleri",
   "finish-button": "Tamamla",
-  "other-button": "Diğer"
+  "other-button": "Diğer",
+  "connect-failed-alert": "Pano hesabınıza bağlanırken hata oluştu! Lütfen tekrar deneyin."
 }

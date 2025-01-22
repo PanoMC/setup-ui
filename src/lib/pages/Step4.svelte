@@ -7,6 +7,39 @@
   </div>
   <form on:submit|preventDefault="{submit}">
     <ErrorAlert error="{error}" />
+    {#if !panoAccount && failed}
+      <!-- Error Alert -->
+      <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="{$_('buttons.close')}"></button>
+        {$_("connect-failed-alert")}
+      </div>
+    {/if}
+
+    <div class="mb-3">
+      {#if panoAccount}
+        <span class="text-muted">{panoAccount.email}</span>
+        <button type="button" class="btn btn-sm btn-outline-danger lh-base mx-4" on:click={onDisconnectClick} disabled="{disconnecting}">{$_("buttons.remove")}</button>
+      {:else}
+        <button type="button" class="btn btn-sm btn-outline-primary lh-base" on:click="{onConnectClick}" disabled="{connecting}">
+          <img
+            src="/assets/img/logo.svg"
+            width="20"
+            height="20"
+            class="me-2 bg-dark p-1 rounded"
+            alt="Pano"/>
+
+          {connecting ? $_('buttons.connecting') : $_('buttons.connect')}
+
+          {#if connecting}
+            <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+          {/if}
+        </button>
+      {/if}
+    </div>
 
     <div class="mb-3">
       <label for="admin-email">{$_("steps.account.inputs.email")}</label>
@@ -36,8 +69,7 @@
             class="form-control"
             id="admin-password"
             placeholder="************"
-            bind:value="{account.password}"
-            type="password" />
+            bind:value="{account.password}" />
           <small>{$_("steps.account.inputs.password-help-text")}</small>
         </div>
       </div>
@@ -75,26 +107,32 @@
 
 <script context="module">
   /**  @type {import('@sveltejs/kit').LayoutLoad} */
-  export async function load({ parent }) {
+  export async function load({ parent, url: {searchParams} }) {
     const {
-      stepInfo: { account },
+      stepInfo: { account, panoAccount },
     } = await parent();
 
-    return { stepInfo: { account } };
+    const failed = searchParams.get("failed");
+    const encodedData = searchParams.get("encodedData");
+    const state = searchParams.get("state");
+
+    return { stepInfo: { account, panoAccount, failed, encodedData, state } };
   }
 </script>
 
 <script>
+  import { _ } from "svelte-i18n";
+
+  import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
+  import { browser } from "$app/environment";
+
   import { backStep } from "$lib/Store.js";
-  import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
-  import { PANEL_URL } from "$lib/variables.js";
+  import ApiUtil, { buildQueryParams, NETWORK_ERROR } from "$lib/api.util.js";
+  import { PANEL_URL, PANO_WEBSITE_URL } from "$lib/variables.js";
 
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import { currentLanguage } from "$lib/language.util.js";
-  import { _ } from "svelte-i18n";
-
-  let loading = false;
-  let error = null;
 
   export let account = {
     username: "",
@@ -102,8 +140,69 @@
     email: "",
   };
 
+  export let panoAccount;
+  export let failed;
+  export let encodedData;
+  export let state;
+
+  let loading = false;
+  let error = null;
+  let connecting = !panoAccount && state && encodedData;
+  let disconnecting;
+
   $: disabled =
     account.username === "" || account.password === "" || account.email === "";
+
+  if (browser) {
+    if (!panoAccount && state && encodedData) {
+      ApiUtil.post({
+        path: "/api/setup/steps/4/platform/connect",
+        body: {
+          encodedData,
+          state
+        }
+      }).then(async (body) => {
+        if (body.error) {
+          if (body.error === "ALREADY_CONNECTED_TO_PANO") {
+            await goto($page.url.pathname, { invalidateAll: true })
+            connecting = false;
+            return
+          }
+
+          const queryParameters = buildQueryParams({ failed: true })
+          await goto($page.url.pathname + queryParameters, { invalidateAll: true })
+          connecting = false;
+
+          return
+        }
+
+        await goto($page.url.pathname, { invalidateAll: true })
+
+        if (!account.username) {
+          account.username = body.username
+        }
+
+        if (!account.email) {
+          account.email = body.email
+        }
+
+        connecting = false;
+      }).catch(async (_) => {
+        const queryParameters = buildQueryParams({ failed: true })
+        await goto($page.url.pathname + queryParameters, { invalidateAll: true });
+      })
+    }
+
+    if (panoAccount) {
+      if (!account.username) {
+        account.username = panoAccount.username
+      }
+
+      if (!account.email) {
+        account.email = panoAccount.email
+      }
+    }
+  }
 
   function submit() {
     loading = true;
@@ -141,5 +240,53 @@
     loading = false;
 
     error = errorCode;
+  }
+
+  function onConnectClick() {
+    connecting = true;
+
+    ApiUtil.post({
+      path: "/api/setup/steps/4/platform/code",
+    }).then((body) => {
+      if (body.error) {
+        location.reload();
+        return
+      }
+
+      const { publicKey, state } = body
+
+      // Encode dynamic parts to ensure the URL is safe
+      const encodedPublicKey = encodeURIComponent(publicKey);
+      const encodedRedirectUrl = encodeURIComponent($page.url.origin + $page.url.pathname);
+      const encodedState = encodeURIComponent(state);
+
+      // Redirect to the constructed URL
+      window.location = `${PANO_WEBSITE_URL}/auth?loginPanoPlatform=${encodedPublicKey}&redirectUrl=${encodedRedirectUrl}&state=${encodedState}`;
+    }).catch((_) => {
+      connecting = false;
+      error = NETWORK_ERROR
+    })
+  }
+
+  function onDisconnectClick() {
+    disconnecting = true;
+
+    ApiUtil.post({
+      path: "/api/setup/steps/4/platform/disconnect",
+    }).then(async (body) => {
+      if (body.error) {
+        error = body.error
+
+        disconnecting = false;
+        return
+      }
+
+      panoAccount = null;
+
+      disconnecting = false;
+    }).catch((_) => {
+      disconnecting = false;
+      location.reload()
+    })
   }
 </script>

@@ -27,3 +27,5 @@ config.js
 build
 functions
 .svelte-kit
+
+.env.local
