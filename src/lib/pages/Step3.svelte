@@ -33,7 +33,7 @@
           {$_("steps.email.return-back-to-service-list-text")}
         </button>
 
-        <h5>{services[chosenService].name}</h5>
+        <h5>{$_(services[chosenService].name)}</h5>
 
         <div class="row">
           <div class="col-6">
