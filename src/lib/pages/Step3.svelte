@@ -161,6 +161,9 @@
             class:disabled="{loading || disabled}"
             disabled="{loading || disabled}">
             {$_("next-button")}
+            {#if loading}
+              <span class="spinner-border spinner-border-sm text-secondary" role="status"></span>
+            {/if}
           </button>
         </div>
       </div>
