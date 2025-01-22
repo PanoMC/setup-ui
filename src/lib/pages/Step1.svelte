@@ -73,7 +73,6 @@
       loading = true;
 
       nextStep({
-        step: 1,
         websiteName,
         websiteDescription,
       });
@@ -84,9 +83,7 @@
     if (!loading) {
       loading = true;
 
-      backStep({
-        step: 1,
-      });
+      backStep();
     }
   }
 </script>

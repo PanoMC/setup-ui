@@ -69,54 +69,50 @@
                 <input
                   class="form-check-input"
                   type="checkbox"
-                  name="useSSLCheck"
-                  id="useSSLCheck"
-                  aria-checked="{mailConfiguration[chosenService].useSSL}"
-                  bind:checked="{mailConfiguration[chosenService].useSSL}" />
-                <label class="form-check-label" for="useSSLCheck">
-                  {$_("steps.email.inputs.use-ssl")}
+                  name="ssl"
+                  id="ssl"
+                  aria-checked="{mailConfiguration[chosenService].ssl}"
+                  bind:checked="{mailConfiguration[chosenService].ssl}" />
+                <label class="form-check-label" for="ssl">
+                  {$_("steps.email.inputs.ssl")}
                 </label>
               </div>
             </div>
             <div class="col-6 mb-3">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="useTLSCheck"
-                  id="useTLSCheck"
-                  aria-checked="{mailConfiguration[chosenService].useTLS}"
-                  bind:checked="{mailConfiguration[chosenService].useTLS}" />
-                <label class="form-check-label" for="useTLSCheck">
-                  {$_("steps.email.inputs.use-tls")}
-                </label>
-              </div>
+              <label for="port">{$_("steps.email.inputs.tls-setting")}</label>
+              <select
+                class="form-select"
+                bind:value="{mailConfiguration[chosenService].starttls}">
+                <option value="REQUIRED">REQUIRED</option>
+                <option value="OPTIONAL">OPTIONAL</option>
+                <option value="DISABLED">DISABLED</option>
+              </select>
             </div>
           </div>
 
           <div class="row">
             <div class="col-6">
               <div class="mb-3">
-                <label for="sendingAdress"
+                <label for="sendingAddress"
                   >{$_("steps.email.inputs.sending-address")}</label>
                 <input
                   class="form-control"
-                  id="sendingAdress"
+                  id="sendingAddress"
                   type="text"
                   placeholder="no-reply@forexample.com"
-                  bind:value="{mailConfiguration[chosenService].address}" />
+                  bind:value="{mailConfiguration[chosenService].sender}" />
               </div>
             </div>
 
             <div class="col-6">
               <div class="mb-3">
-                <label for="hostAddress">{$_("steps.email.inputs.host")}</label>
+                <label for="hostname">{$_("steps.email.inputs.hostname")}</label>
                 <input
                   class="form-control"
-                  id="hostAddress"
+                  id="hostname"
                   type="text"
                   placeholder="smtp.forexample.com"
-                  bind:value="{mailConfiguration[chosenService].host}" />
+                  bind:value="{mailConfiguration[chosenService].hostname}" />
               </div>
             </div>
 
@@ -137,7 +133,7 @@
                 <label for="port">{$_("steps.email.inputs.auth-method")}</label>
                 <select
                   class="form-select"
-                  bind:value="{mailConfiguration[chosenService].authMethod}">
+                  bind:value="{mailConfiguration[chosenService].authMethods}">
                   <option value="PLAIN">PLAIN</option>
                   <option value=""></option>
                 </select>
@@ -174,10 +170,10 @@
 
 <script context="module">
   const defaultMailConfiguration = Object.freeze({
-    useSSL: true,
-    useTLS: true,
+    ssl: true,
+    starttls: "DISABLED",
     port: 465,
-    authMethod: "",
+    authMethods: "",
   });
 
   export const services = Object.freeze({
@@ -185,43 +181,43 @@
       name: "GMail",
       config: {
         ...defaultMailConfiguration,
-        host: "smtp.gmail.com",
+        hostname: "smtp.gmail.com",
         port: 587,
-        useSSL: false,
-        useTLS: true,
-        authMethod: "PLAIN",
+        ssl: false,
+        starttls: "REQUIRED",
+        authMethods: "PLAIN",
       },
     },
     YAHOO: {
       name: "Yahoo",
       config: {
         ...defaultMailConfiguration,
-        host: "smtp.mail.yahoo.com",
+        hostname: "smtp.mail.yahoo.com",
       },
     },
     YANDEX: {
       name: "Yandex",
       config: {
         ...defaultMailConfiguration,
-        host: "smtp.yandex.com",
+        hostname: "smtp.yandex.com",
         port: 465,
-        useSSL: true,
-        useTLS: false,
-        authMethod: "PLAIN",
+        ssl: true,
+        starttls: "DISABLED",
+        authMethods: "PLAIN",
       },
     },
     MAIL_RU: {
       name: "Mail.ru",
       config: {
         ...defaultMailConfiguration,
-        host: "smtp.mail.ru",
+        hostname: "smtp.mail.ru",
       },
     },
     OUTLOOK: {
       name: "Hotmail / Outlook",
       config: {
         ...defaultMailConfiguration,
-        host: "smtp-mail.outlook.com",
+        hostname: "smtp-mail.outlook.com",
         port: 587,
       },
     },
@@ -236,15 +232,16 @@
   /** @type {import('./$types').PageLoad} */
   export async function load({ parent }) {
     const { stepInfo } = await parent();
-    const { address, host, username, password, port } = stepInfo;
+    const { email } = stepInfo;
+    const { sender, hostname, username, password, port } = email;
 
     let chosenService = null;
 
-    if (address && host && username && password && port) {
+    if (sender && hostname && username && password && port) {
       Object.keys(services).forEach((service) => {
         const serviceOptions = services[service];
 
-        if (serviceOptions.config.host === host) {
+        if (serviceOptions.config.hostname === hostname) {
           chosenService = service;
         }
       });
@@ -255,7 +252,7 @@
     }
 
     const mailConfiguration = {
-      [chosenService]: stepInfo,
+      [chosenService]: email,
     };
 
     return { stepInfo: { mailConfiguration, chosenService } };
@@ -280,8 +277,8 @@
     !chosenService ||
     (chosenService &&
       (!mailConfiguration[chosenService].port ||
-        !mailConfiguration[chosenService].address ||
-        !mailConfiguration[chosenService].host ||
+        !mailConfiguration[chosenService].sender ||
+        !mailConfiguration[chosenService].hostname ||
         !mailConfiguration[chosenService].username ||
         !mailConfiguration[chosenService].password));
 
@@ -290,9 +287,7 @@
       loading = true;
       error = null;
 
-      backStep({
-        step: 3,
-      });
+      backStep();
     }
   }
 
@@ -319,15 +314,12 @@
     error = null;
 
     ApiUtil.post({
-      path: "/api/setup/verifyMailConfiguration",
+      path: "/api/setup/steps/3/verify",
       body: mailConfiguration[chosenService],
     })
       .then((body) => {
         if (body.result === "ok") {
-          nextStep({
-            step: 3,
-            ...mailConfiguration[chosenService],
-          });
+          nextStep(mailConfiguration[chosenService]);
         } else if (body.error) {
           showError(body.error);
         } else showError(NETWORK_ERROR);
@@ -338,7 +330,7 @@
   }
 
   function onUsernameChange() {
-    mailConfiguration[chosenService].address =
+    mailConfiguration[chosenService].sender =
       mailConfiguration[chosenService].username;
   }
 </script>

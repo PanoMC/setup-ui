@@ -36,10 +36,10 @@
         "username": "Kullanıcı Adı (Adres)",
         "password": "Şifre",
         "details-button": "Ayrıntılar",
-        "use-ssl": "SSL Kullan",
-        "use-tls": "TLS Kullan",
-        "sending-address": "Gönderme Adresi",
-        "host": "Sağlayıcı Adresi",
+        "ssl": "SSL Kullan",
+        "tls-setting": "TLS Ayarı",
+        "sending-address": "Gönderici Adresi",
+        "hostname": "Sağlayıcı Adresi",
         "port": "Port",
         "auth-method": "Giriş Methodu"
       }

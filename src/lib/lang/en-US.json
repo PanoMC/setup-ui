@@ -36,10 +36,10 @@
         "username": "Username (Address)",
         "password": "Password",
         "details-button": "Details",
-        "use-ssl": "Use SSL",
-        "use-tls": "Use TLS",
-        "sending-address": "Sending Address",
-        "host": "Host",
+        "ssl": "Use SSL",
+        "tls-setting": "TLS Setting",
+        "sending-address": "Sender Address",
+        "hostname": "Hostname",
         "port": "Port",
         "auth-method": "Auth Method"
       }

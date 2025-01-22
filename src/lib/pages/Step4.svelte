@@ -130,9 +130,7 @@
       loading = true;
       error = null;
 
-      backStep({
-        step: 4,
-      });
+      backStep();
     }
   }
 

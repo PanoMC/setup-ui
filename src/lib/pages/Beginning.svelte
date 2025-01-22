@@ -62,7 +62,6 @@
       loading = true;
 
       nextStep({
-        step: 0,
         path: $page.url.pathname,
       });
     }

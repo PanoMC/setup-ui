@@ -1,6 +1,6 @@
 import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
 import { goto } from "$app/navigation";
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 
 export const session = writable({});
 export const currentStep = writable(0);
@@ -18,7 +18,7 @@ export function checkRoute(step, pathname) {
 }
 
 export async function checkCurrentStep() {
-  return ApiUtil.get({ path: "/api/setup/step/check" })
+  return ApiUtil.get({ path: "/api/setup/step" })
     .then((body) => {
       if (body.error) {
         return { ...body, step: 0 };
@@ -32,39 +32,39 @@ export async function checkCurrentStep() {
 }
 
 function initializeCurrentStep(path) {
-  checkCurrentStep().then((stepInfo) => {
+  checkCurrentStep().then(async (stepInfo) => {
     const { step } = stepInfo;
 
     currentStep.set(step);
 
     const redirect = checkRoute(step, path);
 
-    goto(redirect);
+    await goto(redirect);
   });
 }
 
 export function nextStep(body, path) {
-  ApiUtil.post({
-    path: "/api/setup/step/nextStep",
-    body,
+  ApiUtil.put({
+    path: "/api/setup/step",
+    body: { ...body, clientStep: get(currentStep) },
   }).then(() => {
     initializeCurrentStep(path);
   });
 }
 
 export function goToStep(step, path) {
-  ApiUtil.post({
-    path: "/api/setup/step/goAnyBackStep",
-    body: { step: parseInt(step) },
+  ApiUtil.put({
+    path: "/api/setup/step",
+    body: { clientStep: get(currentStep), step: parseInt(step) },
   }).then(() => {
     initializeCurrentStep(path);
   });
 }
 
-export function backStep(body, path) {
-  ApiUtil.post({
-    path: "/api/setup/step/backStep",
-    body,
+export function backStep(path) {
+  ApiUtil.put({
+    path: "/api/setup/step",
+    body: { clientStep: get(currentStep), step: get(currentStep) - 1 },
   }).then(() => {
     initializeCurrentStep(path);
   });

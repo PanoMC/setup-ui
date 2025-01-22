@@ -37,7 +37,7 @@
                 class="form-control"
                 id="databaseAddress"
                 placeholder="localhost:3306"
-                bind:value="{db.host}"
+                bind:value="{database.host}"
                 type="text" />
             </div>
           </div>
@@ -49,7 +49,7 @@
                 class="form-control"
                 id="databaseName"
                 placeholder="pano"
-                bind:value="{db.dbName}"
+                bind:value="{database.dbName}"
                 type="text" />
             </div>
           </div>
@@ -62,7 +62,7 @@
                 class="form-control"
                 id="databaseUserName"
                 placeholder="root"
-                bind:value="{db.username}"
+                bind:value="{database.username}"
                 type="text" />
             </div>
           </div>
@@ -74,7 +74,7 @@
                 class="form-control"
                 id="databaseUserPassword"
                 placeholder="****************"
-                bind:value="{db.password}"
+                bind:value="{database.password}"
                 type="password" />
             </div>
           </div>
@@ -86,7 +86,7 @@
                 class="form-control"
                 id="databaseTablePrefix"
                 placeholder="pano_"
-                bind:value="{db.prefix}"
+                bind:value="{database.prefix}"
                 type="text" />
             </div>
           </div>
@@ -131,23 +131,25 @@
   /** @type {import('./$types').PageLoad} */
   export async function load({ parent }) {
     const {
-      stepInfo: { db },
+      stepInfo: { database },
     } = await parent();
 
-    return { stepInfo: { db } };
+    return { stepInfo: { database } };
   }
 </script>
 
 <script>
+  import { _ } from "svelte-i18n";
+
   import { backStep, nextStep } from "$lib/Store.js";
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
+
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
-  import { _ } from "svelte-i18n";
 
   let loading = false;
   let error = null;
 
-  export let db = {
+  export let database = {
     host: "",
     dbName: "",
     username: "",
@@ -155,15 +157,15 @@
     prefix: "",
   };
 
-  $: disabled = db.host === "" || db.dbName === "" || db.username === "";
+  $: disabled = database.host === "" || database.dbName === "" || database.username === "";
 
   function submit() {
     loading = true;
     error = null;
 
     ApiUtil.post({
-      path: "/api/setup/dbConnectionTest",
-      body: db,
+      path: "/api/setup/steps/2/verify",
+      body: database,
     })
       .then((body) => {
         if (body.result === "ok") {
@@ -180,10 +182,7 @@
   function next() {
     loading = true;
 
-    nextStep({
-      step: 2,
-      ...db,
-    });
+    nextStep(database);
   }
 
   function back() {
@@ -191,9 +190,7 @@
       loading = true;
       error = null;
 
-      backStep({
-        step: 2,
-      });
+      backStep();
     }
   }
 
