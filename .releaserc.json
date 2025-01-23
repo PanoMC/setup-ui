@@ -3,6 +3,9 @@
     {
       "name": "dev",
       "prerelease": true
+    },
+    {
+      "name": "master"
     }
   ],
   "plugins": [
