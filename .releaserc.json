@@ -1,0 +1,28 @@
+{
+  "branches": [
+    {
+      "name": "dev",
+      "prerelease": true
+    }
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "*.zip",
+            "label": false
+          },
+          {
+            "path": "LICENSE",
+            "label": false
+          }
+        ]
+      }
+    ]
+  ],
+  "repositoryUrl": "https://github.com/PanoMc/setup-ui.git"
+}
