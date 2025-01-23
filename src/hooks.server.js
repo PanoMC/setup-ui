@@ -1,7 +1,7 @@
 import {
   COOKIE_PREFIX,
   CSRF_TOKEN_COOKIE_NAME,
-} from "./pano-ui/js/variables.js";
+} from "$lib/variables.js";
 import { getAcceptedLanguage } from "$lib/language.util.js";
 
 /** @type {import('@sveltejs/kit').Handle} */
@@ -10,7 +10,6 @@ export async function handle({
   event: {
     cookies,
     request: { headers },
-    url: { pathname },
   },
   resolve,
 }) {

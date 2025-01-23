@@ -52,6 +52,7 @@
     session,
   } from "$lib/Store.js";
   import { redirect } from "@sveltejs/kit";
+  import { API_URL, updateApiUrl } from "$lib/variables.js";
 
   /**  @type {import('./$types').LayoutServerLoad} */
   export async function loadServer(input) {
@@ -59,6 +60,13 @@
       url: { pathname },
       locals: { acceptedLanguage, CSRFToken },
     } = input;
+    // noinspection JSUnresolvedReference
+    const apiUrlEnv = process.env.API_URL
+
+    if (apiUrlEnv) {
+      updateApiUrl(apiUrlEnv)
+    }
+
     const stepInfo = await checkCurrentStep();
     const { step } = stepInfo;
 
@@ -68,7 +76,7 @@
       throw redirect(302, route);
     }
 
-    return { stepInfo, acceptedLanguage, CSRFToken };
+    return { stepInfo, acceptedLanguage, CSRFToken, apiUrlEnv };
   }
 
   /**
@@ -80,8 +88,15 @@
       stepInfo: { step },
       acceptedLanguage,
       CSRFToken,
+      apiUrlEnv
     },
   }) {
+    if (apiUrlEnv) {
+      updateApiUrl(apiUrlEnv)
+    }
+    console.log(apiUrlEnv)
+    console.log(API_URL)
+
     session.set({ CSRFToken });
     currentStep.set(step);
 
