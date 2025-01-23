@@ -49,11 +49,19 @@ export async function init(initialLocale) {
 }
 
 export function getAcceptedLanguage(headers) {
-  if (typeof headers.get("accept-language") === "undefined") {
+  const header = headers.get("accept-language")
+
+  if (typeof header === "undefined" || !header) {
     return "";
   }
 
-  return headers.get("accept-language").split(",")[0];
+  const split = header.split(",")
+
+  if (split.length === 0) {
+    return "";
+  }
+
+  return split[0];
 }
 
 export async function loadLanguage(language) {
