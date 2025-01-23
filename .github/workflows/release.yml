@@ -54,6 +54,10 @@ jobs:
       id-token: write # to enable use of OIDC for npm provenance
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive          # Fetch submodules
+          fetch-depth: 0
+          token: ${{ secrets.TOKEN_GITHUB }}
 
       - name: Extract branch name
         shell: bash
