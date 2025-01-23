@@ -94,8 +94,6 @@
     if (apiUrlEnv) {
       updateApiUrl(apiUrlEnv)
     }
-    console.log(apiUrlEnv)
-    console.log(API_URL)
 
     session.set({ CSRFToken });
     currentStep.set(step);
