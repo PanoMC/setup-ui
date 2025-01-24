@@ -174,9 +174,11 @@
       <div class="col-4">
         <div class="animate__animated animate__zoomIn">
           <button
-            type="submit"
+            type="button"
             class="btn btn-primary w-100"
-            >{$_("buttons.skip")}
+            on:click="{skip}"
+            disabled="{loading}">
+            {$_("buttons.skip")}
           </button>
         </div>
       </div>
@@ -345,6 +347,13 @@
       .catch(() => {
         showError(NETWORK_ERROR);
       });
+  }
+
+  function skip() {
+    loading = true;
+    error = null;
+
+    nextStep();
   }
 
   function onUsernameChange() {
