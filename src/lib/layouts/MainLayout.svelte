@@ -43,6 +43,8 @@
   </div>
 </App>
 
+<ToastContainer />
+
 <script context="module">
   import { init as initLanguage } from "$lib/language.util";
   import {
@@ -52,7 +54,7 @@
     session,
   } from "$lib/Store.js";
   import { redirect } from "@sveltejs/kit";
-  import { API_URL, updateApiUrl } from "$lib/variables.js";
+  import { updateApiUrl } from "$lib/variables.js";
 
   /**  @type {import('./$types').LayoutServerLoad} */
   export async function loadServer(input) {
@@ -105,10 +107,13 @@
 </script>
 
 <script>
+  import { _ } from "svelte-i18n";
+
   import App from "$lib/components/App.svelte";
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
-  import { _ } from "svelte-i18n";
+
+  import ToastContainer from "$lib/components/ToastContainer.svelte";
 
   export let stepInfo;
 </script>

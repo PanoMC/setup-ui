@@ -81,6 +81,11 @@
         "title": "Are you sure to skip setting up E-Mail (SMTP)?",
         "description": "Skipping this step may result in missing/not working features such as Password Reset or E-Mail validation."
       }
+    },
+    "toasts": {
+      "pano-account-connect-success": "Your Pano account has been successfully connected!",
+      "pano-account-disconnect-success": "Pano account removed successfully!",
+      "pano-account-disconnect-fail": "An error occurred during the removing Pano account!"
     }
   }
 }

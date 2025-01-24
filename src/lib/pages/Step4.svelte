@@ -149,9 +149,16 @@
   import ApiUtil, { buildQueryParams, NETWORK_ERROR } from "$lib/api.util.js";
   import { PANEL_URL, PANO_WEBSITE_URL } from "$lib/variables.js";
 
+  import { show as showToast } from "$lib/components/ToastContainer.svelte";
+
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import { currentLanguage } from "$lib/language.util.js";
+
   import ConfirmRemovePanoAccountModal, { show as showConfirmRemovePanoAccountModal } from "$lib/components/modals/ConfirmRemovePanoAccountModal.svelte";
+
+  import PanoAccountConnectSuccessToast from "$lib/components/toasts/PanoAccountConnectSuccessToast.svelte";
+  import PanoAccountDisconnectSuccessToast from "$lib/components/toasts/PanoAccountDisconnectSuccessToast.svelte";
+  import PanoAccountDisconnectFailToast from "$lib/components/toasts/PanoAccountDisconnectFailToast.svelte";
 
   export let account = {
     username: "",
@@ -200,6 +207,7 @@
           }
 
           await goto($page.url.pathname, { invalidateAll: true });
+          await showToast(PanoAccountConnectSuccessToast);
 
           if (!account.username) {
             account.username = body.username;
@@ -308,11 +316,14 @@
       })
         .then(async (body) => {
           if (body.error) {
+            await showToast(PanoAccountDisconnectFailToast);
             error = body.error;
 
             disconnecting = false;
             return;
           }
+
+          await showToast(PanoAccountDisconnectSuccessToast);
 
           panoAccount = null;
 

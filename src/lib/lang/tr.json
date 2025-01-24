@@ -81,6 +81,11 @@
         "title": "E-Posta (SMTP) kurulumunu atlamak istediğinize emin misiniz?",
         "description": "Bu adımı atlamak, Şifre Sıfırlama veya E-Posta doğrulama gibi özelliklerin eksik veya çalışmamasına neden olabilir."
       }
+    },
+    "toasts": {
+      "pano-account-connect-success": "Pano hesabın başarıyla bağlandı!",
+      "pano-account-disconnect-success": "Pano hesabı başarıyla kaldırıldı!",
+      "pano-account-disconnect-fail": "Pano hesabı kaldırılırken hata oluştu!"
     }
   }
 }
