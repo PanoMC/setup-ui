@@ -76,6 +76,10 @@
     "modals": {
       "confirm-remove-pano-account": {
         "title": "Are you sure to disconnect your online Pano account?"
+      },
+      "confirm-skip-smtp": {
+        "title": "Are you sure to skip setting up E-Mail (SMTP)?",
+        "description": "Skipping this step may result in missing/not working features such as Password Reset or E-Mail validation."
       }
     }
   }

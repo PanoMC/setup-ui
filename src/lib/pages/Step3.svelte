@@ -186,6 +186,8 @@
   </form>
 </div>
 
+<ConfirmSkipSMTPModal/>
+
 <script context="module">
   const defaultMailConfiguration = Object.freeze({
     ssl: true,
@@ -278,12 +280,14 @@
 </script>
 
 <script>
+  import { _ } from "svelte-i18n";
   import { backStep, nextStep } from "$lib/Store.js";
 
   import { fade } from "svelte/transition";
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
+
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
-  import { _ } from "svelte-i18n";
+  import ConfirmSkipSMTPModal, { show as showConfirmSkipSMTPModal } from "$lib/components/modals/ConfirmSkipSMTPModal.svelte";
 
   let loading = false;
   let nextLoading;
@@ -350,10 +354,12 @@
   }
 
   function skip() {
-    loading = true;
-    error = null;
+    showConfirmSkipSMTPModal(() => {
+      loading = true;
+      error = null;
 
-    nextStep();
+      nextStep();
+    })
   }
 
   function onUsernameChange() {

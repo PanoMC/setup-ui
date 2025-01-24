@@ -76,6 +76,10 @@
     "modals": {
       "confirm-remove-pano-account": {
         "title": "Çevrimiçi Pano hesabınızı kaldırmak istediğinize emin misiniz?"
+      },
+      "confirm-skip-smtp": {
+        "title": "E-Posta (SMTP) kurulumunu atlamak istediğinize emin misiniz?",
+        "description": "Bu adımı atlamak, Şifre Sıfırlama veya E-Posta doğrulama gibi özelliklerin eksik veya çalışmamasına neden olabilir."
       }
     }
   }
