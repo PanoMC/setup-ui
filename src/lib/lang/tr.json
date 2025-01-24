@@ -3,7 +3,12 @@
     "connect": "Bağla",
     "connecting": "Bağlanıyor...",
     "remove": "Kaldır",
-    "close": "Kapat"
+    "close": "Kapat",
+    "skip": "Atla",
+    "next": "İleri",
+    "back": "Geri",
+    "finish": "Tamamla",
+    "other": "Diğer"
   },
   "title": "Pano Kurulum",
   "welcome-title": "Hoş geldiniz",
@@ -64,9 +69,5 @@
       }
     }
   },
-  "back-button": "Geri",
-  "next-button": "İleri",
-  "finish-button": "Tamamla",
-  "other-button": "Diğer",
   "connect-failed-alert": "Pano hesabınıza bağlanırken hata oluştu! Lütfen tekrar deneyin."
 }

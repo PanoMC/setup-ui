@@ -98,7 +98,7 @@
           on:click={back}
           class:disabled={loading}
           disabled={loading}>
-          {$_("back-button")}
+          {$_("buttons.back")}
         </a>
       </div>
       <div class="col-6">
@@ -108,7 +108,7 @@
             class="btn btn-secondary w-100"
             class:disabled={loading || disabled}
             disabled={loading || disabled}>
-            {$_("finish-button")}
+            {$_("buttons.finish")}
             {#if loading}
               <span
                 class="spinner-border spinner-border-sm text-secondary"

@@ -3,7 +3,12 @@
     "connect": "Connect",
     "connecting": "Connecting...",
     "remove": "Remove",
-    "close": "Close"
+    "close": "Close",
+    "skip": "Skip",
+    "next": "Next",
+    "back": "Back",
+    "finish": "Finish",
+    "other": "Other"
   },
   "title": "Pano Installer",
   "welcome-title": "Welcome",
@@ -64,9 +69,5 @@
       }
     }
   },
-  "back-button": "Back",
-  "next-button": "Next",
-  "finish-button": "Finish",
-  "other-button": "Other",
   "connect-failed-alert": "Connecting your Pano account has been failed! Try again."
 }

@@ -110,7 +110,7 @@
           role="button"
           on:click="{back}"
           class:disabled="{loading}"
-          disabled="{loading}">{$_("back-button")}</a>
+          disabled="{loading}">{$_("buttons.back")}</a>
       </div>
       <div class="col-6">
         <div class="animate__animated animate__zoomIn">
@@ -119,7 +119,7 @@
             class="btn btn-primary w-100"
             class:disabled="{loading || disabled}"
             disabled="{loading || disabled}"
-            >{$_("next-button")}
+            >{$_("buttons.next")}
             {#if loading}
               <span class="spinner-border spinner-border-sm text-secondary" role="status"></span>
             {/if}

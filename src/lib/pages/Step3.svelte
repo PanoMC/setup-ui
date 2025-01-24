@@ -153,7 +153,7 @@
           role="button"
           class:disabled="{loading}"
           disabled="{loading}"
-          on:click="{back}">{$_("back-button")}</a>
+          on:click="{back}">{$_("buttons.back")}</a>
       </div>
       <div class="col-4">
         <div class="animate__animated animate__zoomIn">
@@ -162,7 +162,7 @@
             class="btn btn-primary w-100"
             class:disabled="{loading || disabled}"
             disabled="{loading || disabled}">
-            {$_("next-button")}
+            {$_("buttons.next")}
             {#if loading}
               <span
                 class="spinner-border spinner-border-sm text-secondary"
@@ -176,7 +176,7 @@
           <button
             type="submit"
             class="btn btn-primary w-100"
-            >Skip
+            >{$_("buttons.skip")}
           </button>
         </div>
       </div>
@@ -238,7 +238,7 @@
       },
     },
     OTHER: {
-      name: "other-button",
+      name: "buttons.other",
       config: {
         ...defaultMailConfiguration,
       },
