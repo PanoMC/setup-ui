@@ -109,7 +109,7 @@
             class:disabled={loading || disabled}
             disabled={loading || disabled}>
             {$_("buttons.finish")}
-            {#if loading}
+            {#if finishLoading}
               <span
                 class="spinner-border spinner-border-sm text-secondary"
                 role="status"></span>
@@ -165,6 +165,7 @@
   export let state;
 
   let loading = false;
+  let finishLoading;
   let error = null;
   let connecting = !panoAccount && state && encodedData;
   let disconnecting;
@@ -230,6 +231,7 @@
   }
 
   function submit() {
+    finishLoading = true;
     loading = true;
     error = null;
 
