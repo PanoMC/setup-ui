@@ -163,7 +163,7 @@
             class:disabled="{loading || disabled}"
             disabled="{loading || disabled}">
             {$_("buttons.next")}
-            {#if loading}
+            {#if nextLoading}
               <span
                 class="spinner-border spinner-border-sm text-secondary"
                 role="status"></span>
@@ -284,6 +284,7 @@
   import { _ } from "svelte-i18n";
 
   let loading = false;
+  let nextLoading;
   let error = null;
   export let chosenService;
 
@@ -327,6 +328,7 @@
     }
 
     loading = true;
+    nextLoading = true;
     error = null;
 
     ApiUtil.post({

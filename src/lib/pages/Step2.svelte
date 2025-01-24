@@ -120,7 +120,7 @@
             class:disabled="{loading || disabled}"
             disabled="{loading || disabled}"
             >{$_("buttons.next")}
-            {#if loading}
+            {#if nextLoading}
               <span class="spinner-border spinner-border-sm text-secondary" role="status"></span>
             {/if}
           </button>
@@ -150,6 +150,7 @@
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
 
   let loading = false;
+  let nextLoading;
   let error = null;
 
   export let database = {
@@ -184,6 +185,7 @@
 
   function next() {
     loading = true;
+    nextLoading = true;
 
     nextStep(database);
   }
