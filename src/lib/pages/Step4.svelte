@@ -5,41 +5,21 @@
       {$_("steps.account.description")}
     </p>
   </div>
-  <form on:submit|preventDefault="{submit}">
-    <ErrorAlert error="{error}" />
+  <form on:submit|preventDefault={submit}>
+    <ErrorAlert error={error} />
     {#if !panoAccount && failed}
       <!-- Error Alert -->
-      <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+      <div
+        class="alert alert-danger alert-dismissible fade show mb-0"
+        role="alert">
         <button
           type="button"
           class="btn-close"
           data-bs-dismiss="alert"
-          aria-label="{$_('buttons.close')}"></button>
+          aria-label={$_("buttons.close")}></button>
         {$_("connect-failed-alert")}
       </div>
     {/if}
-
-    <div class="mb-3">
-      {#if panoAccount}
-        <span class="text-muted">{panoAccount.email}</span>
-        <button type="button" class="btn btn-sm btn-outline-danger lh-base mx-4" on:click={onDisconnectClick} disabled="{disconnecting}">{$_("buttons.remove")}</button>
-      {:else}
-        <button type="button" class="btn btn-sm btn-outline-primary lh-base" on:click="{onConnectClick}" disabled="{connecting}">
-          <img
-            src="/assets/img/logo.svg"
-            width="20"
-            height="20"
-            class="me-2 bg-dark p-1 rounded"
-            alt="Pano"/>
-
-          {connecting ? $_('buttons.connecting') : $_('buttons.connect')}
-
-          {#if connecting}
-            <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
-          {/if}
-        </button>
-      {/if}
-    </div>
 
     <div class="mb-3">
       <label for="admin-email">{$_("steps.account.inputs.email")}</label>
@@ -47,7 +27,7 @@
         class="form-control"
         id="admin-email"
         type="email"
-        bind:value="{account.email}" />
+        bind:value={account.email} />
     </div>
     <div class="row">
       <div class="col-6">
@@ -58,7 +38,7 @@
             class="form-control"
             id="admin-username"
             type="text"
-            bind:value="{account.username}" />
+            bind:value={account.username} />
         </div>
       </div>
       <div class="col-6">
@@ -69,11 +49,45 @@
             class="form-control"
             id="admin-password"
             placeholder="************"
-            bind:value="{account.password}" />
+            bind:value={account.password} />
           <small>{$_("steps.account.inputs.password-help-text")}</small>
         </div>
       </div>
     </div>
+
+    <h5>{$_("steps.account.online-account")}</h5>
+    <p class="text-muted">{$_("steps.account.online-account-description")}</p>
+    {#if panoAccount}
+      {$_("steps.account.online-account-connected")}
+      <br />
+      <span class="text-muted">{panoAccount.email}</span>
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-danger ms-2"
+        on:click={onDisconnectClick}
+        disabled={disconnecting}>{$_("buttons.remove")}</button>
+    {:else}
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-primary lh-base"
+        on:click={onConnectClick}
+        disabled={connecting}>
+        <img
+          src="/assets/img/logo.svg"
+          width="20"
+          height="20"
+          class="me-2 bg-dark p-1 rounded"
+          alt="Pano" />
+
+        {connecting ? $_("buttons.connecting") : $_("buttons.connect")}
+
+        {#if connecting}
+          <span
+            class="spinner-border spinner-border-sm text-primary"
+            role="status"></span>
+        {/if}
+      </button>
+    {/if}
 
     <div class="row pt-3">
       <div class="col-6">
@@ -81,9 +95,9 @@
           class="btn btn-link w-100"
           role="button"
           href="javascript:void(0);"
-          on:click="{back}"
-          class:disabled="{loading}"
-          disabled="{loading}">
+          on:click={back}
+          class:disabled={loading}
+          disabled={loading}>
           {$_("back-button")}
         </a>
       </div>
@@ -92,11 +106,13 @@
           <button
             type="submit"
             class="btn btn-secondary w-100"
-            class:disabled="{loading || disabled}"
-            disabled="{loading || disabled}">
+            class:disabled={loading || disabled}
+            disabled={loading || disabled}>
             {$_("finish-button")}
             {#if loading}
-              <span class="spinner-border spinner-border-sm text-secondary" role="status"></span>
+              <span
+                class="spinner-border spinner-border-sm text-secondary"
+                role="status"></span>
             {/if}
           </button>
         </div>
@@ -107,7 +123,7 @@
 
 <script context="module">
   /**  @type {import('@sveltejs/kit').LayoutLoad} */
-  export async function load({ parent, url: {searchParams} }) {
+  export async function load({ parent, url: { searchParams } }) {
     const {
       stepInfo: { account, panoAccount },
     } = await parent();
@@ -159,47 +175,53 @@
         path: "/api/setup/steps/4/platform/connect",
         body: {
           encodedData,
-          state
-        }
-      }).then(async (body) => {
-        if (body.error) {
-          if (body.error === "ALREADY_CONNECTED_TO_PANO") {
-            await goto($page.url.pathname, { invalidateAll: true })
+          state,
+        },
+      })
+        .then(async (body) => {
+          if (body.error) {
+            if (body.error === "ALREADY_CONNECTED_TO_PANO") {
+              await goto($page.url.pathname, { invalidateAll: true });
+              connecting = false;
+              return;
+            }
+
+            const queryParameters = buildQueryParams({ failed: true });
+            await goto($page.url.pathname + queryParameters, {
+              invalidateAll: true,
+            });
             connecting = false;
-            return
+
+            return;
           }
 
-          const queryParameters = buildQueryParams({ failed: true })
-          await goto($page.url.pathname + queryParameters, { invalidateAll: true })
+          await goto($page.url.pathname, { invalidateAll: true });
+
+          if (!account.username) {
+            account.username = body.username;
+          }
+
+          if (!account.email) {
+            account.email = body.email;
+          }
+
           connecting = false;
-
-          return
-        }
-
-        await goto($page.url.pathname, { invalidateAll: true })
-
-        if (!account.username) {
-          account.username = body.username
-        }
-
-        if (!account.email) {
-          account.email = body.email
-        }
-
-        connecting = false;
-      }).catch(async (_) => {
-        const queryParameters = buildQueryParams({ failed: true })
-        await goto($page.url.pathname + queryParameters, { invalidateAll: true });
-      })
+        })
+        .catch(async (_) => {
+          const queryParameters = buildQueryParams({ failed: true });
+          await goto($page.url.pathname + queryParameters, {
+            invalidateAll: true,
+          });
+        });
     }
 
     if (panoAccount) {
       if (!account.username) {
-        account.username = panoAccount.username
+        account.username = panoAccount.username;
       }
 
       if (!account.email) {
-        account.email = panoAccount.email
+        account.email = panoAccount.email;
       }
     }
   }
@@ -247,25 +269,29 @@
 
     ApiUtil.post({
       path: "/api/setup/steps/4/platform/code",
-    }).then((body) => {
-      if (body.error) {
-        location.reload();
-        return
-      }
-
-      const { publicKey, state } = body
-
-      // Encode dynamic parts to ensure the URL is safe
-      const encodedPublicKey = encodeURIComponent(publicKey);
-      const encodedRedirectUrl = encodeURIComponent($page.url.origin + $page.url.pathname);
-      const encodedState = encodeURIComponent(state);
-
-      // Redirect to the constructed URL
-      window.location = `${PANO_WEBSITE_URL}/auth?loginPanoPlatform=${encodedPublicKey}&redirectUrl=${encodedRedirectUrl}&state=${encodedState}`;
-    }).catch((_) => {
-      connecting = false;
-      error = NETWORK_ERROR
     })
+      .then((body) => {
+        if (body.error) {
+          location.reload();
+          return;
+        }
+
+        const { publicKey, state } = body;
+
+        // Encode dynamic parts to ensure the URL is safe
+        const encodedPublicKey = encodeURIComponent(publicKey);
+        const encodedRedirectUrl = encodeURIComponent(
+          $page.url.origin + $page.url.pathname,
+        );
+        const encodedState = encodeURIComponent(state);
+
+        // Redirect to the constructed URL
+        window.location = `${PANO_WEBSITE_URL}/auth?loginPanoPlatform=${encodedPublicKey}&redirectUrl=${encodedRedirectUrl}&state=${encodedState}`;
+      })
+      .catch((_) => {
+        connecting = false;
+        error = NETWORK_ERROR;
+      });
   }
 
   function onDisconnectClick() {
@@ -273,20 +299,22 @@
 
     ApiUtil.post({
       path: "/api/setup/steps/4/platform/disconnect",
-    }).then(async (body) => {
-      if (body.error) {
-        error = body.error
+    })
+      .then(async (body) => {
+        if (body.error) {
+          error = body.error;
+
+          disconnecting = false;
+          return;
+        }
+
+        panoAccount = null;
 
         disconnecting = false;
-        return
-      }
-
-      panoAccount = null;
-
-      disconnecting = false;
-    }).catch((_) => {
-      disconnecting = false;
-      location.reload()
-    })
+      })
+      .catch((_) => {
+        disconnecting = false;
+        location.reload();
+      });
   }
 </script>

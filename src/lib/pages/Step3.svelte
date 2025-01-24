@@ -82,6 +82,7 @@
               <label for="port">{$_("steps.email.inputs.tls-setting")}</label>
               <select
                 class="form-select"
+                id="port"
                 bind:value="{mailConfiguration[chosenService].starttls}">
                 <option value="REQUIRED">REQUIRED</option>
                 <option value="OPTIONAL">OPTIONAL</option>
@@ -106,7 +107,8 @@
 
             <div class="col-6">
               <div class="mb-3">
-                <label for="hostname">{$_("steps.email.inputs.hostname")}</label>
+                <label for="hostname"
+                  >{$_("steps.email.inputs.hostname")}</label>
                 <input
                   class="form-control"
                   id="hostname"
@@ -144,7 +146,7 @@
       </div>
     {/if}
     <div class="row">
-      <div class="col-6">
+      <div class="col-4">
         <a
           href="javascript:void(0);"
           class="btn btn-link w-100"
@@ -153,7 +155,7 @@
           disabled="{loading}"
           on:click="{back}">{$_("back-button")}</a>
       </div>
-      <div class="col-6">
+      <div class="col-4">
         <div class="animate__animated animate__zoomIn">
           <button
             type="submit"
@@ -162,8 +164,19 @@
             disabled="{loading || disabled}">
             {$_("next-button")}
             {#if loading}
-              <span class="spinner-border spinner-border-sm text-secondary" role="status"></span>
+              <span
+                class="spinner-border spinner-border-sm text-secondary"
+                role="status"></span>
             {/if}
+          </button>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="animate__animated animate__zoomIn">
+          <button
+            type="submit"
+            class="btn btn-primary w-100"
+            >Skip
           </button>
         </div>
       </div>

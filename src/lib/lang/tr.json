@@ -34,9 +34,9 @@
       }
     },
     "email": {
-      "title": "E-Posta",
+      "title": "E-Posta (SMTP)",
       "description": "Pano, e-posta gönderebilmek için bir e-posta sağlayıcısına ihtiyaç duyar. Lütfen kullanmak istediğiniz e-posta servisi ile oturum açın.",
-      "help-link-text": "E-Posta ayarlama hakkında daha fazla",
+      "help-link-text": "SMTP E-Posta ayarlama hakkında daha fazla",
       "return-back-to-service-list-text": "Servis listesine geri dön",
       "inputs": {
         "username": "Kullanıcı Adı (Adres)",
@@ -53,6 +53,9 @@
     "account": {
       "title": "Hesap",
       "description": "Pano'ya giriş yapabilmek için bir yönetici hesabına ihtiyacınız var.",
+      "online-account": "Çevrimiçi Hesap",
+      "online-account-description": "Eklenti, tema ve güncellemelere erişebilmek için çevrimiçi Pano hesabınızı bağlayın.",
+      "online-account-connected": "Pano hesabı bağlandı:",
       "inputs": {
         "email": "E-Posta",
         "username": "Minecraft Kullanıcı Adı",

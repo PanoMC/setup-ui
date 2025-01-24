@@ -34,9 +34,9 @@
       }
     },
     "email": {
-      "title": "E-Mail",
+      "title": "E-Mail (SMTP)",
       "description": "Pano requires an email provider to be able to send emails. Please log in with the e-mail service you want to use.",
-      "help-link-text": "More about setting e-mail",
+      "help-link-text": "More about setting SMTP email",
       "return-back-to-service-list-text": "Back to service list",
       "inputs": {
         "username": "Username (Address)",
@@ -53,6 +53,9 @@
     "account": {
       "title": "Account",
       "description": "You need an administrator account to login the Pano.",
+      "online-account": "Online Account",
+      "online-account-description": "Connect your online Pano account to access plugins, themes, and updates.",
+      "online-account-connected": "Pano account connected:",
       "inputs": {
         "email": "E-Mail",
         "username": "Minecraft Username",
