@@ -8,7 +8,9 @@
     "next": "İleri",
     "back": "Geri",
     "finish": "Tamamla",
-    "other": "Diğer"
+    "other": "Diğer",
+    "yes": "Evet",
+    "cancel": "İptal"
   },
   "title": "Pano Kurulum",
   "welcome-title": "Hoş geldiniz",
@@ -69,5 +71,12 @@
       }
     }
   },
-  "connect-failed-alert": "Pano hesabınıza bağlanırken hata oluştu! Lütfen tekrar deneyin."
+  "connect-failed-alert": "Pano hesabınıza bağlanırken hata oluştu! Lütfen tekrar deneyin.",
+  "components": {
+    "modals": {
+      "confirm-remove-pano-account": {
+        "title": "Çevrimiçi Pano hesabınızı kaldırmak istediğinize emin misiniz?"
+      }
+    }
+  }
 }

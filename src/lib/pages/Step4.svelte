@@ -121,6 +121,8 @@
   </form>
 </div>
 
+<ConfirmRemovePanoAccountModal/>
+
 <script context="module">
   /**  @type {import('@sveltejs/kit').LayoutLoad} */
   export async function load({ parent, url: { searchParams } }) {
@@ -149,6 +151,7 @@
 
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import { currentLanguage } from "$lib/language.util.js";
+  import ConfirmRemovePanoAccountModal, { show as showConfirmRemovePanoAccountModal } from "$lib/components/modals/ConfirmRemovePanoAccountModal.svelte";
 
   export let account = {
     username: "",
@@ -295,26 +298,28 @@
   }
 
   function onDisconnectClick() {
-    disconnecting = true;
+    showConfirmRemovePanoAccountModal(() => {
+      disconnecting = true;
 
-    ApiUtil.post({
-      path: "/api/setup/steps/4/platform/disconnect",
-    })
-      .then(async (body) => {
-        if (body.error) {
-          error = body.error;
+      ApiUtil.post({
+        path: "/api/setup/steps/4/platform/disconnect",
+      })
+        .then(async (body) => {
+          if (body.error) {
+            error = body.error;
+
+            disconnecting = false;
+            return;
+          }
+
+          panoAccount = null;
 
           disconnecting = false;
-          return;
-        }
-
-        panoAccount = null;
-
-        disconnecting = false;
-      })
-      .catch((_) => {
-        disconnecting = false;
-        location.reload();
-      });
+        })
+        .catch((_) => {
+          disconnecting = false;
+          location.reload();
+        });
+    })
   }
 </script>

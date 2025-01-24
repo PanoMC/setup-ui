@@ -8,7 +8,9 @@
     "next": "Next",
     "back": "Back",
     "finish": "Finish",
-    "other": "Other"
+    "other": "Other",
+    "yes": "Yes",
+    "cancel": "Cancel"
   },
   "title": "Pano Installer",
   "welcome-title": "Welcome",
@@ -69,5 +71,12 @@
       }
     }
   },
-  "connect-failed-alert": "Connecting your Pano account has been failed! Try again."
+  "connect-failed-alert": "Connecting your Pano account has been failed! Try again.",
+  "components": {
+    "modals": {
+      "confirm-remove-pano-account": {
+        "title": "Are you sure to disconnect your online Pano account?"
+      }
+    }
+  }
 }
