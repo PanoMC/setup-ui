@@ -55,7 +55,7 @@
       "description": "Pano'ya giriş yapabilmek için bir yönetici hesabına ihtiyacınız var.",
       "online-account": "Çevrimiçi Hesap",
       "online-account-description": "Eklenti, tema ve güncellemelere erişebilmek için çevrimiçi Pano hesabınızı bağlayın.",
-      "online-account-connected": "Pano hesabı bağlandı:",
+      "online-account-connected": "Çevrimiçi hesap bağlandı:",
       "inputs": {
         "email": "E-Posta",
         "username": "Minecraft Kullanıcı Adı",

@@ -55,7 +55,7 @@
       "description": "You need an administrator account to login the Pano.",
       "online-account": "Online Account",
       "online-account-description": "Connect your online Pano account to access plugins, themes, and updates.",
-      "online-account-connected": "Pano account connected:",
+      "online-account-connected": "Online account connected:",
       "inputs": {
         "email": "E-Mail",
         "username": "Minecraft Username",
