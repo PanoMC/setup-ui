@@ -153,7 +153,7 @@
           role="button"
           class:disabled="{loading}"
           disabled="{loading}"
-          on:click="{back}">{$_("back-button")}</a>
+          on:click="{back}">{$_("buttons.back")}</a>
       </div>
       <div class="col-4">
         <div class="animate__animated animate__zoomIn">
@@ -162,8 +162,8 @@
             class="btn btn-primary w-100"
             class:disabled="{loading || disabled}"
             disabled="{loading || disabled}">
-            {$_("next-button")}
-            {#if loading}
+            {$_("buttons.next")}
+            {#if nextLoading}
               <span
                 class="spinner-border spinner-border-sm text-secondary"
                 role="status"></span>
@@ -174,15 +174,19 @@
       <div class="col-4">
         <div class="animate__animated animate__zoomIn">
           <button
-            type="submit"
+            type="button"
             class="btn btn-primary w-100"
-            >Skip
+            on:click="{skip}"
+            disabled="{loading}">
+            {$_("buttons.skip")}
           </button>
         </div>
       </div>
     </div>
   </form>
 </div>
+
+<ConfirmSkipSMTPModal/>
 
 <script context="module">
   const defaultMailConfiguration = Object.freeze({
@@ -238,7 +242,7 @@
       },
     },
     OTHER: {
-      name: "other-button",
+      name: "buttons.other",
       config: {
         ...defaultMailConfiguration,
       },
@@ -276,14 +280,17 @@
 </script>
 
 <script>
+  import { _ } from "svelte-i18n";
   import { backStep, nextStep } from "$lib/Store.js";
 
   import { fade } from "svelte/transition";
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
+
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
-  import { _ } from "svelte-i18n";
+  import ConfirmSkipSMTPModal, { show as showConfirmSkipSMTPModal } from "$lib/components/modals/ConfirmSkipSMTPModal.svelte";
 
   let loading = false;
+  let nextLoading;
   let error = null;
   export let chosenService;
 
@@ -327,6 +334,7 @@
     }
 
     loading = true;
+    nextLoading = true;
     error = null;
 
     ApiUtil.post({
@@ -343,6 +351,15 @@
       .catch(() => {
         showError(NETWORK_ERROR);
       });
+  }
+
+  function skip() {
+    showConfirmSkipSMTPModal(() => {
+      loading = true;
+      error = null;
+
+      nextStep();
+    })
   }
 
   function onUsernameChange() {

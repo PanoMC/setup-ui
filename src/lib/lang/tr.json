@@ -3,7 +3,14 @@
     "connect": "Bağla",
     "connecting": "Bağlanıyor...",
     "remove": "Kaldır",
-    "close": "Kapat"
+    "close": "Kapat",
+    "skip": "Atla",
+    "next": "İleri",
+    "back": "Geri",
+    "finish": "Tamamla",
+    "other": "Diğer",
+    "yes": "Evet",
+    "cancel": "İptal"
   },
   "title": "Pano Kurulum",
   "welcome-title": "Hoş geldiniz",
@@ -64,9 +71,21 @@
       }
     }
   },
-  "back-button": "Geri",
-  "next-button": "İleri",
-  "finish-button": "Tamamla",
-  "other-button": "Diğer",
-  "connect-failed-alert": "Pano hesabınıza bağlanırken hata oluştu! Lütfen tekrar deneyin."
+  "connect-failed-alert": "Pano hesabınıza bağlanırken hata oluştu! Lütfen tekrar deneyin.",
+  "components": {
+    "modals": {
+      "confirm-remove-pano-account": {
+        "title": "Çevrimiçi Pano hesabınızı kaldırmak istediğinize emin misiniz?"
+      },
+      "confirm-skip-smtp": {
+        "title": "E-Posta (SMTP) kurulumunu atlamak istediğinize emin misiniz?",
+        "description": "Bu adımı atlamak, Şifre Sıfırlama veya E-Posta doğrulama gibi özelliklerin eksik veya çalışmamasına neden olabilir."
+      }
+    },
+    "toasts": {
+      "pano-account-connect-success": "Pano hesabın başarıyla bağlandı!",
+      "pano-account-disconnect-success": "Pano hesabı başarıyla kaldırıldı!",
+      "pano-account-disconnect-fail": "Pano hesabı kaldırılırken hata oluştu!"
+    }
+  }
 }

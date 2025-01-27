@@ -110,7 +110,7 @@
           role="button"
           on:click="{back}"
           class:disabled="{loading}"
-          disabled="{loading}">{$_("back-button")}</a>
+          disabled="{loading}">{$_("buttons.back")}</a>
       </div>
       <div class="col-6">
         <div class="animate__animated animate__zoomIn">
@@ -119,8 +119,8 @@
             class="btn btn-primary w-100"
             class:disabled="{loading || disabled}"
             disabled="{loading || disabled}"
-            >{$_("next-button")}
-            {#if loading}
+            >{$_("buttons.next")}
+            {#if nextLoading}
               <span class="spinner-border spinner-border-sm text-secondary" role="status"></span>
             {/if}
           </button>
@@ -150,6 +150,7 @@
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
 
   let loading = false;
+  let nextLoading;
   let error = null;
 
   export let database = {
@@ -184,6 +185,7 @@
 
   function next() {
     loading = true;
+    nextLoading = true;
 
     nextStep(database);
   }

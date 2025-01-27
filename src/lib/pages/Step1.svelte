@@ -29,7 +29,7 @@
           role="button"
           class:disabled="{loading}"
           disabled="{loading}"
-          on:click="{back}">{$_("back-button")}</a>
+          on:click="{back}">{$_("buttons.back")}</a>
       </div>
       <div class="col-6">
         <div class="animate__animated animate__zoomIn">
@@ -38,7 +38,7 @@
             class="btn btn-primary w-100"
             class:disabled="{loading || disabled}"
             disabled="{loading || disabled}">
-            {$_("next-button")}
+            {$_("buttons.next")}
           </button>
         </div>
       </div>

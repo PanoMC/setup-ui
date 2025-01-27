@@ -98,7 +98,7 @@
           on:click={back}
           class:disabled={loading}
           disabled={loading}>
-          {$_("back-button")}
+          {$_("buttons.back")}
         </a>
       </div>
       <div class="col-6">
@@ -108,8 +108,8 @@
             class="btn btn-secondary w-100"
             class:disabled={loading || disabled}
             disabled={loading || disabled}>
-            {$_("finish-button")}
-            {#if loading}
+            {$_("buttons.finish")}
+            {#if finishLoading}
               <span
                 class="spinner-border spinner-border-sm text-secondary"
                 role="status"></span>
@@ -120,6 +120,8 @@
     </div>
   </form>
 </div>
+
+<ConfirmRemovePanoAccountModal/>
 
 <script context="module">
   /**  @type {import('@sveltejs/kit').LayoutLoad} */
@@ -147,8 +149,16 @@
   import ApiUtil, { buildQueryParams, NETWORK_ERROR } from "$lib/api.util.js";
   import { PANEL_URL, PANO_WEBSITE_URL } from "$lib/variables.js";
 
+  import { show as showToast } from "$lib/components/ToastContainer.svelte";
+
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import { currentLanguage } from "$lib/language.util.js";
+
+  import ConfirmRemovePanoAccountModal, { show as showConfirmRemovePanoAccountModal } from "$lib/components/modals/ConfirmRemovePanoAccountModal.svelte";
+
+  import PanoAccountConnectSuccessToast from "$lib/components/toasts/PanoAccountConnectSuccessToast.svelte";
+  import PanoAccountDisconnectSuccessToast from "$lib/components/toasts/PanoAccountDisconnectSuccessToast.svelte";
+  import PanoAccountDisconnectFailToast from "$lib/components/toasts/PanoAccountDisconnectFailToast.svelte";
 
   export let account = {
     username: "",
@@ -162,6 +172,7 @@
   export let state;
 
   let loading = false;
+  let finishLoading;
   let error = null;
   let connecting = !panoAccount && state && encodedData;
   let disconnecting;
@@ -196,6 +207,7 @@
           }
 
           await goto($page.url.pathname, { invalidateAll: true });
+          await showToast(PanoAccountConnectSuccessToast);
 
           if (!account.username) {
             account.username = body.username;
@@ -227,6 +239,7 @@
   }
 
   function submit() {
+    finishLoading = true;
     loading = true;
     error = null;
 
@@ -295,26 +308,31 @@
   }
 
   function onDisconnectClick() {
-    disconnecting = true;
+    showConfirmRemovePanoAccountModal(() => {
+      disconnecting = true;
 
-    ApiUtil.post({
-      path: "/api/setup/steps/4/platform/disconnect",
-    })
-      .then(async (body) => {
-        if (body.error) {
-          error = body.error;
+      ApiUtil.post({
+        path: "/api/setup/steps/4/platform/disconnect",
+      })
+        .then(async (body) => {
+          if (body.error) {
+            await showToast(PanoAccountDisconnectFailToast);
+            error = body.error;
+
+            disconnecting = false;
+            return;
+          }
+
+          await showToast(PanoAccountDisconnectSuccessToast);
+
+          panoAccount = null;
 
           disconnecting = false;
-          return;
-        }
-
-        panoAccount = null;
-
-        disconnecting = false;
-      })
-      .catch((_) => {
-        disconnecting = false;
-        location.reload();
-      });
+        })
+        .catch((_) => {
+          disconnecting = false;
+          location.reload();
+        });
+    })
   }
 </script>
