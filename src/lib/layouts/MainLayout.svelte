@@ -84,15 +84,16 @@
   /**
    * @type {import('@sveltejs/kit').LoadLayout}
    */
-  export async function load({
-    data,
-    data: {
-      stepInfo: { step },
-      acceptedLanguage,
-      CSRFToken,
-      apiUrlEnv
-    },
-  }) {
+  export async function load(event) {
+    const {
+      data,
+      data: {
+        stepInfo: { step },
+        acceptedLanguage,
+        CSRFToken,
+        apiUrlEnv
+      },
+    } = event;
     if (apiUrlEnv) {
       updateApiUrl(apiUrlEnv)
     }
@@ -100,7 +101,7 @@
     session.set({ CSRFToken });
     currentStep.set(step);
 
-    await initLanguage(acceptedLanguage);
+    await initLanguage(acceptedLanguage, event);
 
     return data;
   }
