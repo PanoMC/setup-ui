@@ -8,6 +8,10 @@ export const currentLanguage = writable(null);
 export const Languages = writable({});
 
 async function fetchLanguages(event) {
+  if (Object.keys(get(Languages)).length > 0) {
+    return;
+  }
+
   const response = await event.fetch("/setup-api/languages");
   const languages = await response.json();
   Languages.set(languages);
@@ -24,15 +28,19 @@ export async function init(initialLocale, event) {
     }
   }
 
+  if (get(currentLanguage) !== null) {
+    return;
+  }
+
   const language = getLanguageByLocale(initialLocale);
   const languageToLoad = language || get(Languages)["en-US"];
 
-  await loadLanguage(languageToLoad, event);
   currentLanguage.set(languageToLoad);
+  await loadLanguage(languageToLoad, event);
 
   initI18n({
     fallbackLocale: "en-US",
-    initialLocale: languageToLoad.locale,
+    initialLocale,
   });
 }
 
