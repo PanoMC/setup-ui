@@ -1,4 +1,4 @@
-<div class:opacity-75="{disabled}">
+<div class:opacity-50="{disabled}">
   <div class="animate__animated animate__slideInUp">
     <h4>{$_("welcome-title")}</h4>
     <p class="text-muted">
