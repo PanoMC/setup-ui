@@ -7,7 +7,7 @@
   </div>
 
   <ul class="list-group mb-3">
-    {#each Object.keys(Languages) as language, index (language)}
+    {#each Object.keys($Languages) as language, index (language)}
       <li class="list-group-item">
         <input
           class="form-check-input me-1"
@@ -15,12 +15,12 @@
           name="langSelectionRadio"
           value=""
           id="lang{language}Radio"
-          aria-checked="{$currentLanguage === Languages[language]}"
-          checked="{$currentLanguage === Languages[language]}"
-          on:click="{() => changeLanguage(Languages[language])}"
+          aria-checked="{$currentLanguage === $Languages[language]}"
+          checked="{$currentLanguage === $Languages[language]}"
+          on:click="{() => changeLanguage($Languages[language])}"
           disabled="{$languageLoading}" />
         <label class="form-check-label" for="lang{language}Radio"
-          >{Languages[language].name}</label>
+          >{$Languages[language].name}</label>
       </li>
     {/each}
   </ul>
