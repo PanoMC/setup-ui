@@ -1,6 +1,7 @@
 import {
+  API_URL,
   COOKIE_PREFIX,
-  CSRF_TOKEN_COOKIE_NAME,
+  CSRF_TOKEN_COOKIE_NAME
 } from "$lib/variables.js";
 import { getAcceptedLanguage } from "$lib/language.util.js";
 
@@ -18,4 +19,15 @@ export async function handle({
   event.locals.CSRFToken = cookies.get(COOKIE_PREFIX + CSRF_TOKEN_COOKIE_NAME);
 
   return resolve(event);
+}
+
+
+/** @type {import('@sveltejs/kit').HandleFetch} */
+export async function handleFetch({ event, request, fetch }) {
+  if (request.url.startsWith(API_URL)) {
+    request.headers.set('cookie', event.request.headers.get('cookie'));
+    request.headers.set("Origin", API_URL);
+  }
+
+  return fetch(request);
 }
