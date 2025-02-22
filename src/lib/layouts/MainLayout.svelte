@@ -115,6 +115,12 @@
   import Navbar from "$lib/components/Navbar.svelte";
 
   import ToastContainer from "$lib/components/ToastContainer.svelte";
+  import { onMount } from "svelte";
+  import { initialized } from "$lib/Store.js";
 
   export let stepInfo;
+
+  onMount(() => {
+    initialized.set(true);
+  })
 </script>

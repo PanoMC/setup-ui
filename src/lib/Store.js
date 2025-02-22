@@ -5,6 +5,8 @@ import { get, writable } from "svelte/store";
 export const session = writable({});
 export const currentStep = writable(0);
 
+export const initialized = writable(false);
+
 export function checkRoute(step, pathname) {
   const stepLocation = "/step-" + step;
 
