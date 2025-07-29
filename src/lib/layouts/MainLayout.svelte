@@ -54,7 +54,7 @@
     session,
   } from "$lib/Store.js";
   import { redirect } from "@sveltejs/kit";
-  import { updateApiUrl } from "$lib/variables.js";
+  import { updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables.js";
 
   /**  @type {import('./$types').LayoutServerLoad} */
   export async function loadServer(input) {
