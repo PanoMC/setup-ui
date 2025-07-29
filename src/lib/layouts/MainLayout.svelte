@@ -54,7 +54,7 @@
     session,
   } from "$lib/Store.js";
   import { redirect } from "@sveltejs/kit";
-  import { updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables.js";
+  import { updateApiUrl } from "$lib/variables.js";
 
   /**  @type {import('./$types').LayoutServerLoad} */
   export async function loadServer(input) {
@@ -65,15 +65,8 @@
     // noinspection JSUnresolvedReference
     const apiUrlEnv = process.env.API_URL
 
-    // noinspection JSUnresolvedReference
-    const panoWebsiteUrlEnv = process.env.PANO_WEBSITE_URL;
-
     if (apiUrlEnv) {
       updateApiUrl(apiUrlEnv)
-    }
-
-    if (panoWebsiteUrlEnv) {
-      updatePanoWebsiteUrl(panoWebsiteUrlEnv);
     }
 
     const stepInfo = await checkCurrentStep();
