@@ -65,8 +65,15 @@
     // noinspection JSUnresolvedReference
     const apiUrlEnv = process.env.API_URL
 
+    // noinspection JSUnresolvedReference
+    const panoWebsiteUrlEnv = process.env.PANO_WEBSITE_URL;
+
     if (apiUrlEnv) {
       updateApiUrl(apiUrlEnv)
+    }
+
+    if (panoWebsiteUrlEnv) {
+      updatePanoWebsiteUrl(panoWebsiteUrlEnv);
     }
 
     const stepInfo = await checkCurrentStep();
