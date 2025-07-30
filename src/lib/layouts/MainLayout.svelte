@@ -85,7 +85,7 @@
       throw redirect(302, route);
     }
 
-    return { stepInfo, acceptedLanguage, CSRFToken, apiUrlEnv };
+    return { stepInfo, acceptedLanguage, CSRFToken, apiUrlEnv, panoWebsiteUrlEnv };
   }
 
   /**
@@ -98,11 +98,16 @@
         stepInfo: { step },
         acceptedLanguage,
         CSRFToken,
-        apiUrlEnv
+        apiUrlEnv,
+        panoWebsiteUrlEnv
       },
     } = event;
     if (apiUrlEnv) {
       updateApiUrl(apiUrlEnv)
+    }
+
+    if (panoWebsiteUrlEnv) {
+      updateApiUrl(panoWebsiteUrlEnv)
     }
 
     session.set({ CSRFToken });
