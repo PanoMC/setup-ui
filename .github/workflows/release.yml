@@ -78,18 +78,9 @@ jobs:
       - name: Build
         run: bun run build
 
-      - name: Create manifest.json
+      - name: Update manifest.json version
         run: |
-          cat <<EOF > build/manifest.json
-          {
-            "id": "setup-ui",
-            "version": "v${{ needs.get-next-version.outputs.new_tag_version }}",
-            "author": "Pano MC",
-            "license": "MIT",
-            "sourceUrl": "https://github.com/PanoMC/setup-ui",
-            "panoVersion": "local-build"
-          }
-          EOF
+          sed -i 's/"version": *"[^"]*"/"version": "v${{ needs.get-next-version.outputs.new_tag_version }}"/' build/manifest.json
 
       - name: Zip Build
         run: cd build && zip -r ../setup-ui-v${{ needs.get-next-version.outputs.new_tag_version }}.zip . && cd ..

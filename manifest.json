@@ -1,0 +1,11 @@
+{
+  "id": "setup-ui",
+  "title": "Setup UI",
+  "description": "Pano's setup UI.",
+  "version": "v{version}",
+  "author": "Pano MC",
+  "license": "MIT",
+  "screenshots": [],
+  "sourceUrl": "https://github.com/PanoMC/setup-ui",
+  "panoVersion": "local-build"
+}
