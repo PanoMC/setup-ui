@@ -5,8 +5,8 @@
       {$_("steps.email.description")}
       <br />
       <a href="#">
-        <i class="fa-solid fa-up-right-from-square me-2"></i>
         {$_("steps.email.help-link-text")}
+        <i class="fa-solid fa-up-right-from-square ms-2"></i>
       </a>
     </p>
   </div>
@@ -35,7 +35,7 @@
 
         <h5>{$_(services[chosenService].name)}</h5>
 
-        <div class="row">
+        <div class="row g-3">
           <div class="col-6">
             <label for="mailUsername"
               >{$_("steps.email.inputs.username")}</label>
@@ -145,7 +145,7 @@
         </details>
       </div>
     {/if}
-    <div class="row">
+    <div class="row g-3">
       <div class="col-4">
         <a
           href="javascript:void(0);"
@@ -159,13 +159,13 @@
         <div class="animate__animated animate__zoomIn">
           <button
             type="submit"
-            class="btn btn-primary w-100"
+            class="btn btn-secondary w-100"
             class:disabled="{loading || disabled}"
             disabled="{loading || disabled}">
             {$_("buttons.next")}
             {#if nextLoading}
               <span
-                class="spinner-border spinner-border-sm text-secondary"
+                class="spinner-border spinner-border-sm text-dark"
                 role="status"></span>
             {/if}
           </button>

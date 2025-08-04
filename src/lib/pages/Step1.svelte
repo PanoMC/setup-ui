@@ -35,7 +35,7 @@
         <div class="animate__animated animate__zoomIn">
           <button
             type="submit"
-            class="btn btn-primary w-100"
+            class="btn btn-secondary w-100"
             class:disabled="{loading || disabled}"
             disabled="{loading || disabled}">
             {$_("buttons.next")}

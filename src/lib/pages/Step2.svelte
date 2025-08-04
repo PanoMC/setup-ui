@@ -22,84 +22,58 @@
       </div>
     </div>
 
-    <div class="tab-content">
-      <div
-        aria-labelledby="mysql-tab"
-        class="tab-pane fade show active"
-        id="mysql"
-        role="tabpanel">
-        <div class="row">
-          <div class="col-6">
-            <div class="mb-3">
-              <label for="databaseAddress"
-                >{$_("steps.database.inputs.address")}</label>
-              <input
-                class="form-control"
-                id="databaseAddress"
-                placeholder="localhost:3306"
-                bind:value="{database.host}"
-                type="text" />
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="mb-3">
-              <label for="databaseName"
-                >{$_("steps.database.inputs.name")}</label>
-              <input
-                class="form-control"
-                id="databaseName"
-                placeholder="pano"
-                bind:value="{database.dbName}"
-                type="text" />
-            </div>
-          </div>
-          <div class="w-100"></div>
-          <div class="col-6">
-            <div class="mb-3">
-              <label for="databaseUserName"
-                >{$_("steps.database.inputs.username")}</label>
-              <input
-                class="form-control"
-                id="databaseUserName"
-                placeholder="root"
-                bind:value="{database.username}"
-                type="text" />
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="mb-3">
-              <label for="databaseUserPassword"
-                >{$_("steps.database.inputs.password")}</label>
-              <input
-                class="form-control"
-                id="databaseUserPassword"
-                placeholder="****************"
-                bind:value="{database.password}"
-                type="password" />
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="mb-3">
-              <label for="databaseTablePrefix"
-                >{$_("steps.database.inputs.prefix")}</label>
-              <input
-                class="form-control"
-                id="databaseTablePrefix"
-                placeholder="pano_"
-                bind:value="{database.prefix}"
-                type="text" />
-            </div>
-          </div>
-        </div>
+    <div class="row g-3 mb-3">
+      <div class="col-lg-6">
+        <label for="databaseAddress"
+          >{$_("steps.database.inputs.address")}</label>
+        <input
+          class="form-control"
+          id="databaseAddress"
+          placeholder="localhost:3306"
+          bind:value="{database.host}"
+          type="text" />
       </div>
-
-      <!-- <div
-      aria-labelledby="sqlite-tab"
-      class="tab-pane fade show"
-      id="sqlite"
-      role="tabpanel">
-      sqlite
-    </div> -->
+      <div class="col-lg-6">
+        <label for="databaseName"
+          >{$_("steps.database.inputs.name")}</label>
+        <input
+          class="form-control"
+          id="databaseName"
+          placeholder="pano"
+          bind:value="{database.dbName}"
+          type="text" />
+      </div>
+      
+      <div class="col-lg-6">
+        <label for="databaseUserName"
+          >{$_("steps.database.inputs.username")}</label>
+        <input
+          class="form-control"
+          id="databaseUserName"
+          placeholder="root"
+          bind:value="{database.username}"
+          type="text" />
+      </div>
+      <div class="col-lg-6">
+        <label for="databaseUserPassword"
+          >{$_("steps.database.inputs.password")}</label>
+        <input
+          class="form-control"
+          id="databaseUserPassword"
+          placeholder="****************"
+          bind:value="{database.password}"
+          type="password" />
+      </div>
+      <div class="col-12">
+        <label for="databaseTablePrefix"
+          >{$_("steps.database.inputs.prefix")}</label>
+        <input
+          class="form-control"
+          id="databaseTablePrefix"
+          placeholder="pano_"
+          bind:value="{database.prefix}"
+          type="text" />
+      </div>
     </div>
 
     <div class="row">
@@ -116,12 +90,12 @@
         <div class="animate__animated animate__zoomIn">
           <button
             type="submit"
-            class="btn btn-primary w-100"
+            class="btn btn-secondary w-100"
             class:disabled="{loading || disabled}"
             disabled="{loading || disabled}"
             >{$_("buttons.next")}
             {#if nextLoading}
-              <span class="spinner-border spinner-border-sm text-secondary" role="status"></span>
+              <span class="spinner-border spinner-border-sm text-dark" role="status"></span>
             {/if}
           </button>
         </div>

@@ -1,8 +1,6 @@
 {
   "name": "Türkçe (TR)",
-  "derivatives": [
-    "tr-tr"
-  ],
+  "derivatives": ["tr-tr"],
   "date-fns-code": "tr",
   "buttons": {
     "connect": "Bağla",
@@ -67,11 +65,11 @@
       "description": "Pano'ya giriş yapabilmek için bir yönetici hesabına ihtiyacınız var.",
       "online-account": "Çevrimiçi Hesap",
       "online-account-description": "Eklenti, tema ve güncellemelere erişebilmek için çevrimiçi Pano hesabınızı bağlayın.",
-      "online-account-connected": "Çevrimiçi hesap bağlandı:",
       "inputs": {
         "email": "E-Posta",
         "username": "Minecraft Kullanıcı Adı",
         "password": "Şifre",
+        "password-repeat": "Şifre Tekrarı",
         "password-help-text": "Minimum 6 karakter."
       }
     }

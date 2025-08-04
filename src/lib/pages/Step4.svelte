@@ -21,73 +21,86 @@
       </div>
     {/if}
 
-    <div class="mb-3">
-      <label for="admin-email">{$_("steps.account.inputs.email")}</label>
-      <input
-        class="form-control"
-        id="admin-email"
-        type="email"
-        bind:value={account.email} />
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <div class="mb-3">
-          <label for="admin-username"
-            >{$_("steps.account.inputs.username")}</label>
-          <input
-            class="form-control"
-            id="admin-username"
-            type="text"
-            bind:value={account.username} />
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="admin-email">{$_("steps.account.inputs.email")}</label>
+        <input
+          class="form-control"
+          id="admin-email"
+          type="email"
+          bind:value={account.email} />
+      </div>
+      <div class="col-md-6">
+        <label for="admin-username"
+          >{$_("steps.account.inputs.username")}</label>
+        <input
+          class="form-control"
+          id="admin-username"
+          type="text"
+          bind:value={account.username} />
+      </div>
+      <div class="col-md-6">
+        <label for="admin-password"
+          >{$_("steps.account.inputs.password")}</label>
+        <input
+          class="form-control"
+          id="admin-password"
+          placeholder="************"
+          bind:value={account.password} />
+        <small>{$_("steps.account.inputs.password-help-text")}</small>
+      </div>
+      <div class="col-md-6">
+        <label for="admin-password-repeat"
+          >{$_("steps.account.inputs.password-repeat")}</label>
+        <input
+          class="form-control"
+          id="admin-password-repeat"
+          placeholder="************"
+          bind:value={account.passwordRepeat} />
+        <small>{$_("steps.account.inputs.password-help-text")}</small>
+      </div>
+      <div class="col">
+        <div class="row">
+          <label class="col-xl-6 col-form-label" for="connect-pano-account">
+            {$_("steps.account.online-account")}
+            <small class="text-muted d-block"
+              >{$_("steps.account.online-account-description")}</small>
+          </label>
+          <div class="col-xl-6 d-flex justify-content-start align-items-center">
+            {#if panoAccount}
+              <span class="text-muted">{panoAccount.email}</span>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger ms-2"
+                on:click={onDisconnectClick}
+                disabled={disconnecting}>{$_("buttons.remove")}</button>
+            {:else}
+              <button
+              id="connect-pano-account"
+                type="button"
+                class="btn btn-sm btn-outline-primary lh-base"
+                on:click={onConnectClick}
+                disabled={connecting}>
+                <img
+                  src="/assets/img/logo.svg"
+                  width="20"
+                  height="20"
+                  class="me-2 bg-dark p-1 rounded"
+                  alt="Pano" />
+
+                {connecting ? $_("buttons.connecting") : $_("buttons.connect")}
+
+                {#if connecting}
+                  <span
+                    class="spinner-border spinner-border-sm text-primary"
+                    role="status"></span>
+                {/if}
+              </button>
+            {/if}
+          </div>
         </div>
       </div>
-      <div class="col-6">
-        <div class="mb-3">
-          <label for="admin-password"
-            >{$_("steps.account.inputs.password")}</label>
-          <input
-            class="form-control"
-            id="admin-password"
-            placeholder="************"
-            bind:value={account.password} />
-          <small>{$_("steps.account.inputs.password-help-text")}</small>
-        </div>
-      </div>
     </div>
-
-    <h5>{$_("steps.account.online-account")}</h5>
-    <p class="text-muted">{$_("steps.account.online-account-description")}</p>
-    {#if panoAccount}
-      {$_("steps.account.online-account-connected")}
-      <br />
-      <span class="text-muted">{panoAccount.email}</span>
-      <button
-        type="button"
-        class="btn btn-sm btn-outline-danger ms-2"
-        on:click={onDisconnectClick}
-        disabled={disconnecting}>{$_("buttons.remove")}</button>
-    {:else}
-      <button
-        type="button"
-        class="btn btn-sm btn-outline-primary lh-base"
-        on:click={onConnectClick}
-        disabled={connecting}>
-        <img
-          src="/assets/img/logo.svg"
-          width="20"
-          height="20"
-          class="me-2 bg-dark p-1 rounded"
-          alt="Pano" />
-
-        {connecting ? $_("buttons.connecting") : $_("buttons.connect")}
-
-        {#if connecting}
-          <span
-            class="spinner-border spinner-border-sm text-primary"
-            role="status"></span>
-        {/if}
-      </button>
-    {/if}
 
     <div class="row pt-3">
       <div class="col-6">
@@ -121,7 +134,7 @@
   </form>
 </div>
 
-<ConfirmRemovePanoAccountModal/>
+<ConfirmRemovePanoAccountModal />
 
 <script context="module">
   /**  @type {import('@sveltejs/kit').LayoutLoad} */
@@ -154,7 +167,9 @@
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import { currentLanguage } from "$lib/language.util.js";
 
-  import ConfirmRemovePanoAccountModal, { show as showConfirmRemovePanoAccountModal } from "$lib/components/modals/ConfirmRemovePanoAccountModal.svelte";
+  import ConfirmRemovePanoAccountModal, {
+    show as showConfirmRemovePanoAccountModal,
+  } from "$lib/components/modals/ConfirmRemovePanoAccountModal.svelte";
 
   import PanoAccountConnectSuccessToast from "$lib/components/toasts/PanoAccountConnectSuccessToast.svelte";
   import PanoAccountDisconnectSuccessToast from "$lib/components/toasts/PanoAccountDisconnectSuccessToast.svelte";
@@ -333,6 +348,6 @@
           disconnecting = false;
           location.reload();
         });
-    })
+    });
   }
 </script>
