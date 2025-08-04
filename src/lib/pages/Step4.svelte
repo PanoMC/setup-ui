@@ -68,7 +68,7 @@
           </label>
           <div class="col-xl-6 d-flex justify-content-start align-items-center">
             {#if panoAccount}
-              <span class="text-muted">{panoAccount.email}</span>
+              <span class="text-muted">{maskEmail(panoAccount.email)}</span>
               <button
                 type="button"
                 class="btn btn-sm btn-outline-danger ms-2"
@@ -349,5 +349,19 @@
           location.reload();
         });
     });
+  }
+
+  function maskEmail(email) {
+    const [localPart, domain] = email.split("@");
+
+    const maskedLocal =
+      localPart.length <= 3
+        ? `${localPart[0]}**`
+        : `${localPart.substring(0, 2)}${"*".repeat(localPart.length - 2)}`;
+
+    const domainParts = domain.split(".");
+    const maskedDomain = `${domainParts[0][0]}${"*".repeat(domainParts[0].length - 1)}.${domainParts.slice(1).join(".")}`;
+
+    return `${maskedLocal}@${maskedDomain}`;
   }
 </script>
