@@ -107,7 +107,7 @@
     }
 
     if (panoWebsiteUrlEnv) {
-      updateApiUrl(panoWebsiteUrlEnv)
+      updatePanoWebsiteUrl(panoWebsiteUrlEnv)
     }
 
     session.set({ CSRFToken });
