@@ -95,8 +95,7 @@
     const {
       data,
       data: {
-        stepInfo: { step },
-        acceptedLanguage,
+        stepInfo: { step, locale },
         CSRFToken,
         apiUrlEnv,
         panoWebsiteUrlEnv
@@ -113,7 +112,8 @@
     session.set({ CSRFToken });
     currentStep.set(step);
 
-    await initLanguage(acceptedLanguage, event);
+    console.log(locale)
+    await initLanguage(locale, event);
 
     return data;
   }

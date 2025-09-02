@@ -28,10 +28,6 @@ export async function init(initialLocale, event) {
     }
   }
 
-  if (get(currentLanguage) !== null) {
-    return;
-  }
-
   const language = getLanguageByLocale(initialLocale);
   const languageToLoad = language || get(Languages)["en-US"];
 

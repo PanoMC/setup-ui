@@ -41,7 +41,6 @@
 </div>
 
 <script>
-  import { page } from "$app/stores";
   import { nextStep } from "$lib/Store.js";
 
   import {
@@ -62,7 +61,7 @@
       loading = true;
 
       nextStep({
-        path: $page.url.pathname,
+        locale: $currentLanguage.locale
       });
     }
   }
