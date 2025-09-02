@@ -293,6 +293,7 @@
   }
 
   function onConnectClick() {
+    error = null;
     connecting = true;
 
     ApiUtil.post({
@@ -314,7 +315,7 @@
         const encodedState = encodeURIComponent(state);
 
         // Redirect to the constructed URL
-        window.location = `${PANO_WEBSITE_URL}/auth?loginPanoPlatform=${encodedPublicKey}&redirectUrl=${encodedRedirectUrl}&state=${encodedState}`;
+        window.location = `${PANO_WEBSITE_URL}/auth?loginPanoPlatform=${encodedPublicKey}&redirectUrl=${encodedRedirectUrl}&state=${encodedState}&hl=${$currentLanguage.locale}`;
       })
       .catch((_) => {
         connecting = false;
@@ -323,6 +324,7 @@
   }
 
   function onDisconnectClick() {
+    error = null;
     showConfirmRemovePanoAccountModal(() => {
       disconnecting = true;
 
