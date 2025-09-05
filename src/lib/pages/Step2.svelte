@@ -149,7 +149,7 @@
         if (body.result === "ok") {
           next();
         } else if (body.error) {
-          showError(body.error);
+          showError(body.error === "INVALID_DATA" ? 'INVALID_DB_DATA': body.error);
         } else showError(NETWORK_ERROR);
       })
       .catch(() => {

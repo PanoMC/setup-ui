@@ -43,6 +43,7 @@
         <label for="admin-password"
           >{$_("steps.account.inputs.password")}</label>
         <input
+          type="password"
           class="form-control"
           id="admin-password"
           placeholder="************"
@@ -53,6 +54,7 @@
         <label for="admin-password-repeat"
           >{$_("steps.account.inputs.password-repeat")}</label>
         <input
+          type="password"
           class="form-control"
           id="admin-password-repeat"
           placeholder="************"

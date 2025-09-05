@@ -344,11 +344,18 @@
       .then((body) => {
         if (body.result === "ok") {
           nextStep(mailConfiguration[chosenService]);
-        } else if (body.error) {
-          showError(body.error);
+          return;
+        }
+
+        loading = false;
+        nextLoading = false;
+        if (body.error) {
+          showError(body.error === "INVALID_DATA" ? { key: "INVALID_EMAIL_DATA", props: {mailError: body.mailError} }: body.error);
         } else showError(NETWORK_ERROR);
       })
       .catch(() => {
+        loading = false;
+        nextLoading = false;
         showError(NETWORK_ERROR);
       });
   }

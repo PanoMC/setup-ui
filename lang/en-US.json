@@ -89,5 +89,15 @@
       "pano-account-disconnect-success": "Pano account removed successfully!",
       "pano-account-disconnect-fail": "An error occurred during the removing Pano account!"
     }
+  },
+  "errors": {
+    "PLATFORM_ALREADY_INSTALLED": "Platform is already installed! Restart Pano to fix this.",
+    "INVALID_DB_DATA": "Can't connect to DB: Invalid data.",
+    "INVALID_EMAIL_DATA": "Can't verify SMTP: {mailError}",
+    "NETWORK_ERROR": "Network error: Can't reach to Pano, check your connection!",
+    "ALREADY_CONNECTED_TO_PANO": "Already connected an account to Pano servers!",
+    "PANO_CONNECT_FAILED": "Failed to connect Pano servers, please try again later.",
+    "PANO_DISCONNECT_FAILED": "Failed to disconnect Pano account, please try again later.",
+    "INTERNAL_SERVER_ERROR": "An error occurred, please check Pano console and report it!"
   }
 }

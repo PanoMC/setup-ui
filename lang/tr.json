@@ -90,5 +90,15 @@
       "pano-account-disconnect-success": "Pano hesabı başarıyla kaldırıldı!",
       "pano-account-disconnect-fail": "Pano hesabı kaldırılırken hata oluştu!"
     }
+  },
+  "errors": {
+    "PLATFORM_ALREADY_INSTALLED": "Platform zaten kurulu! Düzeltmek için Pano’yu yeniden başlatın.",
+    "INVALID_DB_DATA": "Veritabanına bağlanılamıyor: Geçersiz veri.",
+    "INVALID_EMAIL_DATA": "SMTP doğrulanamıyor: {mailError}",
+    "NETWORK_ERROR": "Ağ hatası: Pano’ya ulaşılamıyor, bağlantınızı kontrol edin!",
+    "ALREADY_CONNECTED_TO_PANO": "Pano sunucularına zaten bir hesap bağlanmış!",
+    "PANO_CONNECT_FAILED": "Pano sunucularına bağlanılamadı, lütfen daha sonra tekrar deneyin.",
+    "PANO_DISCONNECT_FAILED": "Pano hesabı bağlantısı kesilemedi, lütfen daha sonra tekrar deneyin.",
+    "INTERNAL_SERVER_ERROR": "Bir hata oluştu, lütfen Pano konsolunu kontrol edip rapor edin!"
   }
 }
