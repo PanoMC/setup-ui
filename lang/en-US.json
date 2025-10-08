@@ -20,11 +20,13 @@
   "start-button": "Start",
   "steps": {
     "website": {
-      "title": "Title",
+      "title": "Website",
       "description": "The title and description will appear in search engines.",
       "inputs": {
         "title": "Title",
-        "description": "Description"
+        "description": "Description",
+        "url": "Website Url",
+        "url-placeholder": "https://my-minecraft-server-website.com"
       }
     },
     "database": {

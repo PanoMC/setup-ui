@@ -21,6 +21,14 @@
       rows="2"
       bind:value="{websiteDescription}"></textarea>
 
+    <label for="websiteUrl">{$_("steps.website.inputs.url")}</label>
+    <input
+      id="websiteUrl"
+      class="form-control form-control-lg mb-3"
+      placeholder="{$_('steps.website.inputs.url-placeholder')}"
+      type="text"
+      bind:value="{websiteUrl}" />
+
     <div class="row">
       <div class="col-6">
         <a
@@ -50,10 +58,10 @@
   /** @type {import('./$types').PageLoad} */
   export async function load({ parent }) {
     const {
-      stepInfo: { websiteName, websiteDescription },
+      stepInfo: { websiteName, websiteDescription, websiteUrl },
     } = await parent();
 
-    return { stepInfo: { websiteName, websiteDescription } };
+    return { stepInfo: { websiteName, websiteDescription, websiteUrl } };
   }
 </script>
 
@@ -65,8 +73,9 @@
 
   export let websiteName = "";
   export let websiteDescription = "";
+  export let websiteUrl = "";
 
-  $: disabled = websiteName === "" || websiteDescription === "";
+  $: disabled = websiteName === "" || websiteDescription === "" || websiteUrl === "";
 
   function submit() {
     if (!loading && !disabled) {
@@ -75,6 +84,7 @@
       nextStep({
         websiteName,
         websiteDescription,
+        websiteUrl
       });
     }
   }

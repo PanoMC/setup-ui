@@ -24,8 +24,10 @@
       "title": "İsim",
       "description": "Site ismi ve açıklam arama motorlarında görünecektir.",
       "inputs": {
-        "title": "Başlık",
-        "description": "Açıklama"
+        "title": "Website",
+        "description": "Açıklama",
+        "url": "Website Adresi",
+        "url-placeholder": "https://benim-minecraft-sunucu-websitem.com"
       }
     },
     "database": {
