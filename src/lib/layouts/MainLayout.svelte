@@ -112,7 +112,6 @@
     session.set({ CSRFToken });
     currentStep.set(step);
 
-    console.log(locale)
     await initLanguage(locale, event);
 
     return data;
