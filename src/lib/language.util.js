@@ -39,12 +39,15 @@ export async function init(initialLocale, event) {
 
   initI18n({
     fallbackLocale: "en-US",
-    initialLocale,
+    initialLocale: languageToLoad.code,
   });
 }
 
 export function getAcceptedLanguage(headers) {
-  if (typeof headers.get("accept-language") === "undefined") {
+  if (
+    typeof headers.get("accept-language") === "undefined" ||
+    headers.get("accept-language") == null
+  ) {
     return "";
   }
 
