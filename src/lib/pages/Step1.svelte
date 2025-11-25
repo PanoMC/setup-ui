@@ -24,7 +24,7 @@
     <label for="websiteUrl">{$_("steps.website.inputs.url")}</label>
     <input
       id="websiteUrl"
-      class="form-control form-control-lg mb-3"
+      class="form-control mb-3"
       placeholder="{$_('steps.website.inputs.url-placeholder')}"
       type="text"
       bind:value="{websiteUrl}" />

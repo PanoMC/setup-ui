@@ -73,23 +73,18 @@
               <span>{maskEmail(panoAccount.email)}</span>
               <button
                 type="button"
-                class="btn btn-sm btn-outline-danger ms-2"
+                title={$_("buttons.remove")}
+                aria-label={$_("buttons.remove")}
+                class="btn-close ms-2"
                 on:click={onDisconnectClick}
-                disabled={disconnecting}>{$_("buttons.remove")}</button>
+                disabled={disconnecting}></button>
             {:else}
               <button
-              id="connect-pano-account"
+                id="connect-pano-account"
                 type="button"
-                class="btn btn-sm btn-outline-primary lh-base"
+                class="btn btn-sm btn-secondary lh-base"
                 on:click={onConnectClick}
                 disabled={connecting}>
-                <img
-                  src="/assets/img/logo.svg"
-                  width="20"
-                  height="20"
-                  class="me-2 bg-dark p-1 rounded"
-                  alt="Pano" />
-
                 {connecting ? $_("buttons.connecting") : $_("buttons.connect")}
 
                 {#if connecting}
