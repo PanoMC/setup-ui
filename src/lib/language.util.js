@@ -31,8 +31,11 @@ export async function init(initialLocale, event) {
   const language = getLanguageByLocale(initialLocale);
   const languageToLoad = language || get(Languages)["en-US"];
 
-  currentLanguage.set(languageToLoad);
+  await loadLanguage(get(Languages)["en-US"], event);
   await loadLanguage(languageToLoad, event);
+  currentLanguage.set(languageToLoad);
+
+  await waitLocale();
 
   initI18n({
     fallbackLocale: "en-US",
