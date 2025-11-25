@@ -1,7 +1,7 @@
 <div class="animate__animated animate__fadeIn">
   <div class="animate__animated animate__slideInUp">
     <h4>{$_("steps.account.title")}</h4>
-    <p class="text-muted">
+    <p>
       {$_("steps.account.description")}
     </p>
   </div>
@@ -65,12 +65,12 @@
         <div class="row">
           <label class="col-xl-6 col-form-label" for="connect-pano-account">
             {$_("steps.account.online-account")}
-            <small class="text-muted d-block"
+            <small class="d-block"
               >{$_("steps.account.online-account-description")}</small>
           </label>
           <div class="col-xl-6 d-flex justify-content-start align-items-center">
             {#if panoAccount}
-              <span class="text-muted">{maskEmail(panoAccount.email)}</span>
+              <span>{maskEmail(panoAccount.email)}</span>
               <button
                 type="button"
                 class="btn btn-sm btn-outline-danger ms-2"

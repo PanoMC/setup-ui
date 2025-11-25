@@ -2,7 +2,7 @@
   <div class="animate__animated animate__slideInUp">
     <h4>{$_("steps.website.title")}</h4>
 
-    <p class="text-muted">
+    <p>
       {$_("steps.website.description")}
     </p>
   </div>

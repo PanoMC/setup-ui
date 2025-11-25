@@ -1,7 +1,7 @@
 <div class="animate__animated animate__fadeIn">
   <div class="animate__animated animate__slideInUp">
     <h4>{$_("steps.email.title")}</h4>
-    <p class="text-muted">
+    <p>
       {$_("steps.email.description")}
       <br />
       <a href="#">

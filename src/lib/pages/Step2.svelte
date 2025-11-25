@@ -1,7 +1,7 @@
 <div class="animate__animated animate__fadeIn">
   <div class="animate__animated animate__slideInUp d-block">
     <h4>{$_("steps.database.title")}</h4>
-    <p class="text-muted">
+    <p>
       {$_("steps.database.description")}
       &nbsp;
     </p>
