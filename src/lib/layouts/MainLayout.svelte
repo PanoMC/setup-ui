@@ -1,6 +1,6 @@
 <style>
   .custom-container {
-    max-width: 540px;
+    max-width: 720px;
   }
 </style>
 
