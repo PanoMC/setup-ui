@@ -16,12 +16,10 @@
   },
   "title": "Pano Installer",
   "welcome-title": "Welcome",
-  "welcome-description": "Let's start the installation with language selection.",
   "start-button": "Start",
   "steps": {
     "website": {
       "title": "Website",
-      "description": "The title and description will appear in search engines.",
       "inputs": {
         "title": "Title",
         "description": "Description",
@@ -31,8 +29,6 @@
     },
     "database": {
       "title": "Database",
-      "description": "Enter database information so that the Pano can store and process data.",
-      "help-link-text": "How do I find out my database information?",
       "databases": {
         "mysql-or-mariadb": "MySQL or MariaDB"
       },
@@ -47,7 +43,6 @@
     "email": {
       "title": "E-Mail (SMTP)",
       "description": "Pano requires an email provider to be able to send emails. Please log in with the e-mail service you want to use.",
-      "help-link-text": "More about setting SMTP email",
       "return-back-to-service-list-text": "Back to service list",
       "inputs": {
         "username": "Username (Address)",
@@ -63,7 +58,6 @@
     },
     "account": {
       "title": "Account",
-      "description": "You need an administrator account to login the Pano.",
       "online-account": "Online Account",
       "online-account-description": "Connect your online Pano account to access plugins, themes, and updates.",
       "inputs": {

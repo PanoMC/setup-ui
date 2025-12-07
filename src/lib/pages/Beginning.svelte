@@ -1,41 +1,38 @@
-<div class:opacity-50="{disabled}">
-  <div class="animate__animated animate__slideInUp">
-    <h4>{$_("welcome-title")}</h4>
-    <p>
-      {$_("welcome-description")}
-    </p>
+<div class:opacity-50={disabled}>
+  <div class="card-header">
+    {$_("welcome-title")}
   </div>
 
-  <ul class="list-group mb-3">
-    {#each Object.keys($Languages) as language, index (language)}
-      <li class="list-group-item">
-        <input
-          class="form-check-input me-1"
-          type="radio"
-          name="langSelectionRadio"
-          value=""
-          id="lang{language}Radio"
-          aria-checked="{$currentLanguage === $Languages[language]}"
-          checked="{$currentLanguage === $Languages[language]}"
-          on:click="{() => changeLanguage($Languages[language])}"
-          disabled="{$languageLoading}" />
-        <label class="form-check-label" for="lang{language}Radio"
-          >{$Languages[language].name}</label>
-      </li>
-    {/each}
-  </ul>
+  <div class="card-body vstack gap-3">
+    <ul class="list-group">
+      {#each Object.keys($Languages) as language, index (language)}
+        <li class="list-group-item">
+          <input
+            class="form-check-input me-1"
+            type="radio"
+            name="langSelectionRadio"
+            value=""
+            id="lang{language}Radio"
+            aria-checked={$currentLanguage === $Languages[language]}
+            checked={$currentLanguage === $Languages[language]}
+            on:click={() => changeLanguage($Languages[language])}
+            disabled={$languageLoading} />
+          <label class="form-check-label" for="lang{language}Radio"
+            >{$Languages[language].name}</label>
+        </li>
+      {/each}
+    </ul>
+  </div>
 
-  <div class="row justify-content-end">
-    <div class="col-6">
-      <div class="animate__animated animate__zoomIn">
-        <button
-          class="btn btn-secondary w-100"
-          on:click="{start}"
-          class:disabled="{loading || disabled}"
-          disabled="{loading || disabled}">
-          {$_("start-button")}
-        </button>
-      </div>
+  <div class="card-footer">
+    <div class="animate__animated animate__zoomIn animate__slow">
+      <button
+        class="btn btn-secondary w-100"
+        on:click={start}
+        class:disabled={loading || disabled}
+        disabled={loading || disabled}>
+        {$_("start-button")}
+      </button>
     </div>
   </div>
 </div>
@@ -61,7 +58,7 @@
       loading = true;
 
       nextStep({
-        locale: $currentLanguage.locale
+        locale: $currentLanguage.locale,
       });
     }
   }

@@ -1,44 +1,39 @@
+<style>
+  .custom-container {
+    max-width: 540px;
+  }
+</style>
+
 <svelte:head>
   <title>{$_("title")}{$currentStep !== 0 ? ` ${$currentStep}/4` : ""}</title>
 </svelte:head>
-
 <App>
-  <div class="bg-light min-vh-100 bg-light overflow-scroll">
-    <div class="navbar bg-primary navbar-dark navbar-expand-lg">
-      <div class="container">
-        <a href="https://panomc.com" target="_blank" class="navbar-brand">
-          <img
-            alt="Pano"
-            src="/assets/img/logo.svg"
-            class="d-inline-block align-text-top me-2"
-            width="18" />
-          {$_("title")}
-        </a>
+  <Navbar />
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-
-        <Navbar />
-      </div>
-    </div>
-
-    <div class="pt-3">
-      <div class="container">
-        <ErrorAlert error="{stepInfo.error}" />
-        <div class="card">
-          <div class="card-body">
-            <slot />
-          </div>
-        </div>
-      </div>
+  <div class="container custom-container vstack gap-3 pt-3">
+    <ErrorAlert error={stepInfo.error} />
+    {#if $currentStep !== 0}
+      <ul class="nav nav-pills justify-content-center">
+        {#each steps as step, index}
+          {@const stepNumber = index + 1}
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              class:active={$currentStep === stepNumber}
+              class:completed={$currentStep > stepNumber}
+              class:disabled={$currentStep < stepNumber}
+              on:click={() => goStep(stepNumber)}
+              disabled={$currentStep < stepNumber}>
+              <i class="step-icon me-2 {step.icon}"></i>
+              <span class="d-none d-sm-inline">{$_(step.name)}</span>
+              <span class="d-sm-none">{stepNumber}</span>
+            </button>
+          </li>
+        {/each}
+      </ul>
+    {/if}
+    <div class="card">
+      <slot />
     </div>
   </div>
 </App>
@@ -63,13 +58,13 @@
       locals: { acceptedLanguage, CSRFToken },
     } = input;
     // noinspection JSUnresolvedReference
-    const apiUrlEnv = process.env.API_URL
+    const apiUrlEnv = process.env.API_URL;
 
     // noinspection JSUnresolvedReference
     const panoWebsiteUrlEnv = process.env.PANO_WEBSITE_URL;
 
     if (apiUrlEnv) {
-      updateApiUrl(apiUrlEnv)
+      updateApiUrl(apiUrlEnv);
     }
 
     if (panoWebsiteUrlEnv) {
@@ -85,7 +80,13 @@
       throw redirect(302, route);
     }
 
-    return { stepInfo, acceptedLanguage, CSRFToken, apiUrlEnv, panoWebsiteUrlEnv };
+    return {
+      stepInfo,
+      acceptedLanguage,
+      CSRFToken,
+      apiUrlEnv,
+      panoWebsiteUrlEnv,
+    };
   }
 
   /**
@@ -98,15 +99,15 @@
         stepInfo: { step, locale },
         CSRFToken,
         apiUrlEnv,
-        panoWebsiteUrlEnv
+        panoWebsiteUrlEnv,
       },
     } = event;
     if (apiUrlEnv) {
-      updateApiUrl(apiUrlEnv)
+      updateApiUrl(apiUrlEnv);
     }
 
     if (panoWebsiteUrlEnv) {
-      updatePanoWebsiteUrl(panoWebsiteUrlEnv)
+      updatePanoWebsiteUrl(panoWebsiteUrlEnv);
     }
 
     session.set({ CSRFToken });
@@ -120,6 +121,8 @@
 
 <script>
   import { _ } from "svelte-i18n";
+  import { page } from "$app/stores";
+  import { goToStep } from "$lib/Store.js";
 
   import App from "$lib/components/App.svelte";
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
@@ -129,9 +132,32 @@
   import { onMount } from "svelte";
   import { initialized } from "$lib/Store.js";
 
+  const steps = [
+    {
+      name: "steps.website.title",
+      icon: "fa-solid fa-globe",
+    },
+    {
+      name: "steps.database.title",
+      icon: "fa-solid fa-database",
+    },
+    {
+      name: "steps.email.title",
+      icon: "fa-solid fa-envelope",
+    },
+    {
+      name: "steps.account.title",
+      icon: "fa-solid fa-user",
+    },
+  ];
+
   export let stepInfo;
+
+  function goStep(step) {
+    goToStep(step, $page.url.pathname);
+  }
 
   onMount(() => {
     initialized.set(true);
-  })
+  });
 </script>

@@ -1,14 +1,12 @@
-<div class="animate__animated animate__fadeIn">
-  <div class="animate__animated animate__slideInUp d-block">
-    <h4>{$_("steps.database.title")}</h4>
-    <p>
-      {$_("steps.database.description")}
-      &nbsp;
-    </p>
+<div class="animate__animated animate__fadeIn animate__slower">
+  <div class="card-header">
+    {$_("steps.database.title")}
   </div>
-  <ErrorAlert error="{error}" />
-  <form on:submit|preventDefault="{submit}">
-    <div class="mb-3">
+
+  <form on:submit|preventDefault={submit}>
+    <div class="card-body vstack gap-3">
+      <ErrorAlert error={error} />
+
       <div class="form-check">
         <input
           class="form-check-input"
@@ -20,84 +18,96 @@
           {$_("steps.database.databases.mysql-or-mariadb")}
         </label>
       </div>
-    </div>
 
-    <div class="row g-3 mb-3">
-      <div class="col-lg-6">
-        <label for="databaseAddress"
-          >{$_("steps.database.inputs.address")}</label>
-        <input
-          class="form-control"
-          id="databaseAddress"
-          placeholder="localhost:3306"
-          bind:value="{database.host}"
-          type="text" />
-      </div>
-      <div class="col-lg-6">
-        <label for="databaseName"
-          >{$_("steps.database.inputs.name")}</label>
-        <input
-          class="form-control"
-          id="databaseName"
-          placeholder="pano"
-          bind:value="{database.dbName}"
-          type="text" />
-      </div>
-      
-      <div class="col-lg-6">
-        <label for="databaseUserName"
-          >{$_("steps.database.inputs.username")}</label>
-        <input
-          class="form-control"
-          id="databaseUserName"
-          placeholder="root"
-          bind:value="{database.username}"
-          type="text" />
-      </div>
-      <div class="col-lg-6">
-        <label for="databaseUserPassword"
-          >{$_("steps.database.inputs.password")}</label>
-        <input
-          class="form-control"
-          id="databaseUserPassword"
-          placeholder="****************"
-          bind:value="{database.password}"
-          type="password" />
-      </div>
-      <div class="col-12">
-        <label for="databaseTablePrefix"
-          >{$_("steps.database.inputs.prefix")}</label>
-        <input
-          class="form-control"
-          id="databaseTablePrefix"
-          placeholder="pano_"
-          bind:value="{database.prefix}"
-          type="text" />
-      </div>
-    </div>
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="form-floating">
+            <input
+              class="form-control"
+              id="databaseAddress"
+              placeholder="localhost:3306"
+              bind:value={database.host}
+              type="text" />
+            <label for="databaseAddress"
+              >{$_("steps.database.inputs.address")}</label>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-floating">
+            <input
+              class="form-control"
+              id="databaseName"
+              placeholder="pano"
+              bind:value={database.dbName}
+              type="text" />
+            <label for="databaseName">{$_("steps.database.inputs.name")}</label>
+          </div>
+        </div>
 
-    <div class="row">
-      <div class="col-6">
-        <a
-          href="javascript:void(0);"
-          class="btn btn-link w-100"
-          role="button"
-          on:click="{back}"
-          class:disabled="{loading}"
-          disabled="{loading}">{$_("buttons.back")}</a>
+        <div class="col-lg-6">
+          <div class="form-floating">
+            <input
+              class="form-control"
+              id="databaseUserName"
+              placeholder="root"
+              bind:value={database.username}
+              type="text" />
+            <label for="databaseUserName"
+              >{$_("steps.database.inputs.username")}</label>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-floating">
+            <input
+              class="form-control"
+              id="databaseUserPassword"
+              placeholder="****************"
+              bind:value={database.password}
+              type="password" />
+            <label for="databaseUserPassword"
+              >{$_("steps.database.inputs.password")}</label>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-floating">
+            <input
+              class="form-control"
+              id="databaseTablePrefix"
+              placeholder="pano_"
+              bind:value={database.prefix}
+              type="text" />
+            <label for="databaseTablePrefix"
+              >{$_("steps.database.inputs.prefix")}</label>
+          </div>
+        </div>
       </div>
-      <div class="col-6">
-        <div class="animate__animated animate__zoomIn">
+
+      <div class="row g-3">
+        <div class="col-6">
           <button
-            type="submit"
-            class="btn btn-secondary w-100"
-            class:disabled="{loading || disabled}"
-            disabled="{loading || disabled}"
-            >{$_("buttons.next")}
-            {#if nextLoading}
-              <span class="spinner-border spinner-border-sm text-dark" role="status"></span>
-            {/if}
+            type="button"
+            class="btn btn-link w-100"
+            on:click={back}
+            class:disabled={loading}
+            disabled={loading}
+            >{$_("buttons.back")}
           </button>
+        </div>
+        <div class="col-6">
+          <div class="animate__animated animate__zoomIn animate__slow">
+            <button
+              type="submit"
+              class="btn btn-secondary w-100"
+              class:disabled={loading || disabled}
+              disabled={loading || disabled}
+              >{$_("buttons.next")}
+              {#if nextLoading}
+                <span
+                  class="spinner-border spinner-border-sm text-primary ms-2"
+                  role="status"></span>
+              {/if}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -135,7 +145,8 @@
     prefix: "",
   };
 
-  $: disabled = database.host === "" || database.dbName === "" || database.username === "";
+  $: disabled =
+    database.host === "" || database.dbName === "" || database.username === "";
 
   function submit() {
     loading = true;
@@ -149,7 +160,9 @@
         if (body.result === "ok") {
           next();
         } else if (body.error) {
-          showError(body.error === "INVALID_DATA" ? 'INVALID_DB_DATA': body.error);
+          showError(
+            body.error === "INVALID_DATA" ? "INVALID_DB_DATA" : body.error,
+          );
         } else showError(NETWORK_ERROR);
       })
       .catch(() => {

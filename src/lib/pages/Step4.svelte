@@ -1,130 +1,137 @@
-<div class="animate__animated animate__fadeIn">
-  <div class="animate__animated animate__slideInUp">
-    <h4>{$_("steps.account.title")}</h4>
-    <p>
-      {$_("steps.account.description")}
-    </p>
+<div class="animate__animated animate__fadeIn animate__slower">
+  <div class="card-header">
+    {$_("steps.account.title")}
   </div>
   <form on:submit|preventDefault={submit}>
-    <ErrorAlert error={error} />
-    {#if !panoAccount && failed}
-      <!-- Error Alert -->
-      <div
-        class="alert alert-danger alert-dismissible fade show mb-0"
-        role="alert">
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="alert"
-          aria-label={$_("buttons.close")}></button>
-        {$_("connect-failed-alert")}
-      </div>
-    {/if}
+    <div class="card-body vstack gap-3">
+      <ErrorAlert error={error} />
 
-    <div class="row g-3">
-      <div class="col-md-6">
-        <label for="admin-email">{$_("steps.account.inputs.email")}</label>
-        <input
-          class="form-control"
-          id="admin-email"
-          type="email"
-          bind:value={account.email} />
-      </div>
-      <div class="col-md-6">
-        <label for="admin-username"
-          >{$_("steps.account.inputs.username")}</label>
-        <input
-          class="form-control"
-          id="admin-username"
-          type="text"
-          bind:value={account.username} />
-      </div>
-      <div class="col-md-6">
-        <label for="admin-password"
-          >{$_("steps.account.inputs.password")}</label>
-        <input
-          type="password"
-          class="form-control"
-          id="admin-password"
-          placeholder="************"
-          bind:value={account.password} />
-        <small>{$_("steps.account.inputs.password-help-text")}</small>
-      </div>
-      <div class="col-md-6">
-        <label for="admin-password-repeat"
-          >{$_("steps.account.inputs.password-repeat")}</label>
-        <input
-          type="password"
-          class="form-control"
-          id="admin-password-repeat"
-          placeholder="************"
-          bind:value={account.passwordRepeat} />
-        <small>{$_("steps.account.inputs.password-help-text")}</small>
-      </div>
-      <div class="col">
-        <div class="row">
-          <label class="col-xl-6 col-form-label" for="connect-pano-account">
+      {#if !panoAccount && failed}
+        <!-- Error Alert -->
+        <div
+          class="alert alert-danger alert-dismissible fade show mb-0"
+          role="alert">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label={$_("buttons.close")}></button>
+          {$_("connect-failed-alert")}
+        </div>
+      {/if}
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input
+              class="form-control"
+              id="admin-email"
+              type="email"
+              bind:value={account.email} />
+            <label for="admin-email">{$_("steps.account.inputs.email")}</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input
+              class="form-control"
+              id="admin-username"
+              type="text"
+              bind:value={account.username} />
+            <label for="admin-username"
+              >{$_("steps.account.inputs.username")}</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              id="admin-password"
+              placeholder="************"
+              bind:value={account.password} />
+            <label for="admin-password"
+              >{$_("steps.account.inputs.password")}</label>
+            <small>{$_("steps.account.inputs.password-help-text")}</small>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              id="admin-password-repeat"
+              placeholder="************"
+              bind:value={account.passwordRepeat} />
+            <label for="admin-password-repeat"
+              >{$_("steps.account.inputs.password-repeat")}</label>
+            <small>{$_("steps.account.inputs.password-help-text")}</small>
+          </div>
+        </div>
+        <div class="col">
+          <label class="col-form-label" for="connect-pano-account">
             {$_("steps.account.online-account")}
             <small class="d-block"
               >{$_("steps.account.online-account-description")}</small>
           </label>
-          <div class="col-xl-6 d-flex justify-content-start align-items-center">
-            {#if panoAccount}
-              <span>{maskEmail(panoAccount.email)}</span>
+
+          {#if panoAccount}
+            <div class="hstack gap-2">
+              <span class="badge text-bg-primary"
+                >{maskEmail(panoAccount.email)}</span>
               <button
                 type="button"
                 title={$_("buttons.remove")}
                 aria-label={$_("buttons.remove")}
-                class="btn-close ms-2"
+                class="btn-close"
                 on:click={onDisconnectClick}
                 disabled={disconnecting}></button>
-            {:else}
-              <button
-                id="connect-pano-account"
-                type="button"
-                class="btn btn-sm btn-secondary lh-base"
-                on:click={onConnectClick}
-                disabled={connecting}>
-                {connecting ? $_("buttons.connecting") : $_("buttons.connect")}
+            </div>
+          {:else}
+            <button
+              id="connect-pano-account"
+              type="button"
+              class="btn btn-sm btn-secondary lh-base d-block"
+              on:click={onConnectClick}
+              disabled={connecting}>
+              {connecting ? $_("buttons.connecting") : $_("buttons.connect")}
 
-                {#if connecting}
-                  <span
-                    class="spinner-border spinner-border-sm text-primary"
-                    role="status"></span>
-                {/if}
-              </button>
-            {/if}
-          </div>
+              {#if connecting}
+                <span
+                  class="spinner-border spinner-border-sm text-primary ms-2"
+                  role="status"></span>
+              {/if}
+            </button>
+          {/if}
         </div>
       </div>
-    </div>
 
-    <div class="row pt-3">
-      <div class="col-6">
-        <a
-          class="btn btn-link w-100"
-          role="button"
-          href="javascript:void(0);"
-          on:click={back}
-          class:disabled={loading}
-          disabled={loading}>
-          {$_("buttons.back")}
-        </a>
-      </div>
-      <div class="col-6">
-        <div class="animate__animated animate__zoomIn">
+      <div class="row g-3">
+        <div class="col-6">
           <button
-            type="submit"
-            class="btn btn-secondary w-100"
-            class:disabled={loading || disabled}
-            disabled={loading || disabled}>
-            {$_("buttons.finish")}
-            {#if finishLoading}
-              <span
-                class="spinner-border spinner-border-sm text-secondary"
-                role="status"></span>
-            {/if}
+            class="btn btn-link w-100"
+            type="button"
+            on:click={back}
+            class:disabled={loading}
+            disabled={loading}>
+            {$_("buttons.back")}
           </button>
+        </div>
+        <div class="col-6">
+          <div class="animate__animated animate__zoomIn animate__slow">
+            <button
+              type="submit"
+              class="btn btn-secondary w-100"
+              class:disabled={loading || disabled}
+              disabled={loading || disabled}>
+              {$_("buttons.finish")}
+              {#if finishLoading}
+                <span
+                  class="spinner-border spinner-border-sm text-secondary ms-2"
+                  role="status"></span>
+              {/if}
+            </button>
+          </div>
         </div>
       </div>
     </div>
