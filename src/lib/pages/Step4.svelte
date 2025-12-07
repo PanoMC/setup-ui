@@ -68,8 +68,8 @@
             <small>{$_("steps.account.inputs.password-help-text")}</small>
           </div>
         </div>
-        <div class="col">
-          <label class="col-form-label" for="connect-pano-account">
+        <div class="col vstack gap-2">
+          <label for="connect-pano-account">
             {$_("steps.account.online-account")}
             <small class="d-block"
               >{$_("steps.account.online-account-description")}</small>
