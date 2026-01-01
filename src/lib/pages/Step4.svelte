@@ -70,17 +70,6 @@
         </div>
       </div>
 
-      <!-- Divider with "or" text -->
-      <div class="row">
-        <div class="col-12">
-          <div class="d-flex align-items-center">
-            <hr class="flex-grow-1" />
-            <span class="mx-3">{$_("steps.account.or")}</span>
-            <hr class="flex-grow-1" />
-          </div>
-        </div>
-      </div>
-
       <div class="row g-3">
         <div class="col vstack gap-2">
           <label for="connect-pano-account">
@@ -105,7 +94,7 @@
             <button
               id="connect-pano-account"
               type="button"
-              class="btn btn-sm btn-secondary lh-base d-block"
+              class="btn btn-sm btn-primary lh-base d-block"
               on:click={onConnectClick}
               disabled={connecting}>
               {connecting ? $_("buttons.connecting") : $_("buttons.connect")}

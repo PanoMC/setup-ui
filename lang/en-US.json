@@ -58,14 +58,13 @@
     },
     "account": {
       "title": "Account",
-      "or": "or",
       "online-account": "Online Account",
       "online-account-description": "Connect your online Pano account to access plugins, themes, and updates.",
       "inputs": {
-        "email": "E-Mail",
-        "username": "Minecraft Username",
-        "password": "Password",
-        "password-repeat": "Password Repeat",
+        "email": "E-Mail (Required)",
+        "username": "Minecraft Username (Required)",
+        "password": "Password (Required)",
+        "password-repeat": "Password Repeat (Required)",
         "password-help-text": "Minimum 6 letters."
       }
     }

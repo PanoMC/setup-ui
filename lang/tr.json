@@ -59,14 +59,13 @@
     },
     "account": {
       "title": "Hesap",
-      "or": "yada",
       "online-account": "Çevrimiçi Hesap",
       "online-account-description": "Eklenti, tema ve güncellemelere erişebilmek için çevrimiçi Pano hesabınızı bağlayın.",
       "inputs": {
-        "email": "E-Posta",
-        "username": "Minecraft Kullanıcı Adı",
-        "password": "Şifre",
-        "password-repeat": "Şifre Tekrarı",
+        "email": "E-Posta (Gerekli)",
+        "username": "Minecraft Kullanıcı Adı (Gerekli)",
+        "password": "Şifre (Gerekli)",
+        "password-repeat": "Şifre Tekrarı (Gerekli)",
         "password-help-text": "Minimum 6 karakter."
       }
     }
