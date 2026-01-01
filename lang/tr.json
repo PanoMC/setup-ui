@@ -22,9 +22,9 @@
     "website": {
       "title": "İsim",
       "inputs": {
-        "title": "Website",
-        "description": "Açıklama",
-        "url": "Website Adresi",
+        "title": "Website (Gerekli)",
+        "description": "Açıklama (Gerekli)",
+        "url": "Website Adresi (Gerekli)",
         "url-placeholder": "https://benim-minecraft-sunucu-websitem.com"
       }
     },
@@ -34,9 +34,9 @@
         "mysql-or-mariadb": "MySQL veya MariaDB"
       },
       "inputs": {
-        "address": "Veri Tabanı Adresi",
-        "name": "Veri Tabanı Adı",
-        "username": "Veri Tabanı Kullanıcı Adı",
+        "address": "Veri Tabanı Adresi (Gerekli)",
+        "name": "Veri Tabanı Adı (Gerekli)",
+        "username": "Veri Tabanı Kullanıcı Adı (Gerekli)",
         "password": "Veri Tabanı Şifresi",
         "prefix": "Veri Tabanı Tablo Ön Eki"
       }
@@ -45,20 +45,21 @@
       "title": "E-Posta (SMTP)",
       "description": "Pano, e-posta gönderebilmek için bir e-posta sağlayıcısına ihtiyaç duyar. Lütfen kullanmak istediğiniz e-posta servisi ile oturum açın.",
       "return-back-to-service-list-text": "Servis listesine geri dön",
-      "inputs": {
-        "username": "Kullanıcı Adı (Adres)",
-        "password": "Şifre",
+        "inputs": {
+        "username": "Kullanıcı Adı (Adres) (Gerekli)",
+        "password": "Şifre (Gerekli)",
         "details-button": "Ayrıntılar",
         "ssl": "SSL Kullan",
         "tls-setting": "TLS Ayarı",
-        "sending-address": "Gönderici Adresi",
-        "hostname": "Sağlayıcı Adresi",
-        "port": "Port",
+        "sending-address": "Gönderici Adresi (Gerekli)",
+        "hostname": "Sağlayıcı Adresi (Gerekli)",
+        "port": "Port (Gerekli)",
         "auth-method": "Giriş Methodu"
       }
     },
     "account": {
       "title": "Hesap",
+      "or": "yada",
       "online-account": "Çevrimiçi Hesap",
       "online-account-description": "Eklenti, tema ve güncellemelere erişebilmek için çevrimiçi Pano hesabınızı bağlayın.",
       "inputs": {

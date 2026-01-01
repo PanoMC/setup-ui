@@ -21,9 +21,9 @@
     "website": {
       "title": "Website",
       "inputs": {
-        "title": "Title",
-        "description": "Description",
-        "url": "Website Url",
+        "title": "Title (Required)",
+        "description": "Description (Required)",
+        "url": "Website Url (Required)",
         "url-placeholder": "https://my-minecraft-server-website.com"
       }
     },
@@ -33,9 +33,9 @@
         "mysql-or-mariadb": "MySQL or MariaDB"
       },
       "inputs": {
-        "address": "Database Address",
-        "name": "Database Name",
-        "username": "Database Username",
+        "address": "Database Address (Required)",
+        "name": "Database Name (Required)",
+        "username": "Database Username (Required)",
         "password": "Database Password",
         "prefix": "Database Table Prefix"
       }
@@ -44,20 +44,21 @@
       "title": "E-Mail (SMTP)",
       "description": "Pano requires an email provider to be able to send emails. Please log in with the e-mail service you want to use.",
       "return-back-to-service-list-text": "Back to service list",
-      "inputs": {
-        "username": "Username (Address)",
-        "password": "Password",
+        "inputs": {
+        "username": "Username (Address) (Required)",
+        "password": "Password (Required)",
         "details-button": "Details",
         "ssl": "Use SSL",
         "tls-setting": "TLS Setting",
-        "sending-address": "Sender Address",
-        "hostname": "Hostname",
-        "port": "Port",
+        "sending-address": "Sender Address (Required)",
+        "hostname": "Hostname (Required)",
+        "port": "Port (Required)",
         "auth-method": "Auth Method"
       }
     },
     "account": {
       "title": "Account",
+      "or": "or",
       "online-account": "Online Account",
       "online-account-description": "Connect your online Pano account to access plugins, themes, and updates.",
       "inputs": {

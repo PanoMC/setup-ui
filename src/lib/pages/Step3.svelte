@@ -6,7 +6,7 @@
   <form on:submit|preventDefault={next}>
     <div class="card-body vstack gap-3">
       <ErrorAlert error={error} />
-      
+
       {$_("steps.email.description")}
 
       {#if !chosenService}

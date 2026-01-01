@@ -28,7 +28,7 @@
               placeholder="localhost:3306"
               bind:value={database.host}
               type="text" />
-            <label for="databaseAddress"
+            <label class="form-label" for="databaseAddress"
               >{$_("steps.database.inputs.address")}</label>
           </div>
         </div>
@@ -40,7 +40,8 @@
               placeholder="pano"
               bind:value={database.dbName}
               type="text" />
-            <label for="databaseName">{$_("steps.database.inputs.name")}</label>
+            <label class="form-label" for="databaseName"
+              >{$_("steps.database.inputs.name")}</label>
           </div>
         </div>
 
@@ -52,7 +53,7 @@
               placeholder="root"
               bind:value={database.username}
               type="text" />
-            <label for="databaseUserName"
+            <label class="form-label" for="databaseUserName"
               >{$_("steps.database.inputs.username")}</label>
           </div>
         </div>
@@ -64,7 +65,7 @@
               placeholder="****************"
               bind:value={database.password}
               type="password" />
-            <label for="databaseUserPassword"
+            <label class="form-label" for="databaseUserPassword"
               >{$_("steps.database.inputs.password")}</label>
           </div>
         </div>
@@ -76,7 +77,7 @@
               placeholder="pano_"
               bind:value={database.prefix}
               type="text" />
-            <label for="databaseTablePrefix"
+            <label class="form-label" for="databaseTablePrefix"
               >{$_("steps.database.inputs.prefix")}</label>
           </div>
         </div>
