@@ -7,12 +7,12 @@
         title="Toggle Theme">
         <i class="fa fa-moon" class:fa-sun={isDarkTheme}></i>
       </button>
-      <a href="https://panomc.com" target="_blank" class="navbar-brand mx-auto">
+      <a href="{PANO_WEBSITE_URL}" target="_blank" class="navbar-brand mx-auto">
         <img src="/assets/img/logo.svg" width="24" height="24" alt="Pano" />
         {title}
       </a>
       <a
-        href="https://docs.panomc.com"
+        href="{PANO_WEBSITE_URL}/docs"
         target="_blank"
         class="text-white position-absolute end-0 me-3"
         title="Documentation">
@@ -25,6 +25,7 @@
 <script>
   import { _ } from "svelte-i18n";
   import { onMount } from "svelte";
+  import { PANO_WEBSITE_URL } from "../../pano-sdk/core/js/variables.js";
 
   $: title = $_("title");
 
