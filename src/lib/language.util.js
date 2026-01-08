@@ -39,7 +39,7 @@ export async function init(initialLocale, event) {
 
   initI18n({
     fallbackLocale: "en-US",
-    initialLocale: languageToLoad.code,
+    initialLocale: languageToLoad.locale,
   });
 }
 
