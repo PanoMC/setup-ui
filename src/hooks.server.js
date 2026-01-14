@@ -21,6 +21,15 @@ export async function handle({
   return resolve(event);
 }
 
+/** @type {import('@sveltejs/kit').HandleServerError} */
+export function handleError({ error, event }) {
+  console.log("!!! [GLOBAL ERROR EVENT]:", event.url.href);
+  console.error("!!! [GLOBAL ERROR CONTENT]:", error);
+  return {
+    message: 'Internal Error',
+    code: error?.code
+  };
+}
 
 /** @type {import('@sveltejs/kit').HandleFetch} */
 export async function handleFetch({ event, request, fetch }) {
