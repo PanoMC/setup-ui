@@ -130,7 +130,7 @@
               {$_("buttons.finish")}
               {#if finishLoading}
                 <span
-                  class="spinner-border spinner-border-sm text-secondary ms-2"
+                  class="spinner-border spinner-border-sm text-primary"
                   role="status"></span>
               {/if}
             </button>
