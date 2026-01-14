@@ -50,7 +50,7 @@
               class:disabled={loading || disabled}
               disabled={loading || disabled}>
               {$_("buttons.next")}
-              {#if loading}
+              {#if nextLoading}
                 <span
                   class="spinner-border spinner-border-sm text-primary"
                   role="status"></span>
@@ -79,6 +79,7 @@
   import { _ } from "svelte-i18n";
 
   let loading = false;
+  let nextLoading = false;
 
   export let websiteName = "";
   export let websiteDescription = "";
@@ -90,6 +91,7 @@
   function submit() {
     if (!loading && !disabled) {
       loading = true;
+      nextLoading = true;
 
       nextStep({
         websiteName,

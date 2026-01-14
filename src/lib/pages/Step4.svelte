@@ -298,6 +298,7 @@
 
   async function showError(errorCode) {
     loading = false;
+    finishLoading = false;
 
     error = errorCode;
   }
