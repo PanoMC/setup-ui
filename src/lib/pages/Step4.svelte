@@ -200,7 +200,10 @@
   let disconnecting;
 
   $: disabled =
-    account.username === "" || account.password === "" || account.email === "";
+    account.username === "" ||
+    account.password === "" ||
+    account.email === "" ||
+    account.passwordRepeat !== account.password;
 
   if (browser) {
     if (!panoAccount && state && encodedData) {
