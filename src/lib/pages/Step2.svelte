@@ -227,6 +227,7 @@
   export let supportedSystems = [];
 
   $: portableSupported = portableDatabaseSupported;
+  $: if (!portableSupported && dbType === "portable") dbType = "mariadb";
 
   export let database = {
     host: "",
