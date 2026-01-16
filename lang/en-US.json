@@ -30,7 +30,15 @@
     "database": {
       "title": "Database",
       "databases": {
-        "mysql-or-mariadb": "MySQL or MariaDB"
+        "mysql-or-mariadb": "MySQL or MariaDB",
+        "mysql-or-mariadb-description": "Manually provide the connection details for an existing MySQL or MariaDB server.",
+        "local-portable-db": "Local Portable MariaDB",
+        "local-portable-db-description": "Automatically download, install and configure a portable MariaDB instance on your server. This is recommended if you don't have a database server already set up.",
+        "download-and-install": "Download & Install",
+        "installing": "Installing...",
+        "portable-not-supported": "Portable DB is not supported on this system.",
+        "supported-systems": "Supported: {systems}",
+        "portable-installed": "Portable DB installed and configured!"
       },
       "inputs": {
         "address": "Database Address (Required)",
@@ -44,7 +52,7 @@
       "title": "E-Mail (SMTP)",
       "description": "Pano requires an email provider to be able to send emails. Please log in with the e-mail service you want to use.",
       "return-back-to-service-list-text": "Back to service list",
-        "inputs": {
+      "inputs": {
         "username": "Username (Address) (Required)",
         "password": "Password (Required)",
         "details-button": "Details",
@@ -94,6 +102,7 @@
     "ALREADY_CONNECTED_TO_PANO": "Already connected an account to Pano servers!",
     "PANO_CONNECT_FAILED": "Failed to connect Pano servers, please try again later.",
     "PANO_DISCONNECT_FAILED": "Failed to disconnect Pano account, please try again later.",
-    "INTERNAL_SERVER_ERROR": "An error occurred, please check Pano console and report it!"
+    "INTERNAL_SERVER_ERROR": "An error occurred, please check Pano console and report it!",
+    "DB_INSTALL_FAILED": "Failed to download and install portable MariaDB."
   }
 }

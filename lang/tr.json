@@ -1,6 +1,8 @@
 {
   "name": "Türkçe (TR)",
-  "derivatives": ["tr-tr"],
+  "derivatives": [
+    "tr-tr"
+  ],
   "date-fns-code": "tr",
   "buttons": {
     "connect": "Bağla",
@@ -31,7 +33,15 @@
     "database": {
       "title": "Veri Tabanı",
       "databases": {
-        "mysql-or-mariadb": "MySQL veya MariaDB"
+        "mysql-or-mariadb": "MySQL veya MariaDB",
+        "mysql-or-mariadb-description": "Mevcut bir MySQL veya MariaDB sunucusu için bağlantı ayrıntılarını manuel olarak girin.",
+        "local-portable-db": "Yerel Taşınabilir MariaDB",
+        "local-portable-db-description": "Sunucunuza otomatik olarak taşınabilir bir MariaDB örneği indirir, kurar ve yapılandırır. Halihazırda kurulu bir veritabanı sunucunuz yoksa bu seçenek önerilir.",
+        "download-and-install": "İndir ve Kur",
+        "installing": "Kuruluyor...",
+        "portable-not-supported": "Taşınabilir Veri Tabanı bu sistemde desteklenmiyor.",
+        "supported-systems": "Desteklenen: {systems}",
+        "portable-installed": "Taşınabilir Veri Tabanı kuruldu ve yapılandırıldı!"
       },
       "inputs": {
         "address": "Veri Tabanı Adresi (Gerekli)",
@@ -45,7 +55,7 @@
       "title": "E-Posta (SMTP)",
       "description": "Pano, e-posta gönderebilmek için bir e-posta sağlayıcısına ihtiyaç duyar. Lütfen kullanmak istediğiniz e-posta servisi ile oturum açın.",
       "return-back-to-service-list-text": "Servis listesine geri dön",
-        "inputs": {
+      "inputs": {
         "username": "Kullanıcı Adı (Adres) (Gerekli)",
         "password": "Şifre (Gerekli)",
         "details-button": "Ayrıntılar",
@@ -95,6 +105,7 @@
     "ALREADY_CONNECTED_TO_PANO": "Pano sunucularına zaten bir hesap bağlanmış!",
     "PANO_CONNECT_FAILED": "Pano sunucularına bağlanılamadı, lütfen daha sonra tekrar deneyin.",
     "PANO_DISCONNECT_FAILED": "Pano hesabı bağlantısı kesilemedi, lütfen daha sonra tekrar deneyin.",
-    "INTERNAL_SERVER_ERROR": "Bir hata oluştu, lütfen Pano konsolunu kontrol edip rapor edin!"
+    "INTERNAL_SERVER_ERROR": "Bir hata oluştu, lütfen Pano konsolunu kontrol edip rapor edin!",
+    "DB_INSTALL_FAILED": "Taşınabilir MariaDB indirilip kurulurken bir hata oluştu."
   }
 }

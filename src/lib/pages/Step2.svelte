@@ -1,3 +1,9 @@
+<style>
+  .cursor-pointer {
+    cursor: pointer;
+  }
+</style>
+
 <div class="animate__animated animate__fadeIn animate__slower">
   <div class="card-header">
     {$_("steps.database.title")}
@@ -7,19 +13,91 @@
     <div class="card-body vstack gap-3">
       <ErrorAlert error={error} />
 
-      <div class="form-check">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="dbMysqlMariaDB"
-          id="dbMysqlMariaDB"
-          checked />
-        <label class="form-check-label" for="dbMysqlMariaDB">
-          {$_("steps.database.databases.mysql-or-mariadb")}
+      <div class="vstack gap-2">
+        <label
+          class="form-check-label d-block p-3 border rounded cursor-pointer"
+          for="dbManual"
+          class:border-primary={dbType === "manual"}>
+          <div class="d-flex align-items-center gap-3">
+            <input
+              class="form-check-input mt-0"
+              type="radio"
+              name="dbType"
+              id="dbManual"
+              value="manual"
+              bind:group={dbType} />
+            <div class="vstack">
+              <strong>{$_("steps.database.databases.mysql-or-mariadb")}</strong>
+              <small class="text-muted"
+                >{$_(
+                  "steps.database.databases.mysql-or-mariadb-description",
+                )}</small>
+            </div>
+          </div>
+        </label>
+
+        <label
+          class="form-check-label d-block p-3 border rounded cursor-pointer"
+          for="dbPortable"
+          class:border-primary={dbType === "portable"}
+          class:opacity-50={!portableSupported}>
+          <div class="d-flex align-items-center gap-3">
+            <input
+              class="form-check-input mt-0"
+              type="radio"
+              name="dbType"
+              id="dbPortable"
+              value="portable"
+              disabled={!portableSupported}
+              bind:group={dbType} />
+            <div class="vstack">
+              <strong
+                >{$_("steps.database.databases.local-portable-db")}</strong>
+              <small class="text-muted"
+                >{$_(
+                  "steps.database.databases.local-portable-db-description",
+                )}</small>
+
+              {#if !portableSupported}
+                <div class="alert alert-warning mt-2 mb-0 p-2">
+                  <small class="d-block">
+                    {$_(
+                      "steps.database.databases.portable-not-supported",
+                    )}<br />
+                    {$_("steps.database.databases.supported-systems", {
+                      values: { systems: supportedSystems.join(", ") },
+                    })}
+                  </small>
+                </div>
+              {:else if dbType === "portable" && !installed}
+                <div class="mt-3">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    on:click={installPortableDB}
+                    disabled={installLoading}>
+                    {#if installLoading}
+                      <span
+                        class="spinner-border spinner-border-sm me-2"
+                        role="status"></span>
+                      {$_("steps.database.databases.installing")}
+                    {:else}
+                      {$_("steps.database.databases.download-and-install")}
+                    {/if}
+                  </button>
+                </div>
+              {:else if dbType === "portable" && installed}
+                <div class="mt-2">
+                  <span class="badge bg-success"
+                    >{$_("steps.database.databases.portable-installed")}</span>
+                </div>
+              {/if}
+            </div>
+          </div>
         </label>
       </div>
 
-      <div class="row g-3">
+      <div class="row g-3" class:opacity-50={dbType === "portable"}>
         <div class="col-lg-6">
           <div class="form-floating">
             <input
@@ -27,6 +105,7 @@
               id="databaseAddress"
               placeholder="localhost:3306"
               bind:value={database.host}
+              disabled={dbType === "portable"}
               type="text" />
             <label class="form-label" for="databaseAddress"
               >{$_("steps.database.inputs.address")}</label>
@@ -39,6 +118,7 @@
               id="databaseName"
               placeholder="pano"
               bind:value={database.dbName}
+              disabled={dbType === "portable"}
               type="text" />
             <label class="form-label" for="databaseName"
               >{$_("steps.database.inputs.name")}</label>
@@ -52,6 +132,7 @@
               id="databaseUserName"
               placeholder="root"
               bind:value={database.username}
+              disabled={dbType === "portable"}
               type="text" />
             <label class="form-label" for="databaseUserName"
               >{$_("steps.database.inputs.username")}</label>
@@ -64,6 +145,7 @@
               id="databaseUserPassword"
               placeholder="****************"
               bind:value={database.password}
+              disabled={dbType === "portable"}
               type="password" />
             <label class="form-label" for="databaseUserPassword"
               >{$_("steps.database.inputs.password")}</label>
@@ -76,6 +158,7 @@
               id="databaseTablePrefix"
               placeholder="pano_"
               bind:value={database.prefix}
+              disabled={dbType === "portable"}
               type="text" />
             <label class="form-label" for="databaseTablePrefix"
               >{$_("steps.database.inputs.prefix")}</label>
@@ -89,8 +172,8 @@
             type="button"
             class="btn btn-link w-100"
             on:click={back}
-            class:disabled={loading}
-            disabled={loading}
+            class:disabled={loading || installLoading}
+            disabled={loading || installLoading}
             >{$_("buttons.back")}
           </button>
         </div>
@@ -99,8 +182,8 @@
             <button
               type="submit"
               class="btn btn-secondary w-100"
-              class:disabled={loading || disabled}
-              disabled={loading || disabled}
+              class:disabled={loading || disabled || installLoading}
+              disabled={loading || disabled || installLoading}
               >{$_("buttons.next")}
               {#if nextLoading}
                 <span
@@ -118,11 +201,10 @@
 <script context="module">
   /** @type {import('./$types').PageLoad} */
   export async function load({ parent }) {
-    const {
-      stepInfo: { database },
-    } = await parent();
+    const parentData = await parent();
+    const { stepInfo } = parentData;
 
-    return { stepInfo: { database } };
+    return { stepInfo };
   }
 </script>
 
@@ -137,6 +219,14 @@
   let loading = false;
   let nextLoading;
   let error = null;
+  export let dbType = "manual";
+  let installLoading = false;
+  export let installed = false;
+
+  export let portableDatabaseSupported = false;
+  export let supportedSystems = [];
+
+  $: portableSupported = portableDatabaseSupported;
 
   export let database = {
     host: "",
@@ -147,11 +237,48 @@
   };
 
   $: disabled =
-    database.host === "" || database.dbName === "" || database.username === "";
+    dbType === "manual"
+      ? database.host === "" ||
+        database.dbName === "" ||
+        database.username === ""
+      : !installed;
+
+  function installPortableDB() {
+    if (!portableSupported) return;
+
+    installLoading = true;
+    error = null;
+
+    ApiUtil.post({
+      path: "/api/setup/steps/2/install-portable",
+    })
+      .then((body) => {
+        if (body.result === "ok") {
+          database = body.database;
+          installed = true;
+          installLoading = false;
+        } else if (body.error) {
+          showError(body.error);
+          installLoading = false;
+        } else {
+          showError(NETWORK_ERROR);
+          installLoading = false;
+        }
+      })
+      .catch(() => {
+        showError(NETWORK_ERROR);
+        installLoading = false;
+      });
+  }
 
   function submit() {
     loading = true;
     error = null;
+
+    if (dbType === "portable" && installed) {
+      next();
+      return;
+    }
 
     ApiUtil.post({
       path: "/api/setup/steps/2/verify",
@@ -175,11 +302,14 @@
     loading = true;
     nextLoading = true;
 
-    nextStep(database);
+    // ensure dbType is manual if portable not supported
+    if (!portableSupported && dbType === "portable") dbType = "manual";
+
+    nextStep({ ...database, dbType });
   }
 
   function back() {
-    if (!loading) {
+    if (!loading && !installLoading) {
       loading = true;
       error = null;
 
