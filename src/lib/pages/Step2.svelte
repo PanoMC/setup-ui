@@ -16,28 +16,6 @@
       <div class="vstack gap-2">
         <label
           class="form-check-label d-block p-3 border rounded cursor-pointer"
-          for="dbManual"
-          class:border-primary={dbType === "manual"}>
-          <div class="d-flex align-items-center gap-3">
-            <input
-              class="form-check-input mt-0"
-              type="radio"
-              name="dbType"
-              id="dbManual"
-              value="manual"
-              bind:group={dbType} />
-            <div class="vstack">
-              <strong>{$_("steps.database.databases.mysql-or-mariadb")}</strong>
-              <small class="text-muted"
-                >{$_(
-                  "steps.database.databases.mysql-or-mariadb-description",
-                )}</small>
-            </div>
-          </div>
-        </label>
-
-        <label
-          class="form-check-label d-block p-3 border rounded cursor-pointer"
           for="dbPortable"
           class:border-primary={dbType === "portable"}
           class:opacity-50={!portableSupported}>
@@ -92,6 +70,28 @@
                     >{$_("steps.database.databases.portable-installed")}</span>
                 </div>
               {/if}
+            </div>
+          </div>
+        </label>
+
+        <label
+          class="form-check-label d-block p-3 border rounded cursor-pointer"
+          for="dbManual"
+          class:border-primary={dbType === "mariadb"}>
+          <div class="d-flex align-items-center gap-3">
+            <input
+              class="form-check-input mt-0"
+              type="radio"
+              name="dbType"
+              id="dbManual"
+              value="mariadb"
+              bind:group={dbType} />
+            <div class="vstack">
+              <strong>{$_("steps.database.databases.mysql-or-mariadb")}</strong>
+              <small class="text-muted"
+                >{$_(
+                  "steps.database.databases.mysql-or-mariadb-description",
+                )}</small>
             </div>
           </div>
         </label>
@@ -219,7 +219,7 @@
   let loading = false;
   let nextLoading;
   let error = null;
-  export let dbType = "manual";
+  export let dbType = "mariadb";
   let installLoading = false;
   export let installed = false;
 
@@ -237,7 +237,7 @@
   };
 
   $: disabled =
-    dbType === "manual"
+    dbType === "mariadb"
       ? database.host === "" ||
         database.dbName === "" ||
         database.username === ""
@@ -303,7 +303,7 @@
     nextLoading = true;
 
     // ensure dbType is manual if portable not supported
-    if (!portableSupported && dbType === "portable") dbType = "manual";
+    if (!portableSupported && dbType === "portable") dbType = "mariadb";
 
     nextStep({ ...database, dbType });
   }
