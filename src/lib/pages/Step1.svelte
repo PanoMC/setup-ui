@@ -85,6 +85,17 @@
   export let websiteDescription = "";
   export let websiteUrl = "";
 
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    if (websiteUrl === "") {
+      const origin = window.location.origin;
+      if (origin) {
+        websiteUrl = origin;
+      }
+    }
+  });
+
   $: disabled =
     websiteName === "" || websiteDescription === "" || websiteUrl === "";
 
