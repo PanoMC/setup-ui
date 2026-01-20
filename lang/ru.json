@@ -1,0 +1,108 @@
+{
+    "name": "Русский (RU)",
+    "date-fns-code": "ru",
+    "buttons": {
+        "connect": "Подключить",
+        "connecting": "Подключение...",
+        "remove": "Удалить",
+        "close": "Закрыть",
+        "skip": "Пропустить",
+        "next": "Далее",
+        "back": "Назад",
+        "finish": "Завершить",
+        "other": "Другое",
+        "yes": "Да",
+        "cancel": "Отмена"
+    },
+    "title": "Установщик Pano",
+    "welcome-title": "Добро пожаловать",
+    "start-button": "Начать",
+    "steps": {
+        "website": {
+            "title": "Веб-сайт",
+            "inputs": {
+                "title": "Заголовок (Обязательно)",
+                "description": "Описание (Обязательно)",
+                "url": "URL веб-сайта (Обязательно)",
+                "url-placeholder": "https://my-minecraft-server-website.com"
+            }
+        },
+        "database": {
+            "title": "База данных",
+            "databases": {
+                "mysql-or-mariadb": "MySQL или MariaDB",
+                "mysql-or-mariadb-description": "Укажите данные для подключения к существующему серверу MySQL или MariaDB вручную.",
+                "local-portable-db": "Локальная портативная MariaDB",
+                "local-portable-db-description": "Автоматически скачайте, установите и настройте портативный экземпляр MariaDB на вашем сервере. Это рекомендуется, если у вас еще нет настроенного сервера базы данных.",
+                "download-and-install": "Скачать и установить",
+                "installing": "Установка...",
+                "portable-not-supported": "Портативная БД не поддерживается в этой системе.",
+                "supported-systems": "Поддерживается: {systems}",
+                "portable-installed": "Портативная БД установлена и настроена!"
+            },
+            "inputs": {
+                "address": "Адрес базы данных (Обязательно)",
+                "name": "Имя базы данных (Обязательно)",
+                "username": "Имя пользователя базы данных (Обязательно)",
+                "password": "Пароль базы данных",
+                "prefix": "Префикс таблиц базы данных"
+            }
+        },
+        "email": {
+            "title": "Электронная почта (SMTP)",
+            "description": "Pano требуется провайдер электронной почты для отправки писем. Пожалуйста, войдите в почтовый сервис, который вы хотите использовать.",
+            "return-back-to-service-list-text": "Назад к списку сервисов",
+            "inputs": {
+                "username": "Имя пользователя (Адрес) (Обязательно)",
+                "password": "Пароль (Обязательно)",
+                "details-button": "Детали",
+                "ssl": "Использовать SSL",
+                "tls-setting": "Настройка TLS",
+                "sending-address": "Адрес отправителя (Обязательно)",
+                "hostname": "Имя хоста (Обязательно)",
+                "port": "Порт (Обязательно)",
+                "auth-method": "Метод аутентификации"
+            }
+        },
+        "account": {
+            "title": "Аккаунт",
+            "online-account": "Онлайн-аккаунт",
+            "online-account-description": "Подключите свой онлайн-аккаунт Pano для доступа к плагинам, темам и обновлениям.",
+            "inputs": {
+                "email": "E-Mail (Обязательно)",
+                "username": "Имя пользователя Minecraft (Обязательно)",
+                "password": "Пароль (Обязательно)",
+                "password-repeat": "Повторите пароль (Обязательно)",
+                "password-help-text": "Минимум 6 символов."
+            }
+        }
+    },
+    "connect-failed-alert": "Не удалось подключить ваш аккаунт Pano! Попробуйте снова.",
+    "components": {
+        "modals": {
+            "confirm-remove-pano-account": {
+                "title": "Вы уверены, что хотите отключить свой онлайн-аккаунт Pano?"
+            },
+            "confirm-skip-smtp": {
+                "title": "Вы уверены, что хотите пропустить настройку электронной почты (SMTP)?",
+                "description": "Пропуск этого шага может привести к отсутствию или неработоспособности таких функций, как сброс пароля или проверка электронной почты."
+            }
+        },
+        "toasts": {
+            "pano-account-connect-success": "Ваш аккаунт Pano был успешно подключен!",
+            "pano-account-disconnect-success": "Аккаунт Pano успешно удален!",
+            "pano-account-disconnect-fail": "Произошла ошибка при удалении аккаунта Pano!"
+        }
+    },
+    "errors": {
+        "PLATFORM_ALREADY_INSTALLED": "Платформа уже установлена! Перезапустите Pano, чтобы исправить это.",
+        "INVALID_DB_DATA": "Не удается подключиться к БД: неверные данные.",
+        "INVALID_EMAIL_DATA": "Не удается проверить SMTP: {mailError}",
+        "NETWORK_ERROR": "Сетевая ошибка: не удается связаться с Pano, проверьте подключение!",
+        "ALREADY_CONNECTED_TO_PANO": "Аккаунт уже подключен к серверам Pano!",
+        "PANO_CONNECT_FAILED": "Не удалось подключиться к серверам Pano, пожалуйста, попробуйте позже.",
+        "PANO_DISCONNECT_FAILED": "Не удалось отключить аккаунт Pano, пожалуйста, попробуйте позже.",
+        "INTERNAL_SERVER_ERROR": "Произошла ошибка, пожалуйста, проверьте консоль Pano и сообщите о ней!",
+        "DB_INSTALL_FAILED": "Не удалось скачать и установить портативную MariaDB."
+    }
+}
