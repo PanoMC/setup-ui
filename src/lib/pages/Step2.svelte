@@ -31,7 +31,7 @@
             <div class="vstack">
               <strong
                 >{$_("steps.database.databases.local-portable-db")}</strong>
-              <small class="text-muted"
+              <small>
                 >{$_(
                   "steps.database.databases.local-portable-db-description",
                 )}</small>
@@ -88,7 +88,7 @@
               bind:group={dbType} />
             <div class="vstack">
               <strong>{$_("steps.database.databases.mysql-or-mariadb")}</strong>
-              <small class="text-muted"
+              <small>
                 >{$_(
                   "steps.database.databases.mysql-or-mariadb-description",
                 )}</small>
