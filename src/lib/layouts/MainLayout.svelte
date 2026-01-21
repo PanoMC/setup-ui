@@ -49,7 +49,12 @@
     session,
   } from "$lib/Store.js";
   import { redirect } from "@sveltejs/kit";
-  import { updateApiUrl, updatePanoWebsiteUrl } from "$lib/variables.js";
+  import { browser } from "$app/environment";
+  import {
+    updateApiUrl,
+    updatePanoWebsiteUrl,
+    checkDomainRedirection,
+  } from "$lib/variables.js";
 
   /**  @type {import('./$types').LayoutServerLoad} */
   export async function loadServer(input) {
@@ -108,6 +113,10 @@
 
     if (panoWebsiteUrlEnv) {
       updatePanoWebsiteUrl(panoWebsiteUrlEnv);
+    }
+
+    if (browser) {
+      checkDomainRedirection();
     }
 
     session.set({ CSRFToken });
