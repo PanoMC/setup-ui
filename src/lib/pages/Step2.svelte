@@ -36,9 +36,9 @@
                   "steps.database.databases.local-portable-db-description",
                 )}</small>
 
-              {#if !portableSupported}
-                <div class="alert alert-warning mt-2 mb-0 p-2">
-                  <small class="d-block">
+                <div class="alert alert-warning mt-2 mb-0 p-2 d-flex align-items-center gap-2">
+                  <i class="fa fa-exclamation-triangle"></i>
+                  <small>
                     {$_(
                       "steps.database.databases.portable-not-supported",
                     )}<br />
@@ -47,6 +47,8 @@
                     })}
                   </small>
                 </div>
+
+              {#if !portableSupported}
               {:else if dbType === "portable" && !installed}
                 <div class="mt-3">
                   <button
@@ -66,7 +68,7 @@
                 </div>
               {:else if dbType === "portable" && installed}
                 <div class="mt-2">
-                  <span class="badge bg-success"
+                  <span class="badge text-bg-success"
                     >{$_("steps.database.databases.portable-installed")}</span>
                 </div>
               {/if}

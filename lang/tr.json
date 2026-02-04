@@ -27,7 +27,8 @@
         "title": "Website (Gerekli)",
         "description": "Açıklama (Gerekli)",
         "url": "Website Adresi (Gerekli)",
-        "url-placeholder": "https://benim-minecraft-sunucu-websitem.com"
+        "url-placeholder": "https://benim-minecraft-sunucu-websitem.com",
+        "url-helper": "Web sitenizin ziyaret edileceği tam adresi giriniz."
       }
     },
     "database": {
@@ -73,7 +74,7 @@
       "online-account-description": "Eklenti, tema ve güncellemelere erişebilmek için çevrimiçi Pano hesabınızı bağlayın.",
       "inputs": {
         "email": "E-Posta (Gerekli)",
-        "username": "Minecraft Kullanıcı Adı (Gerekli)",
+        "username": "Kullanıcı Adı (Gerekli)",
         "password": "Şifre (Gerekli)",
         "password-repeat": "Şifre Tekrarı (Gerekli)",
         "password-help-text": "Minimum 6 karakter."

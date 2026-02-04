@@ -23,14 +23,19 @@
           >{$_("steps.website.inputs.description")}</label>
       </div>
 
-      <div class="form-floating">
-        <input
-          id="websiteUrl"
-          class="form-control"
-          placeholder={$_("steps.website.inputs.url-placeholder")}
-          type="text"
-          bind:value={websiteUrl} />
-        <label for="websiteUrl">{$_("steps.website.inputs.url")}</label>
+      <div>
+        <div class="form-floating">
+          <input
+            id="websiteUrl"
+            class="form-control"
+            placeholder={$_("steps.website.inputs.url-placeholder")}
+            type="text"
+            bind:value={websiteUrl} />
+          <label for="websiteUrl">{$_("steps.website.inputs.url")}</label>
+        </div>
+        <div class="form-text">
+          {$_("steps.website.inputs.url-helper")}
+        </div>
       </div>
 
       <div class="row">

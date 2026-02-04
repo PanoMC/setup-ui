@@ -5,7 +5,7 @@
         class="btn btn-link text-white position-absolute start-0 ms-3"
         on:click={toggleTheme}
         title="Toggle Theme">
-        <i class="fa fa-moon" class:fa-sun={isDarkTheme}></i>
+        <i class="fa fa-adjust"></i>
       </button>
       <a href="{PANO_WEBSITE_URL}" target="_blank" class="navbar-brand mx-auto">
         <img src="/assets/img/logo.svg" width="24" height="24" alt="Pano" />
@@ -16,7 +16,7 @@
         target="_blank"
         class="text-white position-absolute end-0 me-3"
         title="Documentation">
-        <i class="fa fa-book-open"></i>
+        <i class="fa fa-question-circle"></i>
       </a>
     </div>
   </div>

@@ -80,7 +80,7 @@
 
           {#if panoAccount}
             <div class="hstack gap-2">
-              <span class="badge text-bg-primary"
+              <span class="badge text-bg-gray"
                 >{maskEmail(panoAccount.email)}</span>
               <button
                 type="button"

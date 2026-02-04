@@ -24,7 +24,8 @@
         "title": "Title (Required)",
         "description": "Description (Required)",
         "url": "Website Url (Required)",
-        "url-placeholder": "https://my-minecraft-server-website.com"
+        "url-placeholder": "https://my-minecraft-server-website.com",
+        "url-helper": "Enter the full address where your website will be visited."
       }
     },
     "database": {
@@ -70,7 +71,7 @@
       "online-account-description": "Connect your online Pano account to access plugins, themes, and updates.",
       "inputs": {
         "email": "E-Mail (Required)",
-        "username": "Minecraft Username (Required)",
+        "username": "Username (Required)",
         "password": "Password (Required)",
         "password-repeat": "Password Repeat (Required)",
         "password-help-text": "Minimum 6 letters."
