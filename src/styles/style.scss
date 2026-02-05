@@ -24,18 +24,23 @@ $fa-font-path: "/assets/webfonts";
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--bg-image) center/cover no-repeat;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: cover;
-  mask-size: cover;
+  background:
+    linear-gradient(to bottom, transparent 20%, var(--bs-body-bg) 100%),
+    var(--bg-image) center/cover no-repeat;
   z-index: 0;
 }
 
 .hero-content {
   position: relative;
+  z-index: 2;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--bs-body-bg);
+  opacity: 0.4;
   z-index: 1;
 }
 

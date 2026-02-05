@@ -1,7 +1,11 @@
 <style>
-  .navbar-container {
-    background-color: var(--bs-body-bg);
-    transition: background-color 0.3s ease;
+  .navbar {
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .navbar:hover {
+    opacity: 1;
   }
 
   .brand-box {
@@ -16,17 +20,10 @@
   }
 </style>
 
-<div
-  class="navbar navbar-expand fixed-top navbar-container"
-  style="z-index: 1040;">
+<div class="navbar">
   <div class="container d-flex justify-content-between align-items-center">
     <div class="col-4 d-flex align-items-center gap-2">
-      <button
-        class="nav-link btn btn-link text-body p-0 ms-2"
-        on:click={toggleTheme}
-        title="Toggle Theme">
-        <i class="fa-solid fa-adjust"></i>
-      </button>
+      <small class="nav-text">v. 1.0</small>
     </div>
 
     <div class="col-4 text-center">
@@ -40,13 +37,15 @@
       </div>
     </div>
 
-    <div class="col-4 d-flex justify-content-end align-items-center gap-3">
+    <div class="col-4 d-flex justify-content-end align-items-center gap-2">
       <a
-        href="{PANO_WEBSITE_URL}/docs"
+        href="https://panomc.com/discord"
         target="_blank"
-        class="nav-link text-body p-0 me-2"
-        title="Documentation">
-        <i class="fa-solid fa-book"></i>
+        rel="noreferrer"
+        class="nav-link"
+        title="Discord"
+        aria-label="Discord">
+        <i class="fa-brands fa-discord"></i>
       </a>
     </div>
   </div>
@@ -73,12 +72,4 @@
       isDarkTheme = currentTheme === "dark";
     }
   });
-
-  function toggleTheme() {
-    isDarkTheme = !isDarkTheme;
-    document.documentElement.setAttribute(
-      "data-bs-theme",
-      isDarkTheme ? "dark" : "light",
-    );
-  }
 </script>

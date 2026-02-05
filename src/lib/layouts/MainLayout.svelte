@@ -3,8 +3,6 @@
     >{$_("title")} {$currentStep !== 0 ? ` (${$currentStep}/4)` : ""}</title>
 </svelte:head>
 <App>
-  <Navbar />
-
   <PageHeader
     title={$_("title")}
     backgroundImage="/assets/img/wallpaper_minecraft_caves_cliffs(part2)_1920x1080.png" />
@@ -33,6 +31,13 @@
         {/if}
       </div>
       <div slot="right" class="hstack gap-2">
+        <a
+          href="{PANO_WEBSITE_URL}/docs"
+          target="_blank"
+          class="btn btn-link"
+          title={$_("buttons.docs")}>
+          <i class="fa-solid fa-book"></i>
+        </a>
         <button
           class="btn btn-link"
           on:click={back}
@@ -73,6 +78,8 @@
       </div>
       <slot />
     </div>
+
+    <Navbar />
   </div>
 </App>
 
@@ -93,6 +100,7 @@
     updateApiUrl,
     updatePanoWebsiteUrl,
     checkDomainRedirection,
+    PANO_WEBSITE_URL,
   } from "$lib/variables.js";
 
   const pageTitle = writable(null);
