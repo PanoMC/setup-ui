@@ -1,7 +1,4 @@
 <div class="animate__animated animate__fadeIn animate__slower">
-  <div class="card-header">
-    {$_("steps.account.title")}
-  </div>
   <form on:submit|preventDefault={submit}>
     <div class="card-body vstack gap-3">
       <ErrorAlert error={error} />
@@ -108,35 +105,6 @@
           {/if}
         </div>
       </div>
-
-      <div class="row g-3">
-        <div class="col-6">
-          <button
-            class="btn btn-link w-100"
-            type="button"
-            on:click={back}
-            class:disabled={loading}
-            disabled={loading}>
-            {$_("buttons.back")}
-          </button>
-        </div>
-        <div class="col-6">
-          <div class="animate__animated animate__zoomIn animate__slow">
-            <button
-              type="submit"
-              class="btn btn-secondary w-100"
-              class:disabled={loading || disabled}
-              disabled={loading || disabled}>
-              {$_("buttons.finish")}
-              {#if finishLoading}
-                <span
-                  class="spinner-border spinner-border-sm text-primary"
-                  role="status"></span>
-              {/if}
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   </form>
 </div>
@@ -160,12 +128,13 @@
 
 <script>
   import { _ } from "svelte-i18n";
+  import { onDestroy } from "svelte";
 
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
 
-  import { backStep } from "$lib/Store.js";
+  import { navigationState } from "$lib/Store.js";
   import ApiUtil, { buildQueryParams, NETWORK_ERROR } from "$lib/api.util.js";
   import { PANEL_URL, PANO_WEBSITE_URL } from "$lib/variables.js";
 
@@ -204,6 +173,28 @@
     account.password === "" ||
     account.email === "" ||
     account.passwordRepeat !== account.password;
+
+  $: navigationState.update((s) => ({
+    ...s,
+    nextDisabled: disabled,
+    nextLoading: loading,
+    nextAction: submit,
+    nextLabel: "buttons.finish",
+  }));
+
+  onDestroy(() => {
+    navigationState.update((s) => {
+      if (s.nextAction === submit) {
+        return {
+          ...s,
+          nextAction: null,
+          nextLoading: false,
+          nextLabel: "buttons.next",
+        };
+      }
+      return s;
+    });
+  });
 
   if (browser) {
     if (!panoAccount && state && encodedData) {
@@ -285,15 +276,6 @@
       .catch(() => {
         showError(NETWORK_ERROR);
       });
-  }
-
-  function back() {
-    if (!loading) {
-      loading = true;
-      error = null;
-
-      backStep();
-    }
   }
 
   async function showError(errorCode) {

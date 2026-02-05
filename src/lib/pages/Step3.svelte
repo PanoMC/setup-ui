@@ -1,8 +1,4 @@
 <div class="animate__animated animate__fadeIn animate_animate__slower">
-  <div class="card-header">
-    {$_("steps.email.title")}
-  </div>
-
   <form on:submit|preventDefault={next}>
     <div class="card-body vstack gap-3">
       <ErrorAlert error={error} />
@@ -23,7 +19,7 @@
       {:else}
         <div in:fade>
           <button
-            class="btn btn-link btn-sm mb-3"
+            class="btn btn-primary btn-sm mb-3"
             on:click={() => (chosenService = null)}>
             <i class="fa-solid fa-arrow-left me-1"></i>
             {$_("steps.email.return-back-to-service-list-text")}
@@ -60,10 +56,10 @@
           </div>
 
           <details>
-            <summary class="text-primary py-3"
+            <summary class="pt-3"
               >{$_("steps.email.inputs.details-button")}</summary>
 
-            <div class="row g-3">
+            <div class="row g-3 pt-2">
               <div class="col-6 mb-3">
                 <div class="form-check">
                   <input
@@ -146,40 +142,6 @@
           </details>
         </div>
       {/if}
-      <div class="row g-3">
-        <div class="col-4">
-          <button
-            class="btn btn-link w-100"
-            class:disabled={loading}
-            disabled={loading}
-            on:click={back}>{$_("buttons.back")}</button>
-        </div>
-        <div class="col-4">
-          <div class="animate__animated animate__zoomIn animate__slow">
-            <button
-              type="button"
-              class="btn btn-link w-100"
-              on:click={skip}
-              disabled={loading}>
-              {$_("buttons.skip")}
-            </button>
-          </div>
-        </div>
-        <div class="col-4">
-          <button
-            type="submit"
-            class="btn btn-secondary w-100"
-            class:disabled={loading || disabled}
-            disabled={loading || disabled}>
-            {$_("buttons.next")}
-            {#if nextLoading}
-              <span
-                class="spinner-border spinner-border-sm text-primary"
-                role="status"></span>
-            {/if}
-          </button>
-        </div>
-      </div>
     </div>
   </form>
 </div>
@@ -279,7 +241,8 @@
 
 <script>
   import { _ } from "svelte-i18n";
-  import { backStep, nextStep } from "$lib/Store.js";
+  import { onDestroy } from "svelte";
+  import { nextStep, navigationState } from "$lib/Store.js";
 
   import { fade } from "svelte/transition";
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
@@ -290,7 +253,6 @@
   } from "$lib/components/modals/ConfirmSkipSMTPModal.svelte";
 
   let loading = false;
-  let nextLoading;
   let error = null;
   export let chosenService;
 
@@ -305,14 +267,29 @@
         !mailConfiguration[chosenService].username ||
         !mailConfiguration[chosenService].password));
 
-  function back() {
-    if (!loading) {
-      loading = true;
-      error = null;
+  $: navigationState.update((s) => ({
+    ...s,
+    nextDisabled: disabled,
+    nextLoading: loading,
+    nextAction: next,
+    showSkip: true,
+    skipAction: skip,
+  }));
 
-      backStep();
-    }
-  }
+  onDestroy(() => {
+    navigationState.update((s) => {
+      if (s.nextAction === next) {
+        return {
+          ...s,
+          nextAction: null,
+          nextLoading: false,
+          showSkip: false,
+          skipAction: null,
+        };
+      }
+      return s;
+    });
+  });
 
   async function showError(errorCode) {
     loading = false;
@@ -334,7 +311,6 @@
     }
 
     loading = true;
-    nextLoading = true;
     error = null;
 
     ApiUtil.post({
@@ -348,7 +324,6 @@
         }
 
         loading = false;
-        nextLoading = false;
         if (body.error) {
           showError(
             body.error === "INVALID_DATA"
@@ -362,7 +337,6 @@
       })
       .catch(() => {
         loading = false;
-        nextLoading = false;
         showError(NETWORK_ERROR);
       });
   }

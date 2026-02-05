@@ -19,7 +19,17 @@ export function checkRoute(step, pathname) {
   }
 }
 
-export async function checkCurrentStep() {
+export const navigationState = writable({
+  nextDisabled: false,
+  nextLoading: false,
+  nextLabel: "buttons.next",
+  nextAction: null,
+  backDisabled: false,
+  showSkip: false,
+  skipAction: null,
+});
+
+export function checkCurrentStep() {
   return ApiUtil.get({ path: "/api/setup/step" })
     .then((body) => {
       if (body.error) {

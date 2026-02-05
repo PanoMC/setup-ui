@@ -53,7 +53,7 @@
       }
     },
     "email": {
-      "title": "E-Posta (SMTP)",
+      "title": "SMTP",
       "description": "Pano, e-posta gönderebilmek için bir e-posta sağlayıcısına ihtiyaç duyar. Lütfen kullanmak istediğiniz e-posta servisi ile oturum açın.",
       "return-back-to-service-list-text": "Servis listesine geri dön",
       "inputs": {
@@ -88,7 +88,7 @@
         "title": "Çevrimiçi Pano hesabınızı kaldırmak istediğinize emin misiniz?"
       },
       "confirm-skip-smtp": {
-        "title": "E-Posta (SMTP) kurulumunu atlamak istediğinize emin misiniz?",
+        "title": "SMTP kurulumunu atlamak istediğinize emin misiniz?",
         "description": "Bu adımı atlamak, Şifre Sıfırlama veya E-Posta doğrulama gibi özelliklerin eksik veya çalışmamasına neden olabilir."
       }
     },
@@ -108,5 +108,6 @@
     "PANO_DISCONNECT_FAILED": "Pano hesabı bağlantısı kesilemedi, lütfen daha sonra tekrar deneyin.",
     "INTERNAL_SERVER_ERROR": "Bir hata oluştu, lütfen Pano konsolunu kontrol edip rapor edin!",
     "DB_INSTALL_FAILED": "Taşınabilir MariaDB indirilip kurulurken bir hata oluştu."
-  }
+  },
+  "language-label": "Dil Seçin"
 }

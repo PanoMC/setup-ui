@@ -50,7 +50,7 @@
       }
     },
     "email": {
-      "title": "E-Mail (SMTP)",
+      "title": "SMTP",
       "description": "Pano requires an email provider to be able to send emails. Please log in with the e-mail service you want to use.",
       "return-back-to-service-list-text": "Back to service list",
       "inputs": {
@@ -85,7 +85,7 @@
         "title": "Are you sure to disconnect your online Pano account?"
       },
       "confirm-skip-smtp": {
-        "title": "Are you sure to skip setting up E-Mail (SMTP)?",
+        "title": "Are you sure to skip setting up SMTP?",
         "description": "Skipping this step may result in missing/not working features such as Password Reset or E-Mail validation."
       }
     },
@@ -105,5 +105,6 @@
     "PANO_DISCONNECT_FAILED": "Failed to disconnect Pano account, please try again later.",
     "INTERNAL_SERVER_ERROR": "An error occurred, please check Pano console and report it!",
     "DB_INSTALL_FAILED": "Failed to download and install portable MariaDB."
-  }
+  },
+  "language-label": "Select Language"
 }
