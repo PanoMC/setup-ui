@@ -64,14 +64,14 @@ body {
 
 .container {
   @media (min-width: 992px) {
-    max-width: 600px; // 832 - 128
+    max-width: 832px; // 832 - 128
   }
 
   @media (min-width: 1200px) {
-    max-width: 600px; // 1012 - 128
+    max-width: 832px; // 1012 - 128
   }
 
   @media (min-width: 1400px) {
-    max-width: 600px; // 1192 - 128
+    max-width: 832px; // 1192 - 128
   }
 }
