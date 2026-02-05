@@ -1,23 +1,15 @@
-<style>
-  :global(.btn-icon) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    padding: 0;
-  }
-</style>
-
 <svelte:head>
   <title
     >{$_("title")} {$currentStep !== 0 ? ` (${$currentStep}/4)` : ""}</title>
 </svelte:head>
 <App>
   <Navbar />
-  <PageHeader title={$_("title")} />
 
-  <div class="container vstack gap-3 pt-4" style="max-width: 720px;">
+  <PageHeader
+    title={$_("title")}
+    backgroundImage="/assets/img/wallpaper_minecraft_caves_cliffs(part2)_1920x1080.png" />
+
+  <div class="container vstack gap-3">
     <ErrorAlert error={stepInfo.error} />
     <PageActions>
       <div slot="left">
@@ -73,10 +65,10 @@
     </PageActions>
     <div class="card">
       <div
-        class="card-header fw-bold d-flex justify-content-between align-items-center">
+        class="card-header d-flex justify-content-between align-items-center">
         <span>{$_($pageTitle)}</span>
         {#if $currentStep !== 0}
-          <small class="text-muted">({$currentStep}/4)</small>
+          ({$currentStep}/4)
         {/if}
       </div>
       <slot />
@@ -233,6 +225,18 @@
   onMount(() => {
     initialized.set(true);
   });
+
+  $: if ($currentStep !== undefined) {
+    navigationState.update((s) => ({
+      ...s,
+      nextDisabled: false,
+      nextLoading: false,
+      nextLabel: "buttons.next",
+      nextAction: null,
+      showSkip: false,
+      skipAction: null,
+    }));
+  }
 
   $: if ($currentStep === 0) {
     pageTitle.set("welcome-title");

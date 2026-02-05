@@ -91,7 +91,7 @@
             <button
               id="connect-pano-account"
               type="button"
-              class="btn btn-sm btn-primary lh-base d-block"
+              class="btn btn-sm btn-secondary lh-base d-block me-auto"
               on:click={onConnectClick}
               disabled={connecting}>
               {connecting ? $_("buttons.connecting") : $_("buttons.connect")}

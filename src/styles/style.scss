@@ -14,6 +14,31 @@ $fa-font-path: "/assets/webfonts";
   --animate-duration: 250ms;
 }
 
+.hero {
+  position: relative;
+  height: 30vh;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bg-image) center/cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
 // Setup Styles
 
 body {
@@ -30,4 +55,18 @@ body {
     64px 64px,
     128px 64px,
     64px 128px;
+}
+
+.container {
+  @media (min-width: 992px) {
+    max-width: 600px; // 832 - 128
+  }
+
+  @media (min-width: 1200px) {
+    max-width: 600px; // 1012 - 128
+  }
+
+  @media (min-width: 1400px) {
+    max-width: 600px; // 1192 - 128
+  }
 }

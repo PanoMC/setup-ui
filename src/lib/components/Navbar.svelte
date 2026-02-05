@@ -1,12 +1,6 @@
 <style>
-  .blur-nav {
-    background-color: rgba(var(--bs-body-bg-rgb), 0.8) !important;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--bs-border-color);
-  }
-
   .navbar-container {
+    background-color: var(--bs-body-bg);
     transition: background-color 0.3s ease;
   }
 
@@ -20,18 +14,19 @@
     justify-content: center;
     text-decoration: none;
   }
-
-  :global([data-bs-theme="dark"]) .blur-nav {
-    background-color: rgba(10, 25, 49, 0.8) !important;
-  }
 </style>
 
 <div
-  class="navbar navbar-expand fixed-top navbar-container blur-nav"
+  class="navbar navbar-expand fixed-top navbar-container"
   style="z-index: 1040;">
   <div class="container d-flex justify-content-between align-items-center">
     <div class="col-4 d-flex align-items-center gap-2">
-      <!-- Left side reserved if needed -->
+      <button
+        class="nav-link btn btn-link text-body p-0 ms-2"
+        on:click={toggleTheme}
+        title="Toggle Theme">
+        <i class="fa-solid fa-adjust"></i>
+      </button>
     </div>
 
     <div class="col-4 text-center">
@@ -42,28 +37,16 @@
           class="brand-box mx-auto shadow-sm">
           <img src="/assets/img/logo.svg" width="24" height="24" alt="Pano" />
         </a>
-        <span
-          class="badge text-bg-secondary mt-1"
-          style="font-size: 0.45rem; font-weight: 800; letter-spacing: 0.1em; padding: 0.1rem 0.3rem; border-radius: 4px; opacity: 0.8;">
-          SETUP
-        </span>
       </div>
     </div>
 
     <div class="col-4 d-flex justify-content-end align-items-center gap-3">
-      <button
-        class="nav-link btn btn-link text-body p-0"
-        on:click={toggleTheme}
-        title="Toggle Theme">
-        <i class="fa-solid {isDarkTheme ? 'fa-sun' : 'fa-moon'}"></i>
-      </button>
-
       <a
         href="{PANO_WEBSITE_URL}/docs"
         target="_blank"
-        class="nav-link text-body p-0"
+        class="nav-link text-body p-0 me-2"
         title="Documentation">
-        <i class="fa-solid fa-circle-question"></i>
+        <i class="fa-solid fa-book"></i>
       </a>
     </div>
   </div>
