@@ -41,7 +41,7 @@
     nextDisabled: disabled,
     nextLoading: loading,
     nextAction: start,
-    nextLabel: "start-button",
+    nextLabel: "buttons.start",
     backDisabled: true, // No back from first page
   }));
 

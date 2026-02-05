@@ -16,11 +16,11 @@
     "docs": "Dokümantasyon",
     "other": "Diğer",
     "yes": "Evet",
-    "cancel": "İptal"
+    "cancel": "İptal",
+    "start": "Başla"
   },
   "title": "Pano Kurulum",
   "welcome-title": "Hoş geldiniz",
-  "start-button": "Başla",
   "steps": {
     "website": {
       "title": "İsim",

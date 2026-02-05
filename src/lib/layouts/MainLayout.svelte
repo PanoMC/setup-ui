@@ -1,3 +1,110 @@
+<style>
+  .loading-container {
+    width: 100%;
+    min-height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .center-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-wrapper {
+    background-color: var(--bs-primary);
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 64px;
+    height: 64px;
+  }
+
+  .mc-img-wrapper,
+  .hytale-img-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+
+  .pano-anim {
+    animation: logo-swap-pano 4.5s infinite ease-in-out;
+  }
+
+  .mc-anim {
+    animation: logo-swap-mc 4.5s infinite ease-in-out;
+  }
+
+  .hytale-anim {
+    animation: logo-swap-hytale 4.5s infinite ease-in-out;
+  }
+
+  @keyframes logo-swap-pano {
+    0%,
+    28% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    33%,
+    95% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  @keyframes logo-swap-mc {
+    0%,
+    28% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6);
+    }
+    33%,
+    61% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    66%,
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6);
+    }
+  }
+
+  @keyframes logo-swap-hytale {
+    0%,
+    61% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6);
+    }
+    66%,
+    95% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6);
+    }
+  }
+
+  .logo-img,
+  .mc-img,
+  .hytale-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+</style>
+
 <svelte:head>
   <title
     >{$_("title")} {$currentStep !== 0 ? ` (${$currentStep}/4)` : ""}</title>
@@ -7,79 +114,98 @@
     title={$_("title")}
     backgroundImage="/assets/img/wallpaper_minecraft_caves_cliffs(part2)_1920x1080.png" />
 
-  <div class="container vstack gap-3">
-    <ErrorAlert error={stepInfo.error} />
-    <PageActions>
-      <div slot="left">
-        {#if $currentStep !== 0}
-          <PageNav>
-            {#each steps as step, index}
-              {@const stepNumber = index + 1}
-              <li class="nav-item">
-                <button
-                  class="nav-link"
-                  class:active={$currentStep === stepNumber}
-                  class:completed={$currentStep > stepNumber}
-                  class:disabled={$currentStep < stepNumber}
-                  on:click={() => goStep(stepNumber)}
-                  disabled={$currentStep < stepNumber}>
-                  <span>{$_(step.name)}</span>
-                </button>
-              </li>
-            {/each}
-          </PageNav>
-        {/if}
+  <div class="container">
+    {#if $isFinishing}
+      <div class="loading-container">
+        <div class="loader-content position-relative" style="height: 100px; width: 100px;">
+          <div class="logo-wrapper pano-anim center-content">
+            <img alt="Pano" src="{base}/assets/img/logo.svg" class="logo-img" />
+          </div>
+          <div class="mc-img-wrapper mc-anim center-content">
+            <img alt="Minecraft" src="{base}/assets/img/minecraft-icon.png" class="mc-img" />
+          </div>
+          <div class="hytale-img-wrapper hytale-anim center-content">
+            <img alt="Hytale" src="{base}/assets/img/hytale-icon.png" class="hytale-img" />
+          </div>
+        </div>
       </div>
-      <div slot="right" class="hstack gap-2">
-        <a
-          href="{PANO_WEBSITE_URL}/docs"
-          target="_blank"
-          class="btn btn-link"
-          title={$_("buttons.docs")}>
-          <i class="fa-solid fa-book"></i>
-        </a>
-        <button
-          class="btn btn-link"
-          on:click={back}
-          disabled={$navigationState.backDisabled ||
-            $navigationState.nextLoading}
-          title={$_("buttons.back")}>
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        {#if $navigationState.showSkip}
-          <button
-            class="btn btn-link"
-            on:click={$navigationState.skipAction}
-            disabled={$navigationState.nextLoading}
-            title={$_("buttons.skip")}>
-            <i class="fa-solid fa-forward-step"></i>
-          </button>
-        {/if}
-        <button
-          class="btn btn-secondary"
-          on:click={handleNext}
-          disabled={$navigationState.nextDisabled ||
-            $navigationState.nextLoading}>
-          {#if $navigationState.nextLoading}
-            <span class="spinner-border spinner-border-sm me-2" role="status"
-            ></span>
-          {/if}
-          {$_($navigationState.nextLabel)}
-        </button>
-      </div>
-    </PageActions>
-    <div class="card">
-      <div
-        class="card-header d-flex justify-content-between align-items-center">
-        <span>{$_($pageTitle)}</span>
-        {#if $currentStep !== 0}
-          ({$currentStep}/4)
-        {/if}
-      </div>
-      <slot />
-    </div>
+    {/if}
 
-    <Navbar />
+    <div class="vstack gap-3" class:d-none={$isFinishing}>
+      <ErrorAlert error={stepInfo.error} />
+      <PageActions>
+        <div slot="left">
+          {#if $currentStep !== 0}
+            <PageNav>
+              {#each steps as step, index}
+                {@const stepNumber = index + 1}
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    class:active={$currentStep === stepNumber}
+                    class:completed={$currentStep > stepNumber}
+                    class:disabled={$currentStep < stepNumber}
+                    on:click={() => goStep(stepNumber)}
+                    disabled={$currentStep < stepNumber}>
+                    <span>{$_(step.name)}</span>
+                  </button>
+                </li>
+              {/each}
+            </PageNav>
+          {/if}
+        </div>
+        <div slot="right" class="hstack gap-2">
+          <a
+            href="{PANO_WEBSITE_URL}/docs"
+            target="_blank"
+            class="btn btn-link"
+            title={$_("buttons.docs")}>
+            <i class="fa-solid fa-book"></i>
+          </a>
+          {#if $currentStep !== 0}
+            <button
+              class="btn btn-link"
+              on:click={back}
+              disabled={$navigationState.nextLoading}
+              title={$_("buttons.back")}>
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+          {/if}
+          {#if $navigationState.showSkip}
+            <button
+              class="btn btn-link"
+              on:click={$navigationState.skipAction}
+              disabled={$navigationState.nextLoading}
+              title={$_("buttons.skip")}>
+              <i class="fa-solid fa-forward-step"></i>
+            </button>
+          {/if}
+          <button
+            class="btn btn-secondary"
+            on:click={handleNext}
+            disabled={$navigationState.nextDisabled ||
+              $navigationState.nextLoading}>
+            {#if $navigationState.nextLoading}
+              <span class="spinner-border spinner-border-sm me-2" role="status"
+              ></span>
+            {/if}
+            {$_($navigationState.nextLabel)}
+          </button>
+        </div>
+      </PageActions>
+      <div class="card">
+        <div
+          class="card-header d-flex justify-content-between align-items-center">
+          <span>{$_($pageTitle)}</span>
+          {#if $currentStep !== 0}
+            ({$currentStep}/4)
+          {/if}
+        </div>
+        <slot />
+      </div>
+
+      <Footer version={stepInfo.version} />
+    </div>
   </div>
 </App>
 
@@ -96,6 +222,7 @@
   } from "$lib/Store.js";
   import { redirect } from "@sveltejs/kit";
   import { browser } from "$app/environment";
+  import { base } from "$app/paths";
   import {
     updateApiUrl,
     updatePanoWebsiteUrl,
@@ -180,11 +307,11 @@
 <script>
   import { _ } from "svelte-i18n";
   import { page } from "$app/stores";
-  import { goToStep, navigationState, backStep } from "$lib/Store.js";
+  import { goToStep, navigationState, backStep, isFinishing } from "$lib/Store.js";
 
   import App from "$lib/components/App.svelte";
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
-  import Navbar from "$lib/components/Navbar.svelte";
+  import Footer from "$lib/components/Footer.svelte";
   import PageHeader from "$lib/components/PageHeader.svelte";
   import PageActions from "$lib/components/PageActions.svelte";
   import PageNav from "$lib/components/PageNav.svelte";
@@ -237,11 +364,11 @@
   $: if ($currentStep !== undefined) {
     navigationState.update((s) => ({
       ...s,
-      nextDisabled: false,
+      nextDisabled: $currentStep === 4,
       nextLoading: false,
-      nextLabel: "buttons.next",
+      nextLabel: $currentStep === 4 ? "buttons.finish" : ($currentStep === 0 ? "buttons.start" : "buttons.next"),
       nextAction: null,
-      showSkip: false,
+      showSkip: $currentStep === 3,
       skipAction: null,
     }));
   }

@@ -23,7 +23,7 @@
 <div class="navbar">
   <div class="container d-flex justify-content-between align-items-center">
     <div class="col-4 d-flex align-items-center gap-2">
-      <small class="nav-text">v. 1.0</small>
+      <small class="nav-text">{version}</small>
     </div>
 
     <div class="col-4 text-center">
@@ -39,7 +39,7 @@
 
     <div class="col-4 d-flex justify-content-end align-items-center gap-2">
       <a
-        href="https://panomc.com/discord"
+        href="{PANO_WEBSITE_URL}/discord"
         target="_blank"
         rel="noreferrer"
         class="nav-link"
@@ -53,7 +53,9 @@
 
 <script>
   import { onMount } from "svelte";
-  import { PANO_WEBSITE_URL } from "../../pano-sdk/core/js/variables.js";
+  import { PANO_WEBSITE_URL } from "$lib/variables.js";
+  
+  export let version = "1.0";
 
   let isDarkTheme = false;
 

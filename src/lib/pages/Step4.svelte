@@ -1,4 +1,8 @@
+
+
+
 <div class="animate__animated animate__fadeIn animate__slower">
+
   <form on:submit|preventDefault={submit}>
     <div class="card-body vstack gap-3">
       <ErrorAlert error={error} />
@@ -13,6 +17,7 @@
             class="btn-close"
             data-bs-dismiss="alert"
             aria-label={$_("buttons.close")}></button>
+          <i class="fa-solid fa-triangle-exclamation me-2"></i>
           {$_("connect-failed-alert")}
         </div>
       {/if}
@@ -107,7 +112,8 @@
       </div>
     </div>
   </form>
-</div>
+  </div>
+
 
 <ConfirmRemovePanoAccountModal />
 
@@ -134,7 +140,7 @@
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
 
-  import { navigationState } from "$lib/Store.js";
+  import { navigationState, isFinishing } from "$lib/Store.js";
   import ApiUtil, { buildQueryParams, NETWORK_ERROR } from "$lib/api.util.js";
   import { PANEL_URL, PANO_WEBSITE_URL } from "$lib/variables.js";
 
@@ -163,7 +169,6 @@
   export let state;
 
   let loading = false;
-  let finishLoading;
   let error = null;
   let connecting = !panoAccount && state && encodedData;
   let disconnecting;
@@ -254,10 +259,12 @@
     }
   }
 
-  function submit() {
-    finishLoading = true;
+  async function submit() {
+    $isFinishing = true;
     loading = true;
     error = null;
+
+    await new Promise((resolve) => setTimeout(resolve, 10000));
 
     ApiUtil.post({
       path: "/api/setup/finish",
@@ -280,7 +287,7 @@
 
   async function showError(errorCode) {
     loading = false;
-    finishLoading = false;
+    $isFinishing = false;
 
     error = errorCode;
   }

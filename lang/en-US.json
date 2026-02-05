@@ -13,11 +13,11 @@
     "docs": "Documentation",
     "other": "Other",
     "yes": "Yes",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "start": "Start"
   },
   "title": "Pano Installer",
   "welcome-title": "Welcome",
-  "start-button": "Start",
   "steps": {
     "website": {
       "title": "Website",

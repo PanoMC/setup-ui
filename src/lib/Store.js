@@ -2,6 +2,8 @@ import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
 import { goto } from "$app/navigation";
 import { get, writable } from "svelte/store";
 
+export const isFinishing = writable(false);
+
 export const session = writable({});
 export const currentStep = writable(0);
 
