@@ -15,8 +15,10 @@ $fa-font-path: "/assets/webfonts";
 }
 
 .hero {
+  padding-top: 64px;
+  background-color: var(--bs-secondary);
   position: relative;
-  height: 30vh;
+  height: 256px;
   overflow: hidden;
 }
 
