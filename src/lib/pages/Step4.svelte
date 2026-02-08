@@ -264,8 +264,6 @@
     loading = true;
     error = null;
 
-    await new Promise((resolve) => setTimeout(resolve, 10000));
-
     ApiUtil.post({
       path: "/api/setup/finish",
       body: { ...account, setupLocale: $currentLanguage.locale },
