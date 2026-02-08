@@ -18,6 +18,7 @@ async function fetchLanguages(event) {
 }
 
 export async function init(initialLocale, event) {
+  languageLoading.set(true);
   await fetchLanguages(event);
 
   if (browser && !initialLocale) {
@@ -41,6 +42,7 @@ export async function init(initialLocale, event) {
     fallbackLocale: "en-US",
     initialLocale: languageToLoad.locale,
   });
+  languageLoading.set(false);
 }
 
 export function getAcceptedLanguage(headers) {

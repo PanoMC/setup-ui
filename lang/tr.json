@@ -110,5 +110,9 @@
     "INTERNAL_SERVER_ERROR": "Bir hata oluştu, lütfen Pano konsolunu kontrol edip rapor edin!",
     "DB_INSTALL_FAILED": "Taşınabilir MariaDB indirilip kurulurken bir hata oluştu."
   },
+  "alpha-warning": {
+    "title": "Alfa Sürüm Uyarısı",
+    "description": "Bu Pano'nun alfa sürümüdür. Pano geliştirme sunucularına bağlanır ve sadece yetkili kişilerin erişimi vardır. Eğer onaylanmış bir Pano geliştiricisi değilseniz Beta veya Release sürümlerini kurmanızı öneririz. Daha sonra panel üzerinden Güncelleme Kanalı ayarlarından Alfa kanalına geçiş yapabilirsiniz."
+  },
   "language-label": "Dil Seçin"
 }

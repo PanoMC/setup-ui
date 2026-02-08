@@ -1,10 +1,24 @@
 <div class:opacity-50={disabled}>
+  {#if stepInfo.stage === 'ALPHA' && !$languageLoading && !$isLoading}
+    <div class="card-body pb-0">
+      <div class="alert alert-warning mb-0">
+        <h6 class="alert-heading hstack gap-2">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          {$_("alpha-warning.title")}
+        </h6>
+        <p class="mb-0 small">
+          {$_("alpha-warning.description")}
+        </p>
+      </div>
+    </div>
+  {/if}
   <div class="card-body">
     <div class="form-floating">
       <select
         class="form-select"
         id="languageSelect"
         disabled={$languageLoading}
+        autocomplete="false"
         on:change={(e) => changeLanguage($Languages[e.target.value])}>
         {#each Object.keys($Languages) as language (language)}
           <option
@@ -29,7 +43,7 @@
     languageLoading,
     Languages,
   } from "$lib/language.util";
-  import { _ } from "svelte-i18n";
+  import { _, isLoading } from "svelte-i18n";
 
   export let stepInfo;
 

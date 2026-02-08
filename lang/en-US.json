@@ -107,5 +107,9 @@
     "INTERNAL_SERVER_ERROR": "An error occurred, please check Pano console and report it!",
     "DB_INSTALL_FAILED": "Failed to download and install portable MariaDB."
   },
+  "alpha-warning": {
+    "title": "Alpha Version Warning",
+    "description": "This is Pano's alpha version. It connects to Pano development servers and only authorized users have access. Unless you are an authorized Pano developer, we recommend installing Beta or Release versions. You can switch to the Alpha channel later from the Release Channel settings in the panel."
+  },
   "language-label": "Select Language"
 }
