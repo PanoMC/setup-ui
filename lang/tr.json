@@ -100,7 +100,7 @@
     }
   },
   "errors": {
-    "PLATFORM_ALREADY_INSTALLED": "Platform zaten kurulu! Düzeltmek için Pano’yu yeniden başlatın.",
+    "PLATFORM_ALREADY_INSTALLED": "Platform zaten kurulu! Düzeltmek için başka bir veritabanı konumu seçin.",
     "INVALID_DB_DATA": "Veritabanına bağlanılamıyor: Geçersiz veri.",
     "INVALID_EMAIL_DATA": "SMTP doğrulanamıyor: {mailError}",
     "NETWORK_ERROR": "Ağ hatası: Pano’ya ulaşılamıyor, bağlantınızı kontrol edin!",

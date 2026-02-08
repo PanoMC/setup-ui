@@ -97,7 +97,7 @@
     }
   },
   "errors": {
-    "PLATFORM_ALREADY_INSTALLED": "Platform is already installed! Restart Pano to fix this.",
+    "PLATFORM_ALREADY_INSTALLED": "Platform is already installed! Choose another database location to fix this.",
     "INVALID_DB_DATA": "Can't connect to DB: Invalid data.",
     "INVALID_EMAIL_DATA": "Can't verify SMTP: {mailError}",
     "NETWORK_ERROR": "Network error: Can't reach to Pano, check your connection!",
