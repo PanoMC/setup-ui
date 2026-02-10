@@ -176,6 +176,8 @@
   $: disabled =
     account.username === "" ||
     account.password === "" ||
+    account.password.length < 6 ||
+    account.password.length > 128 ||
     account.email === "" ||
     account.passwordRepeat !== account.password;
 
