@@ -111,8 +111,12 @@
     "DB_INSTALL_FAILED": "Taşınabilir MariaDB indirilip kurulurken bir hata oluştu."
   },
   "alpha-warning": {
-    "title": "Alfa Sürüm Uyarısı",
-    "description": "Bu Pano'nun alfa sürümüdür. Pano geliştirme sunucularına bağlanır ve sadece yetkili kişilerin erişimi vardır. Eğer onaylanmış bir Pano geliştiricisi değilseniz Beta veya Release sürümlerini kurmanızı öneririz. Daha sonra panel üzerinden Güncelleme Kanalı ayarlarından Alfa kanalına geçiş yapabilirsiniz."
+    "title": "Alpha Sürüm Uyarısı",
+    "description": "Alpha sürümünü kurmak üzeresiniz. Bu sürüm deneyseldir ve kritik hatalar barındırabilir; tüm sorumluluk tarafınıza aittir."
+  },
+  "beta-warning": {
+    "title": "Beta Sürüm Uyarısı",
+    "description": "Beta sürümünü kurmak üzeresiniz. Beta sürümleri genellikle yayın adayıdır (release candidate), Alpha'ya kıyasla çok daha stabildir ve en yeni özellikleri içerir."
   },
   "language-label": "Dil Seçin"
 }

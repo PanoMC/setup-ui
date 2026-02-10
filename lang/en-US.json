@@ -109,7 +109,11 @@
   },
   "alpha-warning": {
     "title": "Alpha Version Warning",
-    "description": "This is Pano's alpha version. It connects to Pano development servers and only authorized users have access. Unless you are an authorized Pano developer, we recommend installing Beta or Release versions. You can switch to the Alpha channel later from the Release Channel settings in the panel."
+    "description": "You are about to install the Alpha version. This version is experimental and may contain critical errors; all responsibility belongs to you."
+  },
+  "beta-warning": {
+    "title": "Beta Version Warning",
+    "description": "You are about to install the Beta version. Beta versions are generally release candidates, much more stable than Alpha, and include the latest features."
   },
   "language-label": "Select Language"
 }

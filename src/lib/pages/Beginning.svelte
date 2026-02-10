@@ -12,6 +12,19 @@
       </div>
     </div>
   {/if}
+  {#if stepInfo.stage === 'BETA' && !$languageLoading && !$isLoading}
+    <div class="card-body pb-0">
+      <div class="alert alert-info mb-0">
+        <h6 class="alert-heading hstack gap-2">
+          <i class="fa-solid fa-circle-info"></i>
+          {$_("beta-warning.title")}
+        </h6>
+        <p class="mb-0 small">
+          {$_("beta-warning.description")}
+        </p>
+      </div>
+    </div>
+  {/if}
   <div class="card-body">
     <div class="form-floating">
       <select
