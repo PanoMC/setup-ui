@@ -23,7 +23,7 @@
 <div class="navbar">
   <div class="container d-flex justify-content-between align-items-center">
     <div class="col-4 d-flex align-items-center gap-2">
-      <small class="nav-text">{version}</small>
+      <small class="nav-text">{version === "local-build" ? version : "v" + version}</small>
     </div>
 
     <div class="col-4 text-center">
