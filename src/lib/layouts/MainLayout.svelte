@@ -103,6 +103,20 @@
     height: 100%;
     object-fit: contain;
   }
+
+  .page-header-wrapper {
+    transition:
+      opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .page-header-wrapper.finishing {
+    opacity: 0;
+    transform: translateY(-50px);
+    pointer-events: none;
+  }
 </style>
 
 <svelte:head>
@@ -110,9 +124,11 @@
     >{$_("title")} {$currentStep !== 0 ? ` (${$currentStep}/4)` : ""}</title>
 </svelte:head>
 <App>
-  <PageHeader
-    title={$_("title")}
-    backgroundImage="/assets/img/wallpaper_minecraft_caves_cliffs(part2)_1920x1080.png" />
+  <div class="page-header-wrapper" class:finishing={$isFinishing && !stepInfo.error}>
+    <PageHeader
+      title={$_("title")}
+      backgroundImage="/assets/img/wallpaper_minecraft_caves_cliffs(part2)_1920x1080.png" />
+  </div>
 
   <div class="container">
     {#if $isFinishing}
