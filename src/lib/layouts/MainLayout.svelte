@@ -325,14 +325,14 @@
   import { page } from "$app/stores";
   import { goToStep, navigationState, backStep, isFinishing } from "$lib/Store.js";
 
-  import App from "$lib/components/App.svelte";
-  import ErrorAlert from "$lib/components/ErrorAlert.svelte";
-  import Footer from "$lib/components/Footer.svelte";
-  import PageHeader from "$lib/components/PageHeader.svelte";
-  import PageActions from "$lib/components/PageActions.svelte";
-  import PageNav from "$lib/components/PageNav.svelte";
+  import App from "$lib/component/App.svelte";
+  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
+  import Footer from "$lib/component/Footer.svelte";
+  import PageHeader from "$lib/component/PageHeader.svelte";
+  import PageActions from "$lib/component/PageActions.svelte";
+  import PageNav from "$lib/component/PageNav.svelte";
 
-  import ToastContainer from "$lib/components/ToastContainer.svelte";
+  import ToastContainer from "$lib/component/ToastContainer.svelte";
   import { onMount, setContext } from "svelte";
   import { initialized } from "$lib/Store.js";
 

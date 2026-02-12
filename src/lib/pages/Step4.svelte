@@ -144,18 +144,18 @@
   import ApiUtil, { buildQueryParams, NETWORK_ERROR } from "$lib/api.util.js";
   import { PANEL_URL, PANO_WEBSITE_URL } from "$lib/variables.js";
 
-  import { show as showToast } from "$lib/components/ToastContainer.svelte";
+  import { show as showToast } from "$lib/component/ToastContainer.svelte";
 
-  import ErrorAlert from "$lib/components/ErrorAlert.svelte";
+  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
   import { currentLanguage } from "$lib/language.util.js";
 
   import ConfirmRemovePanoAccountModal, {
     show as showConfirmRemovePanoAccountModal,
-  } from "$lib/components/modals/ConfirmRemovePanoAccountModal.svelte";
+  } from "$lib/component/modals/ConfirmRemovePanoAccountModal.svelte";
 
-  import PanoAccountConnectSuccessToast from "$lib/components/toasts/PanoAccountConnectSuccessToast.svelte";
-  import PanoAccountDisconnectSuccessToast from "$lib/components/toasts/PanoAccountDisconnectSuccessToast.svelte";
-  import PanoAccountDisconnectFailToast from "$lib/components/toasts/PanoAccountDisconnectFailToast.svelte";
+  import PanoAccountConnectSuccessToast from "$lib/component/toasts/PanoAccountConnectSuccessToast.svelte";
+  import PanoAccountDisconnectSuccessToast from "$lib/component/toasts/PanoAccountDisconnectSuccessToast.svelte";
+  import PanoAccountDisconnectFailToast from "$lib/component/toasts/PanoAccountDisconnectFailToast.svelte";
 
   export let account = {
     username: "",
