@@ -247,10 +247,10 @@
   import { fade } from "svelte/transition";
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
 
-  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
+  import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import ConfirmSkipSMTPModal, {
     show as showConfirmSkipSMTPModal,
-  } from "$lib/component/modals/ConfirmSkipSMTPModal.svelte";
+  } from "$lib/components/modals/ConfirmSkipSMTPModal.svelte";
 
   let loading = false;
   let error = null;

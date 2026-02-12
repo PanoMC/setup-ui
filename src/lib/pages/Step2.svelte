@@ -161,7 +161,7 @@
   import { nextStep, navigationState } from "$lib/Store.js";
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
 
-  import ErrorAlert from "$lib/component/ErrorAlert.svelte";
+  import ErrorAlert from "$lib/components/ErrorAlert.svelte";
 
   let loading = false;
   let error = null;
