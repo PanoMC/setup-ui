@@ -58,7 +58,10 @@
                 <span
                   class="spinner-border spinner-border-sm me-2"
                   role="status"></span>
-                {$_("steps.database.databases.installing")}
+                {$_("steps.database.databases.installing")}...
+                {#if installProgress > 0}
+                  ({installProgress}%)
+                {/if}
               {:else}
                 <i class="fa fa-download me-2"></i>
                 {$_("steps.database.databases.download-and-install")}
@@ -198,6 +201,7 @@
   }));
 
   onDestroy(() => {
+    clearInterval(progressInterval);
     navigationState.update((s) => {
       if (s.nextAction === submit) {
         return { ...s, nextAction: null, nextLoading: false };
@@ -206,20 +210,34 @@
     });
   });
 
+  let installProgress = 0;
+  let progressInterval;
+
   function installPortableDB() {
     if (!portableSupported) return;
 
     installLoading = true;
     error = null;
+    installProgress = 0;
+
+    progressInterval = setInterval(() => {
+      ApiUtil.get({ path: "/api/setup/step" }).then((body) => {
+        if (body.installProgress !== undefined) {
+          installProgress = body.installProgress;
+        }
+      });
+    }, 500);
 
     ApiUtil.post({
       path: "/api/setup/steps/2/install-portable",
     })
       .then((body) => {
+        clearInterval(progressInterval);
         if (body.result === "ok") {
           database = body.database;
           installed = true;
           installLoading = false;
+          installProgress = 100;
         } else if (body.error) {
           showError(body.error);
           installLoading = false;
@@ -229,6 +247,7 @@
         }
       })
       .catch(() => {
+        clearInterval(progressInterval);
         showError(NETWORK_ERROR);
         installLoading = false;
       });
