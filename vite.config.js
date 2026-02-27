@@ -1,5 +1,5 @@
 import { sveltekit } from "@sveltejs/kit/vite";
-import { loadEnv } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import fs from "fs";
 import path from "path";
 
@@ -63,31 +63,40 @@ function copyManifestPlugin(filename = "manifest.json") {
   };
 }
 
-/** @type {import('vite').UserConfig} */
-const config = {
-  plugins: [
-    sveltekit(),
-    copyLangFolderPlugin(),
-    copyManifestPlugin()
-  ],
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-        quietDeps: true,
-        silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import'],
+export default defineConfig(({ command }) => {
+  return {
+    clearScreen: false,
+    plugins: [sveltekit(), copyLangFolderPlugin(), copyManifestPlugin()],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: "modern-compiler",
+          quietDeps: true,
+          silenceDeprecations: [
+            "mixed-decls",
+            "color-functions",
+            "global-builtin",
+            "import",
+          ],
+        },
       },
     },
-  },
-  server: {
-    proxy: {
-      "/api": env.VITE_API_URL.replace("/api", "")
+    server: {
+      proxy: {
+        "/api": env.VITE_API_URL.replace("/api", ""),
+      },
+      allowedHosts: true,
+      hmr: {
+        path: "/",
+      },
     },
-    allowedHosts: true,
-    hmr: {
-      path: "/",
+    resolve: {
+      alias: {
+        "@theme-style":
+          command === "serve"
+            ? path.resolve(process.cwd(), "src/styles/_empty.scss")
+            : path.resolve(process.cwd(), "src/styles/style.scss"),
+      },
     },
-  }
-};
-
-export default config;
+  };
+});

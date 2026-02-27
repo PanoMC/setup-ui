@@ -29,3 +29,4 @@ functions
 .svelte-kit
 
 .env.local
+/static/style.css
