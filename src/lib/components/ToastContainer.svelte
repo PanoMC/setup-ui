@@ -32,10 +32,6 @@
   }
 
   export async function show(toastComponent, params = {}) {
-    while (!window.bootstrap) {
-      await delay(50);
-    }
-
     const toast = { component: toastComponent, params };
 
     id = id + 1;
