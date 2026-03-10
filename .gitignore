@@ -30,3 +30,4 @@ functions
 
 .env.local
 /static/style.css
+/static/lib

@@ -9,7 +9,7 @@ const isDev = process.env.NODE_ENV === "development";
 // Cache buster to prevent stale browser cache.
 // Each process start generates a new value, forcing fresh file downloads.
 const v = isDev ? '' : `?v=${Date.now()}`;
-const LIB_IMPORT = `<script src="/lib/bootstrap/bootstrap.bundle.min.js${v}"></script>`;
+const LIB_IMPORT = `<script defer src="/lib/bootstrap/bootstrap.bundle.min.js${v}"></script>`;
 const PLACEHOLDER = "%pano_lib_import%";
 const PLACEHOLDER_LEN = PLACEHOLDER.length;
 
