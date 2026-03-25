@@ -126,7 +126,7 @@
   <div class="page-header-wrapper" class:finishing={$isFinishing && !stepInfo.error}>
     <PageHeader
       title={$_("title") + ($currentStep !== 0 ? ` (${$currentStep}/4)` : "")}
-      backgroundImage="/assets/img/wallpaper_minecraft_caves_cliffs(part2)_1920x1080.png" />
+      backgroundImage="/assets/img/cover.png" />
   </div>
 
   <div class="container">

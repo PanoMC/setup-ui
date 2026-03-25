@@ -131,7 +131,7 @@
                     ? panoAccount.username
                     : $_("steps.account.online-account")}
                 </h5>
-                <p class="mb-0 text-success">
+                <p class="mb-0" class:text-success={panoAccount} class:text-body={!panoAccount}>
                   {panoAccount
                     ? "Pano hesabınız başarıyla bağlandı."
                     : $_("steps.account.online-account-description")}

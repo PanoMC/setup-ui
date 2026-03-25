@@ -1,6 +1,8 @@
 <div
   class="hero"
-  style={backgroundImage ? `--bg-image: url('${backgroundImage}')` : ""}>
+  style={backgroundImage
+    ? `--bg-image: radial-gradient(circle at 50% 100%, var(--bs-body-bg) 0%, transparent 500%), url('${backgroundImage}')`
+    : "--bg-image: radial-gradient(circle at 50% 100%, var(--bs-body-bg) 0%, transparent 500%)"}>
   <div
     class="hero-content d-flex justify-content-center align-items-center h-100 w-100">
     <slot name="content">

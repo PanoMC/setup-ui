@@ -35,7 +35,7 @@
       <!-- Selection Details / Context -->
       {#if dbType === "portable"}
         <div class="vstack gap-2">
-          <small>
+          <small class="opacity-75">
             {$_("steps.database.databases.local-portable-db-description")}
           </small>
 
@@ -75,7 +75,7 @@
           {/if}
         </div>
       {:else}
-        <small>
+        <small class="opacity-75">
           {$_("steps.database.databases.mysql-or-mariadb-description")}
         </small>
       {/if}
