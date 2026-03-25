@@ -14,7 +14,7 @@
     "back": "Geri",
     "finish": "Tamamla",
     "docs": "Dokümantasyon",
-    "other": "Diğer",
+    "other": "Özel Yapılandırma",
     "yes": "Evet",
     "cancel": "İptal",
     "start": "Başla"
@@ -23,11 +23,11 @@
   "welcome-title": "Hoş geldiniz",
   "steps": {
     "website": {
-      "title": "İsim",
+      "title": "İsim ve Açıklama",
       "inputs": {
-        "title": "Website (Gerekli)",
+        "title": "Web Site (Gerekli)",
         "description": "Açıklama (Gerekli)",
-        "url": "Website Adresi (Gerekli)",
+        "url": "Web Site Adresi (Gerekli)",
         "url-placeholder": "https://benim-minecraft-sunucu-websitem.com",
         "url-helper": "Web sitenizin ziyaret edileceği tam adresi giriniz."
       }
@@ -111,11 +111,11 @@
     "DB_INSTALL_FAILED": "Taşınabilir MariaDB indirilip kurulurken bir hata oluştu."
   },
   "alpha-warning": {
-    "title": "Alpha Sürüm Uyarısı",
-    "description": "Alpha sürümünü kurmak üzeresiniz. Bu sürüm deneyseldir ve kritik hatalar barındırabilir; tüm sorumluluk tarafınıza aittir."
+    "title": "Alpha Sürüm",
+    "description": "Bu sürüm deneyseldir ve kritik hatalar barındırabilir;"
   },
   "beta-warning": {
-    "title": "Beta Sürüm Uyarısı",
+    "title": "Beta Sürüm",
     "description": "Beta sürümünü kurmak üzeresiniz. Beta sürümleri genellikle yayın adayıdır (release candidate), Alpha'ya kıyasla çok daha stabildir ve en yeni özellikleri içerir."
   },
   "language-label": "Dil Seçin"

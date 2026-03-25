@@ -120,13 +120,12 @@
 </style>
 
 <svelte:head>
-  <title
-    >{$_("title")} {$currentStep !== 0 ? ` (${$currentStep}/4)` : ""}</title>
+  <title>{$_("title")}</title>
 </svelte:head>
 <App>
   <div class="page-header-wrapper" class:finishing={$isFinishing && !stepInfo.error}>
     <PageHeader
-      title={$_("title")}
+      title={$_("title") + ($currentStep !== 0 ? ` (${$currentStep}/4)` : "")}
       backgroundImage="/assets/img/wallpaper_minecraft_caves_cliffs(part2)_1920x1080.png" />
   </div>
 
@@ -171,29 +170,20 @@
           {/if}
         </div>
         <div slot="right" class="hstack gap-2">
-          <a
-            href="{PANO_WEBSITE_URL}/docs"
-            target="_blank"
-            class="btn btn-link"
-            title={$_("buttons.docs")}>
-            <i class="fa-solid fa-book"></i>
-          </a>
           {#if $currentStep !== 0}
             <button
               class="btn btn-link"
               on:click={back}
-              disabled={$navigationState.nextLoading}
-              title={$_("buttons.back")}>
-              <i class="fa-solid fa-arrow-left"></i>
+              disabled={$navigationState.nextLoading}>
+              {$_("buttons.back")}
             </button>
           {/if}
           {#if $navigationState.showSkip}
             <button
-              class="btn btn-link"
+              class="btn btn-primary"
               on:click={$navigationState.skipAction}
-              disabled={$navigationState.nextLoading}
-              title={$_("buttons.skip")}>
-              <i class="fa-solid fa-forward-step"></i>
+              disabled={$navigationState.nextLoading}>
+              {$_("buttons.skip")}
             </button>
           {/if}
           <button
@@ -210,13 +200,6 @@
         </div>
       </PageActions>
       <div class="card">
-        <div
-          class="card-header d-flex justify-content-between align-items-center">
-          <span>{$_($pageTitle)}</span>
-          {#if $currentStep !== 0}
-            ({$currentStep}/4)
-          {/if}
-        </div>
         <slot />
       </div>
 
@@ -328,6 +311,7 @@
   import App from "$lib/components/App.svelte";
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import Footer from "$lib/components/Footer.svelte";
+  import tooltip from "$lib/tooltip.util.js";
   import PageHeader from "$lib/components/PageHeader.svelte";
   import PageActions from "$lib/components/PageActions.svelte";
   import PageNav from "$lib/components/PageNav.svelte";

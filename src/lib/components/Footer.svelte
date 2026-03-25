@@ -37,13 +37,22 @@
       </div>
     </div>
 
-    <div class="col-4 d-flex justify-content-end align-items-center gap-2">
+    <div class="col-4 d-flex justify-content-end align-items-center gap-3">
+      <a
+        href="{PANO_WEBSITE_URL}/docs"
+        target="_blank"
+        rel="noreferrer"
+        class="nav-link"
+        use:tooltip={[$_("buttons.docs"), { placement: "top" }]}
+        aria-label={$_("buttons.docs")}>
+        <i class="fa-solid fa-circle-question"></i>
+      </a>
       <a
         href="{PANO_WEBSITE_URL}/discord"
         target="_blank"
         rel="noreferrer"
         class="nav-link"
-        title="Discord"
+        use:tooltip={["Discord", { placement: "top" }]}
         aria-label="Discord">
         <i class="fa-brands fa-discord"></i>
       </a>
@@ -52,6 +61,8 @@
 </div>
 
 <script>
+  import { _ } from "svelte-i18n";
+  import tooltip from "$lib/tooltip.util.js";
   import { onMount } from "svelte";
   import { PANO_WEBSITE_URL } from "$lib/variables.js";
   

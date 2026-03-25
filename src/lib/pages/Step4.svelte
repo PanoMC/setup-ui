@@ -1,6 +1,47 @@
 
+<style>
+  .connect-account-board {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+  }
 
+  :global([data-bs-theme="light"]) .connect-account-board {
+    --welcome-gradient: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.95) 20%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+  }
 
+  :global([data-bs-theme="dark"]) .connect-account-board,
+  :global([data-bs-theme="copper"]) .connect-account-board {
+    --welcome-gradient: linear-gradient(
+      90deg,
+      rgba(20, 22, 25, 0.95) 20%,
+      rgba(20, 22, 25, 0.5) 100%
+    );
+  }
+
+  @media (max-width: 991.98px) {
+    .connect-account-board {
+      --welcome-gradient: linear-gradient(
+        180deg,
+        rgba(var(--bs-body-bg-rgb), 0.95) 40%,
+        rgba(var(--bs-body-bg-rgb), 0.8) 100%
+      ) !important;
+    }
+  }
+
+  .connect-account-board .alert-link {
+    text-decoration: none;
+  }
+
+  .connect-account-board.interactive {
+    cursor: pointer;
+  }
+</style>
 <div class="animate__animated animate__fadeIn animate__slower">
 
   <form on:submit|preventDefault={submit}>
@@ -74,40 +115,59 @@
 
       <div class="row g-3">
         <div class="col vstack gap-2">
-          <label for="connect-pano-account">
-            {$_("steps.account.online-account")}
-            <small class="d-block"
-              >{$_("steps.account.online-account-description")}</small>
-          </label>
+          <!-- svelte-ignore a11y-click-events-have-key-events -->
+          <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+          <div
+            class="alert alert-secondary connect-account-board border mb-0 focus-ring"
+            class:interactive={!panoAccount && !connecting}
+            role="alert"
+            on:click={!panoAccount && !connecting ? onConnectClick : null}
+            style="background-image: var(--welcome-gradient), url('{base}/assets/img/connect-pano-bg.png');">
+            <div class="row align-items-center">
+              <div class="col-lg-9">
+                <h5 class="alert-heading mb-2">
+                  <i class="fa-solid fa-circle-user me-2"></i>
+                  {panoAccount
+                    ? panoAccount.username
+                    : $_("steps.account.online-account")}
+                </h5>
+                <p class="mb-0 text-success">
+                  {panoAccount
+                    ? "Pano hesabınız başarıyla bağlandı."
+                    : $_("steps.account.online-account-description")}
+                </p>
+              </div>
+              <div class="col-lg-3 text-lg-end mt-3 mt-lg-0">
+                {#if panoAccount}
+                  <div class="hstack gap-2 justify-content-lg-end">
+                    <span class="badge text-bg-gray"
+                      >{maskEmail(panoAccount.email)}</span>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      use:tooltip={[$_("buttons.remove"), { placement: 'bottom' }]}
+                      aria-label={$_("buttons.remove")}
+                      on:click={onDisconnectClick}
+                      disabled={disconnecting}></button>
+                  </div>
+                {:else}
+                  <div class="alert-link rounded border-0 bg-transparent p-0">
+                    {connecting
+                      ? $_("buttons.connecting")
+                      : $_("buttons.connect")}
 
-          {#if panoAccount}
-            <div class="hstack gap-2">
-              <span class="badge text-bg-gray"
-                >{maskEmail(panoAccount.email)}</span>
-              <button
-                type="button"
-                title={$_("buttons.remove")}
-                aria-label={$_("buttons.remove")}
-                class="btn-close"
-                on:click={onDisconnectClick}
-                disabled={disconnecting}></button>
+                    {#if connecting}
+                      <span
+                        class="spinner-border spinner-border-sm text-primary ms-2"
+                        role="status"></span>
+                    {:else}
+                      <i class="fa-solid fa-arrow-right ms-1"></i>
+                    {/if}
+                  </div>
+                {/if}
+              </div>
             </div>
-          {:else}
-            <button
-              id="connect-pano-account"
-              type="button"
-              class="btn btn-sm btn-secondary lh-base d-block me-auto"
-              on:click={onConnectClick}
-              disabled={connecting}>
-              {connecting ? $_("buttons.connecting") : $_("buttons.connect")}
-
-              {#if connecting}
-                <span
-                  class="spinner-border spinner-border-sm text-primary ms-2"
-                  role="status"></span>
-              {/if}
-            </button>
-          {/if}
+          </div>
         </div>
       </div>
     </div>
@@ -134,11 +194,13 @@
 
 <script>
   import { _ } from "svelte-i18n";
+  import tooltip from "$lib/tooltip.util.js";
   import { onDestroy } from "svelte";
 
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
+  import { base } from "$app/paths";
 
   import { navigationState, isFinishing } from "$lib/Store.js";
   import ApiUtil, { buildQueryParams, NETWORK_ERROR } from "$lib/api.util.js";

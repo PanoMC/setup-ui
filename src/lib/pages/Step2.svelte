@@ -2,7 +2,7 @@
   <div>
     <div class="card-body vstack gap-3">
       <!-- Database Type Selection (Nav Pills) -->
-      <ul class="nav nav-pills nav-fill">
+      <ul class="nav nav-underline nav-fill">
         <li class="nav-item">
           <button
             type="button"
