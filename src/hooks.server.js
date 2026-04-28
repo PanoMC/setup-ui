@@ -13,6 +13,10 @@ const LIB_IMPORT = `<script defer src="/lib/bootstrap/bootstrap.bundle.min.js${v
 const PLACEHOLDER = "%pano_lib_import%";
 const PLACEHOLDER_LEN = PLACEHOLDER.length;
 
+function getCookieWithHttpFallback(cookies, baseName) {
+  return cookies.get(baseName) ?? cookies.get(`${baseName}_http`);
+}
+
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({
   event,
@@ -24,7 +28,7 @@ export async function handle({
 }) {
   event.locals.acceptedLanguage = getAcceptedLanguage(headers);
 
-  event.locals.CSRFToken = cookies.get(COOKIE_PREFIX + CSRF_TOKEN_COOKIE_NAME);
+  event.locals.CSRFToken = getCookieWithHttpFallback(cookies, COOKIE_PREFIX + CSRF_TOKEN_COOKIE_NAME);
 
   return resolve(event, {
     transformPageChunk: ({ html }) => {
