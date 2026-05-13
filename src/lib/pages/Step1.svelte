@@ -33,6 +33,12 @@
         <div class="form-text">
           {$_("steps.website.inputs.url-helper")}
         </div>
+        {#if hostMismatch}
+          <div class="alert alert-warning d-flex align-items-start mt-2 mb-0">
+            <i class="fas fa-triangle-exclamation me-2 mt-1"></i>
+            <div>{$_("steps.website.inputs.url-host-mismatch")}</div>
+          </div>
+        {/if}
       </div>
     </div>
   </form>
@@ -71,6 +77,25 @@
 
   $: disabled =
     websiteName === "" || websiteDescription === "" || websiteUrl === "";
+
+  function extractHost(value) {
+    if (!value) return "";
+    try {
+      const normalized = value.includes("://") ? value : "https://" + value;
+      return new URL(normalized).hostname;
+    } catch (_) {
+      return value
+        .replace(/^https?:\/\//, "")
+        .split("/")[0]
+        .split(":")[0];
+    }
+  }
+
+  $: typedHost = extractHost(websiteUrl);
+  $: hostMismatch =
+    typeof window !== "undefined" &&
+    typedHost !== "" &&
+    typedHost.toLowerCase() !== window.location.hostname.toLowerCase();
 
   $: navigationState.update((s) => ({
     ...s,

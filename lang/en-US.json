@@ -26,7 +26,8 @@
         "description": "Description (Required)",
         "url": "Website Url (Required)",
         "url-placeholder": "https://my-minecraft-server-website.com",
-        "url-helper": "Enter the full address where your website will be visited."
+        "url-helper": "Enter the full address where your website will be visited.",
+        "url-host-mismatch": "The address you entered is different from the one you're currently using to access Pano. After setup, Pano will automatically redirect visitors arriving on other hosts (including IP addresses) to this address. If you can't reach the new address, set `website-url-redirect: false` in the config file to disable the redirect — but cross-host logins may not work because authentication cookies are bound to this host."
       }
     },
     "database": {
