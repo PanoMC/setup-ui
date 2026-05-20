@@ -19,6 +19,6 @@
 </style>
 
 <ul
-  class="nav nav-underline d-flex flex-nowrap overflow-x-auto text-nowrap no-scrollbar scroll-center">
+  class="nav nav-pills d-flex flex-nowrap overflow-x-auto text-nowrap no-scrollbar scroll-center">
   <slot />
 </ul>

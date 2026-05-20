@@ -1,23 +1,26 @@
 <div class="animate__animated animate__fadeIn animate__slower">
   <form on:submit|preventDefault={submit}>
     <div class="card-body vstack gap-3">
-      <div class="form-floating">
-        <input
-          id="websiteName"
-          class="form-control form-control-lg"
-          placeholder="Panocraft"
-          type="text"
-          bind:value={websiteName} />
-        <label for="websiteName">{$_("steps.website.inputs.title")}</label>
-      </div>
-      <div class="form-floating">
-        <textarea
-          id="websiteDescription"
-          class="form-control"
-          style="height: 128px;"
-          bind:value={websiteDescription}></textarea>
-        <label for="websiteName"
-          >{$_("steps.website.inputs.description")}</label>
+      <div class="d-flex flex-column">
+        <div class="form-floating input-group-top">
+          <input
+            id="websiteName"
+            class="form-control form-control-lg rounded-bottom-0"
+            placeholder="Panocraft"
+            type="text"
+            bind:value={websiteName} />
+          <label for="websiteName">{$_("steps.website.inputs.title")}</label>
+        </div>
+        <div class="form-floating input-group-bottom">
+          <textarea
+            id="websiteDescription"
+            class="form-control rounded-top-0"
+            placeholder=" "
+            style="height: 128px;"
+            bind:value={websiteDescription}></textarea>
+          <label for="websiteDescription"
+            >{$_("steps.website.inputs.description")}</label>
+        </div>
       </div>
 
       <div>
@@ -126,3 +129,24 @@
     }
   }
 </script>
+
+<style>
+  .input-group-top {
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 1;
+  }
+  .input-group-top:focus-within {
+    z-index: 3;
+  }
+  .input-group-top .form-control:not(:focus) {
+    border-bottom-color: transparent;
+  }
+  .input-group-bottom {
+    position: relative;
+    z-index: 1;
+  }
+  .input-group-bottom:focus-within {
+    z-index: 3;
+  }
+</style>

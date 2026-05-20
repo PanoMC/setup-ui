@@ -1,64 +1,70 @@
 <style>
   .navbar {
-    opacity: 0.5;
-    transition: opacity 0.3s ease-in-out;
+    background-color: var(--bs-body-bg) !important;
   }
-
-  .navbar:hover {
-    opacity: 1;
-  }
-
-  .brand-box {
-    width: 32px;
-    height: 32px;
-    background-color: var(--bs-primary);
-    border-radius: 8px;
+  
+  .navbar-brand-centered {
+    margin: 0;
+    z-index: 1050;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
+  }
+
+  .nav-link i {
+    font-size: 1.15rem;
   }
 </style>
 
-<div class="navbar">
-  <div class="container d-flex justify-content-between align-items-center">
-    <div class="col-4 d-flex align-items-center gap-2">
-      <small class="nav-text">{version === "local-build" ? version : "v" + version}</small>
-    </div>
-
-    <div class="col-4 text-center">
-      <div class="d-inline-flex flex-column align-items-center">
-        <a
-          href={PANO_WEBSITE_URL}
-          target="_blank"
-          class="brand-box mx-auto shadow-sm">
-          <img src="/assets/img/logo.svg" width="24" height="24" alt="Pano" />
-        </a>
+<nav
+  class="navbar navbar-expand-xl border-bottom"
+  style="z-index: 1040;">
+  <div class="container d-flex align-items-center">
+    <div class="col-4 d-flex align-items-center order-1 gap-2">
+      <div class="nav-item">
+        <span class="nav-text opacity-75">{version === "local-build" ? version : "v" + version}</span>
       </div>
     </div>
 
-    <div class="col-4 d-flex justify-content-end align-items-center gap-3">
-      <a
-        href="{PANO_WEBSITE_URL}/docs"
-        target="_blank"
-        rel="noreferrer"
-        class="nav-link"
-        use:tooltip={[$_("buttons.docs"), { placement: "top" }]}
-        aria-label={$_("buttons.docs")}>
-        <i class="fa-solid fa-circle-question"></i>
-      </a>
-      <a
-        href="{PANO_WEBSITE_URL}/discord"
-        target="_blank"
-        rel="noreferrer"
-        class="nav-link"
-        use:tooltip={["Discord", { placement: "top" }]}
-        aria-label="Discord">
-        <i class="fa-brands fa-discord"></i>
-      </a>
+    <div class="col-4 d-flex justify-content-center order-2">
+      <div class="navbar-brand-centered">
+        <a
+          href={PANO_WEBSITE_URL}
+          target="_blank"
+          aria-label="Pano"
+          class="navbar-brand me-0 d-inline-flex align-items-center justify-content-center bg-primary rounded"
+          style="width: 32px; height: 32px;">
+          <img src="/assets/img/logo.svg" width="24" height="24" alt="Pano" />
+        </a>
+      </div>  
+    </div>
+
+    <div class="col-4 d-flex justify-content-end align-items-center gap-3 order-3">
+      <div class="nav-item">
+        <a
+          href="{PANO_WEBSITE_URL}/docs"
+          target="_blank"
+          rel="noreferrer"
+          class="nav-link"
+          use:tooltip={[$_("buttons.docs"), { placement: "bottom" }]}
+          aria-label={$_("buttons.docs")}>
+          <i class="fa-solid fa-circle-question"></i>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a
+          href="{PANO_WEBSITE_URL}/discord"
+          target="_blank"
+          rel="noreferrer"
+          class="nav-link"
+          use:tooltip={["Discord", { placement: "bottom" }]}
+          aria-label="Discord">
+          <i class="fa-brands fa-discord"></i>
+        </a>
+      </div>
     </div>
   </div>
-</div>
+</nav>
 
 <script>
   import { _ } from "svelte-i18n";

@@ -23,7 +23,7 @@
   "welcome-title": "Hoş geldiniz",
   "steps": {
     "website": {
-      "title": "İsim ve Açıklama",
+      "title": "Kimlik",
       "inputs": {
         "title": "Web Site (Gerekli)",
         "description": "Açıklama (Gerekli)",
@@ -63,6 +63,7 @@
         "password": "Şifre (Gerekli)",
         "details-button": "Ayrıntılar",
         "ssl": "SSL Kullan",
+        "active": "Aktif",
         "tls-setting": "TLS Ayarı",
         "sending-address": "Gönderici Adresi (Gerekli)",
         "hostname": "Sağlayıcı Adresi (Gerekli)",
@@ -113,7 +114,7 @@
   },
   "alpha-warning": {
     "title": "Alpha Sürüm",
-    "description": "Bu sürüm deneyseldir ve kritik hatalar barındırabilir;"
+    "description": "Bu sürüm deneyseldir ve kritik hatalar barındırabilir."
   },
   "beta-warning": {
     "title": "Beta Sürüm",

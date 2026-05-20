@@ -2,7 +2,7 @@
   <div>
     <div class="card-body vstack gap-3">
       <!-- Database Type Selection (Nav Pills) -->
-      <ul class="nav nav-underline nav-fill">
+      <ul class="nav nav-pills nav-fill">
         <li class="nav-item">
           <button
             type="button"
@@ -51,7 +51,7 @@
           {:else if !installed}
             <button
               type="button"
-              class="btn btn-primary btn-sm mt-1"
+              class="btn btn-primary mt-1 text-decoration-none"
               on:click={installPortableDB}
               disabled={installLoading}>
               {#if installLoading}
@@ -81,8 +81,8 @@
       {/if}
 
       <!-- Manual Connection Fields -->
-      <div class="row g-3" class:d-none={dbType === "portable"}>
-        <div class="col-lg-6">
+      <div class="d-flex flex-column align-items-center w-100 pt-2" class:d-none={dbType === "portable"}>
+        <div class="merged-grid w-100">
           <div class="form-floating">
             <input
               class="form-control"
@@ -93,8 +93,6 @@
             <label for="databaseAddress"
               >{$_("steps.database.inputs.address")}</label>
           </div>
-        </div>
-        <div class="col-lg-6">
           <div class="form-floating">
             <input
               class="form-control"
@@ -104,9 +102,6 @@
               type="text" />
             <label for="databaseName">{$_("steps.database.inputs.name")}</label>
           </div>
-        </div>
-
-        <div class="col-lg-6">
           <div class="form-floating">
             <input
               class="form-control"
@@ -117,8 +112,6 @@
             <label for="databaseUserName"
               >{$_("steps.database.inputs.username")}</label>
           </div>
-        </div>
-        <div class="col-lg-6">
           <div class="form-floating">
             <input
               class="form-control"
@@ -130,17 +123,16 @@
               >{$_("steps.database.inputs.password")}</label>
           </div>
         </div>
-        <div class="col-12">
-          <div class="form-floating">
-            <input
-              class="form-control"
-              id="databaseTablePrefix"
-              placeholder="pano_"
-              bind:value={database.prefix}
-              type="text" />
-            <label for="databaseTablePrefix"
-              >{$_("steps.database.inputs.prefix")}</label>
-          </div>
+
+        <div class="form-floating w-100 mt-3 prefix-input-wrapper">
+          <input
+            class="form-control"
+            id="databaseTablePrefix"
+            placeholder="pano_"
+            bind:value={database.prefix}
+            type="text" />
+          <label for="databaseTablePrefix"
+            >{$_("steps.database.inputs.prefix")}</label>
         </div>
       </div>
     </div>
@@ -294,3 +286,81 @@
     error = errorCode;
   }
 </script>
+
+<style>
+  .merged-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+  
+  .merged-grid .form-control {
+    border-radius: 0;
+  }
+  
+  .merged-grid > .form-floating {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .merged-grid > .form-floating:focus-within {
+    z-index: 3;
+  }
+
+  /* Mobile: stacked 1x4 */
+  @media (max-width: 991.98px) {
+    .merged-grid > :first-child .form-control {
+      border-top-left-radius: var(--bs-border-radius) !important;
+      border-top-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :last-child .form-control {
+      border-bottom-left-radius: var(--bs-border-radius) !important;
+      border-bottom-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :not(:last-child) {
+      margin-bottom: -1px;
+    }
+    .merged-grid > :not(:last-child) .form-control:not(:focus) {
+      border-bottom-color: transparent;
+    }
+  }
+
+  /* Desktop: 2x2 grid centered */
+  @media (min-width: 992px) {
+    .merged-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .merged-grid > :nth-child(1) .form-control {
+      border-top-left-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :nth-child(2) .form-control {
+      border-top-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :nth-child(3) .form-control {
+      border-bottom-left-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :nth-child(4) .form-control {
+      border-bottom-right-radius: var(--bs-border-radius) !important;
+    }
+
+    /* overlap row 1 over row 2 */
+    .merged-grid > :nth-child(1),
+    .merged-grid > :nth-child(2) {
+      margin-bottom: -1px;
+    }
+    /* overlap col 1 over col 2 */
+    .merged-grid > :nth-child(odd) {
+      margin-right: -1px;
+    }
+
+    /* Transparent borders to prevent thick lines */
+    .merged-grid > :nth-child(1) .form-control:not(:focus),
+    .merged-grid > :nth-child(2) .form-control:not(:focus) {
+      border-bottom-color: transparent;
+    }
+    .merged-grid > :nth-child(odd) .form-control:not(:focus) {
+      border-right-color: transparent;
+    }
+  }
+</style>

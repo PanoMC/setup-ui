@@ -41,6 +41,82 @@
   .connect-account-board.interactive {
     cursor: pointer;
   }
+
+  .merged-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+  
+  .merged-grid .form-control {
+    border-radius: 0;
+  }
+  
+  .merged-grid > .form-floating {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .merged-grid > .form-floating:focus-within {
+    z-index: 3;
+  }
+
+  /* Mobile: stacked 1x4 */
+  @media (max-width: 991.98px) {
+    .merged-grid > :first-child .form-control {
+      border-top-left-radius: var(--bs-border-radius) !important;
+      border-top-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :last-child .form-control {
+      border-bottom-left-radius: var(--bs-border-radius) !important;
+      border-bottom-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :not(:last-child) {
+      margin-bottom: -1px;
+    }
+    .merged-grid > :not(:last-child) .form-control:not(:focus) {
+      border-bottom-color: transparent;
+    }
+  }
+
+  /* Desktop: 2x2 grid centered */
+  @media (min-width: 992px) {
+    .merged-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .merged-grid > :nth-child(1) .form-control {
+      border-top-left-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :nth-child(2) .form-control {
+      border-top-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :nth-child(3) .form-control {
+      border-bottom-left-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :nth-child(4) .form-control {
+      border-bottom-right-radius: var(--bs-border-radius) !important;
+    }
+
+    /* overlap row 1 over row 2 */
+    .merged-grid > :nth-child(1),
+    .merged-grid > :nth-child(2) {
+      margin-bottom: -1px;
+    }
+    /* overlap col 1 over col 2 */
+    .merged-grid > :nth-child(odd) {
+      margin-right: -1px;
+    }
+
+    /* Transparent borders to prevent thick lines */
+    .merged-grid > :nth-child(1) .form-control:not(:focus),
+    .merged-grid > :nth-child(2) .form-control:not(:focus) {
+      border-bottom-color: transparent;
+    }
+    .merged-grid > :nth-child(odd) .form-control:not(:focus) {
+      border-right-color: transparent;
+    }
+  }
 </style>
 <div class="animate__animated animate__fadeIn animate__slower">
 
@@ -63,29 +139,27 @@
         </div>
       {/if}
 
-      <div class="row g-3">
-        <div class="col-md-6">
+      <div class="d-flex flex-column align-items-center w-100">
+        <div class="merged-grid w-100">
           <div class="form-floating">
             <input
               class="form-control"
               id="admin-email"
               type="email"
+              placeholder="admin@example.com"
               bind:value={account.email} />
             <label for="admin-email">{$_("steps.account.inputs.email")}</label>
           </div>
-        </div>
-        <div class="col-md-6">
           <div class="form-floating">
             <input
               class="form-control"
               id="admin-username"
               type="text"
+              placeholder="admin"
               bind:value={account.username} />
             <label for="admin-username"
               >{$_("steps.account.inputs.username")}</label>
           </div>
-        </div>
-        <div class="col-md-6">
           <div class="form-floating">
             <input
               type="password"
@@ -95,10 +169,7 @@
               bind:value={account.password} />
             <label for="admin-password"
               >{$_("steps.account.inputs.password")}</label>
-            <small>{$_("steps.account.inputs.password-help-text")}</small>
           </div>
-        </div>
-        <div class="col-md-6">
           <div class="form-floating">
             <input
               type="password"
@@ -108,9 +179,9 @@
               bind:value={account.passwordRepeat} />
             <label for="admin-password-repeat"
               >{$_("steps.account.inputs.password-repeat")}</label>
-            <small>{$_("steps.account.inputs.password-help-text")}</small>
           </div>
         </div>
+        <small class="text-body-secondary w-100 mt-2">{$_("steps.account.inputs.password-help-text")}</small>
       </div>
 
       <div class="row g-3">

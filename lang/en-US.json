@@ -20,7 +20,7 @@
   "welcome-title": "Welcome",
   "steps": {
     "website": {
-      "title": "Website Name & Description",
+      "title": "Identity",
       "inputs": {
         "title": "Title (Required)",
         "description": "Description (Required)",
@@ -60,6 +60,7 @@
         "password": "Password (Required)",
         "details-button": "Details",
         "ssl": "Use SSL",
+        "active": "Active",
         "tls-setting": "TLS Setting",
         "sending-address": "Sender Address (Required)",
         "hostname": "Hostname (Required)",
@@ -110,7 +111,7 @@
   },
   "alpha-warning": {
     "title": "Alpha Version",
-    "description": "You are about to install the Alpha version. This version is experimental and may contain critical errors; all responsibility belongs to you."
+    "description": "This version is experimental and may contain critical errors."
   },
   "beta-warning": {
     "title": "Beta Version",

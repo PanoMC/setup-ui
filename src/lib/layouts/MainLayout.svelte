@@ -18,10 +18,6 @@
   }
 
   .logo-wrapper {
-    background-color: var(--bs-primary);
-    padding: 8px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 64px;
     height: 64px;
   }
@@ -123,9 +119,13 @@
   <title>{$_("title")}</title>
 </svelte:head>
 <App>
+  <div class:d-none={$isFinishing}>
+    <Navbar version={stepInfo.version} />
+  </div>
   <div class="page-header-wrapper" class:finishing={$isFinishing && !stepInfo.error}>
     <PageHeader
-      title={$_("title") + ($currentStep !== 0 ? ` (${$currentStep}/4)` : "")}
+      title={$_("title")}
+      subTitle={$currentStep !== 0 ? `(${$currentStep}/4)` : undefined}
       backgroundImage="/assets/img/cover.png" />
   </div>
 
@@ -178,32 +178,33 @@
               {$_("buttons.back")}
             </button>
           {/if}
-          {#if $navigationState.showSkip}
-            <button
-              class="btn btn-primary"
-              on:click={$navigationState.skipAction}
-              disabled={$navigationState.nextLoading}>
-              {$_("buttons.skip")}
-            </button>
-          {/if}
-          <button
-            class="btn btn-secondary"
-            on:click={handleNext}
-            disabled={$navigationState.nextDisabled ||
-              $navigationState.nextLoading}>
-            {#if $navigationState.nextLoading}
-              <span class="spinner-border spinner-border-sm me-2" role="status"
-              ></span>
+          
+          <div class="btn-group">
+            {#if $navigationState.showSkip}
+              <button
+                class="btn btn-secondary"
+                on:click={$navigationState.skipAction}
+                disabled={$navigationState.nextLoading}>
+                {$_("buttons.skip")}
+              </button>
             {/if}
-            {$_($navigationState.nextLabel)}
-          </button>
+            <button
+              class="btn btn-secondary"
+              on:click={handleNext}
+              disabled={$navigationState.nextDisabled ||
+                $navigationState.nextLoading}>
+              {#if $navigationState.nextLoading}
+                <span class="spinner-border spinner-border-sm me-2" role="status"
+                ></span>
+              {/if}
+              {$_($navigationState.nextLabel)}
+            </button>
+          </div>
         </div>
       </PageActions>
       <div class="card">
         <slot />
       </div>
-
-      <Footer version={stepInfo.version} />
     </div>
   </div>
 </App>
@@ -310,7 +311,7 @@
 
   import App from "$lib/components/App.svelte";
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
-  import Footer from "$lib/components/Footer.svelte";
+  import Navbar from "$lib/components/Navbar.svelte";
   import tooltip from "$lib/tooltip.util.js";
   import PageHeader from "$lib/components/PageHeader.svelte";
   import PageActions from "$lib/components/PageActions.svelte";

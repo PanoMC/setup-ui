@@ -19,7 +19,7 @@
       {:else}
         <div in:fade>
           <button
-            class="btn btn-primary btn-sm mb-3"
+            class="btn btn-link px-0 text-decoration-none mb-3"
             on:click={() => (chosenService = null)}>
             <i class="fa-solid fa-arrow-left me-1"></i>
             {$_("steps.email.return-back-to-service-list-text")}
@@ -27,31 +27,27 @@
 
           <h5>{$_(services[chosenService].name)}</h5>
 
-          <div class="row g-3">
-            <div class="col-6">
-              <div class="form-floating">
-                <input
-                  class="form-control"
-                  id="mailUsername"
-                  type="text"
-                  placeholder="no-reply"
-                  bind:value={mailConfiguration[chosenService].username}
-                  on:input={onUsernameChange} />
-                <label for="mailUsername"
-                  >{$_("steps.email.inputs.username")}</label>
-              </div>
+          <div class="merged-grid w-100">
+            <div class="form-floating">
+              <input
+                class="form-control"
+                id="mailUsername"
+                type="text"
+                placeholder="no-reply"
+                bind:value={mailConfiguration[chosenService].username}
+                on:input={onUsernameChange} />
+              <label for="mailUsername"
+                >{$_("steps.email.inputs.username")}</label>
             </div>
-            <div class="col-6">
-              <div class="form-floating">
-                <input
-                  class="form-control"
-                  id="mailUserPassword"
-                  placeholder="****************"
-                  type="password"
-                  bind:value={mailConfiguration[chosenService].password} />
-                <label for="mailUserPassword"
-                  >{$_("steps.email.inputs.password")}</label>
-              </div>
+            <div class="form-floating">
+              <input
+                class="form-control"
+                id="mailUserPassword"
+                placeholder="****************"
+                type="password"
+                bind:value={mailConfiguration[chosenService].password} />
+              <label for="mailUserPassword"
+                >{$_("steps.email.inputs.password")}</label>
             </div>
           </div>
 
@@ -60,7 +56,8 @@
               >{$_("steps.email.inputs.details-button")}</summary>
 
             <div class="row g-3 pt-2">
-              <div class="col-6 mb-3">
+              <div class="col-12 col-md-6 mb-3">
+                <label class="form-label">{$_("steps.email.inputs.ssl")}</label>
                 <div class="form-check">
                   <input
                     class="form-check-input"
@@ -70,12 +67,12 @@
                     aria-checked={mailConfiguration[chosenService].ssl}
                     bind:checked={mailConfiguration[chosenService].ssl} />
                   <label class="form-check-label" for="ssl">
-                    {$_("steps.email.inputs.ssl")}
+                    {$_("steps.email.inputs.active")}
                   </label>
                 </div>
               </div>
-              <div class="col-6 mb-3">
-                <label for="port">{$_("steps.email.inputs.tls-setting")}</label>
+              <div class="col-12 col-md-6 mb-3">
+                <label class="form-label" for="port">{$_("steps.email.inputs.tls-setting")}</label>
                 <select
                   class="form-select"
                   id="port"
@@ -88,9 +85,9 @@
             </div>
 
             <div class="row">
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <div class="mb-3">
-                  <label for="sendingAddress"
+                  <label class="form-label" for="sendingAddress"
                     >{$_("steps.email.inputs.sending-address")}</label>
                   <input
                     class="form-control"
@@ -101,9 +98,9 @@
                 </div>
               </div>
 
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <div class="mb-3">
-                  <label for="hostname"
+                  <label class="form-label" for="hostname"
                     >{$_("steps.email.inputs.hostname")}</label>
                   <input
                     class="form-control"
@@ -114,9 +111,9 @@
                 </div>
               </div>
 
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <div class="mb-3">
-                  <label for="port">{$_("steps.email.inputs.port")}</label>
+                  <label class="form-label" for="port">{$_("steps.email.inputs.port")}</label>
                   <input
                     class="form-control"
                     id="port"
@@ -126,9 +123,9 @@
                 </div>
               </div>
 
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <div class="mb-3">
-                  <label for="port"
+                  <label class="form-label" for="port"
                     >{$_("steps.email.inputs.auth-method")}</label>
                   <select
                     class="form-select"
@@ -355,3 +352,66 @@
       mailConfiguration[chosenService].username;
   }
 </script>
+
+<style>
+  .merged-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+  
+  .merged-grid .form-control {
+    border-radius: 0;
+  }
+  
+  .merged-grid > .form-floating {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .merged-grid > .form-floating:focus-within {
+    z-index: 3;
+  }
+
+  /* Mobile: stacked 1x2 */
+  @media (max-width: 768px) {
+    .merged-grid > :first-child .form-control {
+      border-top-left-radius: var(--bs-border-radius) !important;
+      border-top-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :last-child .form-control {
+      border-bottom-left-radius: var(--bs-border-radius) !important;
+      border-bottom-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :not(:last-child) {
+      margin-bottom: -1px;
+    }
+    .merged-grid > :not(:last-child) .form-control:not(:focus) {
+      border-bottom-color: transparent;
+    }
+  }
+
+  /* Desktop: 1x2 grid side by side */
+  @media (min-width: 769px) {
+    .merged-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .merged-grid > :nth-child(1) .form-control {
+      border-top-left-radius: var(--bs-border-radius) !important;
+      border-bottom-left-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :nth-child(2) .form-control {
+      border-top-right-radius: var(--bs-border-radius) !important;
+      border-bottom-right-radius: var(--bs-border-radius) !important;
+    }
+
+    .merged-grid > :nth-child(1) {
+      margin-right: -1px;
+    }
+
+    .merged-grid > :nth-child(1) .form-control:not(:focus) {
+      border-right-color: transparent;
+    }
+  }
+</style>
