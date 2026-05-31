@@ -1,5 +1,6 @@
 <div class="animate__animated animate__fadeIn">
   <div>
+    <CardHeader>{$_("steps.database.title")}</CardHeader>
     <div class="card-body vstack gap-3">
       <!-- Database Type Selection (Nav Pills) -->
       <ul class="nav nav-pills nav-fill">
@@ -150,6 +151,7 @@
 </script>
 
 <script>
+  import CardHeader from "$lib/components/CardHeader.svelte";
   import { _ } from "svelte-i18n";
   import { onDestroy } from "svelte";
 

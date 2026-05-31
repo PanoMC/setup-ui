@@ -121,6 +121,7 @@
 <div class="animate__animated animate__fadeIn animate__slower">
 
   <form on:submit|preventDefault={submit}>
+    <CardHeader>{$_("steps.account.title")}</CardHeader>
     <div class="card-body vstack gap-3">
       <ErrorAlert error={error} />
 
@@ -264,6 +265,7 @@
 </script>
 
 <script>
+  import CardHeader from "$lib/components/CardHeader.svelte";
   import { _ } from "svelte-i18n";
   import tooltip from "$lib/tooltip.util.js";
   import { onDestroy } from "svelte";

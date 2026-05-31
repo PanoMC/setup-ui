@@ -117,5 +117,17 @@
     "title": "Beta Version",
     "description": "You are about to install the Beta version. Beta versions are generally release candidates, much more stable than Alpha, and include the latest features."
   },
-  "language-label": "Select Language"
+  "language-label": "Select Language",
+  "import": {
+    "toggle-btn": "Transfer Data",
+    "pano-host": {
+      "title": "Host",
+      "badge": "Recommended",
+      "description": "Connect your Pano Host account to import backups and settings directly from the cloud."
+    },
+    "other-pano": {
+      "title": "Transfer from another Pano",
+      "description": "Upload a previously downloaded Pano backup file."
+    }
+  }
 }

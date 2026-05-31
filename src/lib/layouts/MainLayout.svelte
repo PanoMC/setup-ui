@@ -179,6 +179,16 @@
             </button>
           {/if}
           
+          {#if $currentStep === 0 && $navigationState.showTransfer}
+            <button
+              class="btn btn-primary"
+              on:click={$navigationState.transferAction}
+              disabled={$navigationState.nextLoading}>
+              <i class="fa-solid fa-cloud-arrow-down me-2"></i>
+              {$_("import.toggle-btn")}
+            </button>
+          {/if}
+
           <div class="btn-group">
             {#if $navigationState.showSkip}
               <button

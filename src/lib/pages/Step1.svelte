@@ -1,5 +1,6 @@
 <div class="animate__animated animate__fadeIn animate__slower">
   <form on:submit|preventDefault={submit}>
+    <CardHeader>{$_("steps.website.title")}</CardHeader>
     <div class="card-body vstack gap-3">
       <div class="d-flex flex-column">
         <div class="form-floating input-group-top">
@@ -59,6 +60,7 @@
 </script>
 
 <script>
+  import CardHeader from "$lib/components/CardHeader.svelte";
   import { nextStep, navigationState } from "$lib/Store.js";
   import { _ } from "svelte-i18n";
   import { onDestroy, onMount } from "svelte";

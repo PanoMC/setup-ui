@@ -120,5 +120,17 @@
     "title": "Beta Sürüm",
     "description": "Beta sürümünü kurmak üzeresiniz. Beta sürümleri genellikle yayın adayıdır (release candidate), Alpha'ya kıyasla çok daha stabildir ve en yeni özellikleri içerir."
   },
-  "language-label": "Dil Seçin"
+  "language-label": "Dil Seçin",
+  "import": {
+    "toggle-btn": "Verileri Transfer Et",
+    "pano-host": {
+      "title": "Host",
+      "badge": "Önerilen",
+      "description": "Pano Host hesabınızı bağlayarak yedeklerinizi ve ayarlarınızı doğrudan buluttan aktarın."
+    },
+    "other-pano": {
+      "title": "Başka bir Pano'dan Transfer Et",
+      "description": "Daha önce indirdiğiniz bir Pano yedek dosyasını yükleyin."
+    }
+  }
 }
