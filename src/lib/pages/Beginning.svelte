@@ -47,8 +47,12 @@
 </div>
 
 {#if showTransferModal}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div transition:fade={{ duration: 150 }} class="modal-backdrop fade show" on:click={() => showTransferModal = false}></div>
 
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div
     transition:fade={{ duration: 150 }}
     class="modal fade show d-block"
@@ -58,8 +62,8 @@
     <div in:fly={{ y: -50, duration: 300 }} out:fly={{ y: -50, duration: 150 }} class="modal-dialog modal-dialog-centered">
       <div class="modal-content text-start">
         <div class="modal-header">
-          <h5 class="modal-title">{$_("import.toggle-btn")}</h5>
-          <button type="button" class="btn-close shadow-none" on:click={() => showTransferModal = false} aria-label="Close"></button>
+          <h5 class="modal-title">{$_("import.modal-title")}</h5>
+          <button type="button" class="btn-close" on:click={() => showTransferModal = false} aria-label="Close"></button>
         </div>
         <div class="modal-body overflow-hidden p-0">
           <div class="modal-steps-container" class:slide-active={modalStep === 'pano-transfer'}>
@@ -75,10 +79,10 @@
                       <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded" style="width: 24px; height: 24px;">
                         <img src="/assets/img/logo.svg" width="16" height="16" alt="Pano" />
                       </div>
-                      <span class="text-body">{$_("import.pano-host.title")}</span>
+                      <h5 class="mb-0">{$_("import.pano-host.title")}</h5>
                       <span class="badge text-bg-primary">{$_("import.pano-host.badge")}</span>
                     </div>
-                    <div class="text-body-secondary mt-2">
+                    <div class="text-body-secondary mt-2 fw-normal">
                       {$_("import.pano-host.description")}
                     </div>
                   </div>
@@ -91,9 +95,9 @@
                   on:click={() => { modalStep = 'pano-transfer'; }}>
                   <div class="me-auto text-start">
                     <div class="d-flex align-items-center gap-2">
-                      <span class="text-body">{$_("import.other-pano.title")}</span>
+                      <h5 class="mb-0">{$_("import.other-pano.title")}</h5>
                     </div>
-                    <div class="text-body-secondary mt-1">
+                    <div class="text-body-secondary mt-1 fw-normal">
                       {$_("import.other-pano.description")}
                     </div>
                   </div>
@@ -124,6 +128,19 @@
                     bind:value={platformUrl} />
                   <label for="platformUrlInput">Platform URL</label>
                 </div>
+
+                {#if !isUrlConnected}
+                  <div class="mt-1 ms-1 small">
+                    <a
+                      href="{PANO_WEBSITE_URL}/profile/platforms"
+                      target="_blank"
+                      rel="noreferrer"
+                      class="text-decoration-none small d-inline-flex align-items-center gap-1">
+                      <span>{$_("import.get-platform-url")}</span>
+                      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                  </div>
+                {/if}
 
                 {#if isUrlConnected}
                   <div transition:slide={{ duration: 200 }} class="form-floating">
@@ -185,6 +202,7 @@
     Languages,
   } from "$lib/language.util";
   import { _, isLoading } from "svelte-i18n";
+  import { PANO_WEBSITE_URL } from "$lib/variables.js";
 
   export let stepInfo;
 

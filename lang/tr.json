@@ -75,6 +75,9 @@
       "title": "Hesap",
       "online-account": "Çevrimiçi Hesap",
       "online-account-description": "Eklenti, tema ve güncellemelere erişebilmek için çevrimiçi Pano hesabınızı bağlayın.",
+      "featured-plugins": {
+        "title": "Öne Çıkan Eklentiler"
+      },
       "inputs": {
         "email": "E-Posta (Gerekli)",
         "username": "Kullanıcı Adı (Gerekli)",
@@ -122,7 +125,9 @@
   },
   "language-label": "Dil Seçin",
   "import": {
-    "toggle-btn": "Verileri Transfer Et",
+    "toggle-btn": "Transfer Et",
+    "modal-title": "Platform Verilerini Transfer Et",
+    "get-platform-url": "Get Platform URL",
     "pano-host": {
       "title": "Host",
       "badge": "Önerilen",

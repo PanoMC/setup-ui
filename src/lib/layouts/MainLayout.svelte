@@ -122,7 +122,9 @@
   <div class:d-none={$isFinishing}>
     <Navbar version={stepInfo.version} />
   </div>
-  <div class="page-header-wrapper" class:finishing={$isFinishing && !stepInfo.error}>
+  <div
+    class="page-header-wrapper"
+    class:finishing={$isFinishing && !stepInfo.error}>
     <PageHeader
       title={$_("title")}
       subTitle={$currentStep !== 0 ? `(${$currentStep}/4)` : undefined}
@@ -132,15 +134,23 @@
   <div class="container">
     {#if $isFinishing}
       <div class="loading-container">
-        <div class="loader-content position-relative" style="height: 100px; width: 100px;">
+        <div
+          class="loader-content position-relative"
+          style="height: 100px; width: 100px;">
           <div class="logo-wrapper pano-anim center-content">
             <img alt="Pano" src="{base}/assets/img/logo.svg" class="logo-img" />
           </div>
           <div class="mc-img-wrapper mc-anim center-content">
-            <img alt="Minecraft" src="{base}/assets/img/minecraft-icon.png" class="mc-img" />
+            <img
+              alt="Minecraft"
+              src="{base}/assets/img/minecraft-icon.png"
+              class="mc-img" />
           </div>
           <div class="hytale-img-wrapper hytale-anim center-content">
-            <img alt="Hytale" src="{base}/assets/img/hytale-icon.png" class="hytale-img" />
+            <img
+              alt="Hytale"
+              src="{base}/assets/img/hytale-icon.png"
+              class="hytale-img" />
           </div>
         </div>
       </div>
@@ -178,15 +188,15 @@
               {$_("buttons.back")}
             </button>
           {/if}
-          
+
           {#if $currentStep === 0 && $navigationState.showTransfer}
             <button
               class="btn btn-primary"
               on:click={$navigationState.transferAction}
               disabled={$navigationState.nextLoading}>
-              <i class="fa-solid fa-cloud-arrow-down me-2"></i>
-              {$_("import.toggle-btn")}
-            </button>
+              <i class="fa-solid fa-undo me-2"></i>{$_(
+                "import.toggle-btn",
+              )}</button>
           {/if}
 
           <div class="btn-group">
@@ -204,8 +214,9 @@
               disabled={$navigationState.nextDisabled ||
                 $navigationState.nextLoading}>
               {#if $navigationState.nextLoading}
-                <span class="spinner-border spinner-border-sm me-2" role="status"
-                ></span>
+                <span
+                  class="spinner-border spinner-border-sm me-2"
+                  role="status"></span>
               {/if}
               {$_($navigationState.nextLabel)}
             </button>
@@ -317,7 +328,12 @@
 <script>
   import { _ } from "svelte-i18n";
   import { page } from "$app/stores";
-  import { goToStep, navigationState, backStep, isFinishing } from "$lib/Store.js";
+  import {
+    goToStep,
+    navigationState,
+    backStep,
+    isFinishing,
+  } from "$lib/Store.js";
 
   import App from "$lib/components/App.svelte";
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
@@ -377,7 +393,12 @@
       ...s,
       nextDisabled: $currentStep === 4,
       nextLoading: false,
-      nextLabel: $currentStep === 4 ? "buttons.finish" : ($currentStep === 0 ? "buttons.start" : "buttons.next"),
+      nextLabel:
+        $currentStep === 4
+          ? "buttons.finish"
+          : $currentStep === 0
+            ? "buttons.start"
+            : "buttons.next",
       nextAction: null,
       showSkip: $currentStep === 3,
       skipAction: null,

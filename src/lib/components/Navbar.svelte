@@ -28,8 +28,9 @@
               href="{PANO_WEBSITE_URL}/docs"
               target="_blank"
               rel="noreferrer"
+              title="{$_("buttons.docs")}"
               aria-label={$_("buttons.docs")}>
-              {$_("buttons.docs")}
+              <i class="fa-solid fa-book"></i>
             </a>
           </li>
           <li class="nav-item">
@@ -38,8 +39,9 @@
               href="{PANO_WEBSITE_URL}/discord"
               target="_blank"
               rel="noreferrer"
+              title="Discord"
               aria-label="Discord">
-              Discord
+              <i class="fa-brands fa-discord"></i>
             </a>
           </li>
         </ul>

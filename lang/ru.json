@@ -75,6 +75,9 @@
             "title": "Аккаунт",
             "online-account": "Онлайн-аккаунт",
             "online-account-description": "Подключите свой онлайн-аккаунт Pano для доступа к плагинам, темам и обновлениям.",
+            "featured-plugins": {
+                "title": "Рекомендуемые плагины"
+            },
             "inputs": {
                 "email": "E-Mail (Обязательно)",
                 "username": "Имя пользователя Minecraft (Обязательно)",
@@ -122,7 +125,9 @@
     },
     "language-label": "Выберите язык",
     "import": {
-        "toggle-btn": "Трансфер данных",
+        "toggle-btn": "Перенести",
+        "modal-title": "Перенести данные платформы",
+        "get-platform-url": "Get Platform URL",
         "pano-host": {
             "title": "Host",
             "badge": "Рекомендуется",

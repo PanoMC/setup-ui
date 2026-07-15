@@ -1,11 +1,85 @@
+<style>
+  .smtp-steps-container {
+    display: flex;
+    width: 200%;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .smtp-step-pane {
+    width: 50%;
+    flex-shrink: 0;
+  }
+
+  .slide-active {
+    transform: translateX(-50%);
+  }
+
+  .merged-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
+  .merged-grid .form-control {
+    border-radius: 0;
+  }
+
+  .merged-grid > .form-floating {
+    position: relative;
+    z-index: 1;
+  }
+
+  .merged-grid > .form-floating:focus-within {
+    z-index: 3;
+  }
+
+  /* Mobile: stacked 1x2 */
+  @media (max-width: 768px) {
+    .merged-grid > :first-child .form-control {
+      border-top-left-radius: var(--bs-border-radius) !important;
+      border-top-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :last-child .form-control {
+      border-bottom-left-radius: var(--bs-border-radius) !important;
+      border-bottom-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :not(:last-child) {
+      margin-bottom: -1px;
+    }
+    .merged-grid > :not(:last-child) .form-control:not(:focus) {
+      border-bottom-color: transparent;
+    }
+  }
+
+  /* Desktop: 1x2 grid side by side */
+  @media (min-width: 769px) {
+    .merged-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .merged-grid > :nth-child(1) .form-control {
+      border-top-left-radius: var(--bs-border-radius) !important;
+      border-bottom-left-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :nth-child(2) .form-control {
+      border-top-right-radius: var(--bs-border-radius) !important;
+      border-bottom-right-radius: var(--bs-border-radius) !important;
+    }
+
+    .merged-grid > :nth-child(1) {
+      margin-right: -1px;
+    }
+
+    .merged-grid > :nth-child(1) .form-control:not(:focus) {
+      border-right-color: transparent;
+    }
+  }
+</style>
+
 <div class="animate__animated animate__fadeIn animate_animate__slower">
   <form on:submit|preventDefault={next}>
     <CardHeader>{$_("steps.email.title")}</CardHeader>
     <div class="card-body vstack gap-3 overflow-hidden p-0">
-      <div class="px-3 pt-3 w-100">
-        <ErrorAlert error={error} />
-      </div>
-
       <div class="smtp-steps-container" class:slide-active={chosenService}>
         <!-- Adım 1: Servis Seçimi -->
         <div class="smtp-step-pane p-3">
@@ -35,29 +109,35 @@
               {$_("steps.email.return-back-to-service-list-text")}
             </button>
 
-            <h5>{$_(services[lastChosenService].name)}</h5>
+            <div class="vstack gap-2">
+              <h5>{$_(services[lastChosenService].name)}</h5>
 
-            <div class="merged-grid w-100">
-              <div class="form-floating">
-                <input
-                  class="form-control"
-                  id="mailUsername"
-                  type="text"
-                  placeholder="no-reply"
-                  bind:value={mailConfiguration[lastChosenService].username}
-                  on:input={onUsernameChange} />
-                <label for="mailUsername"
-                  >{$_("steps.email.inputs.username")}</label>
-              </div>
-              <div class="form-floating">
-                <input
-                  class="form-control"
-                  id="mailUserPassword"
-                  placeholder="****************"
-                  type="password"
-                  bind:value={mailConfiguration[lastChosenService].password} />
-                <label for="mailUserPassword"
-                  >{$_("steps.email.inputs.password")}</label>
+              <ErrorAlert error={error} />
+
+              <div class="merged-grid w-100">
+                <div class="form-floating">
+                  <input
+                    class="form-control"
+                    id="mailUsername"
+                    type="text"
+                    placeholder="no-reply"
+                    bind:value={mailConfiguration[lastChosenService].username}
+                    on:input={onUsernameChange} />
+                  <label for="mailUsername"
+                    >{$_("steps.email.inputs.username")}</label>
+                </div>
+                <div class="form-floating">
+                  <input
+                    class="form-control"
+                    id="mailUserPassword"
+                    placeholder="****************"
+                    type="password"
+                    bind:value={
+                      mailConfiguration[lastChosenService].password
+                    } />
+                  <label for="mailUserPassword"
+                    >{$_("steps.email.inputs.password")}</label>
+                </div>
               </div>
             </div>
 
@@ -67,7 +147,8 @@
 
               <div class="row g-3 pt-2">
                 <div class="col-12 col-md-6 mb-3">
-                  <label class="form-label">{$_("steps.email.inputs.ssl")}</label>
+                  <label class="form-label"
+                    >{$_("steps.email.inputs.ssl")}</label>
                   <div class="form-check">
                     <input
                       class="form-check-input"
@@ -82,7 +163,8 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
-                  <label class="form-label" for="port">{$_("steps.email.inputs.tls-setting")}</label>
+                  <label class="form-label" for="port"
+                    >{$_("steps.email.inputs.tls-setting")}</label>
                   <select
                     class="form-select"
                     id="port"
@@ -104,7 +186,9 @@
                       id="sendingAddress"
                       type="text"
                       placeholder="no-reply@forexample.com"
-                      bind:value={mailConfiguration[lastChosenService].sender} />
+                      bind:value={
+                        mailConfiguration[lastChosenService].sender
+                      } />
                   </div>
                 </div>
 
@@ -117,13 +201,16 @@
                       id="hostname"
                       type="text"
                       placeholder="smtp.forexample.com"
-                      bind:value={mailConfiguration[lastChosenService].hostname} />
+                      bind:value={
+                        mailConfiguration[lastChosenService].hostname
+                      } />
                   </div>
                 </div>
 
                 <div class="col-12 col-md-6">
                   <div class="mb-3">
-                    <label class="form-label" for="port">{$_("steps.email.inputs.port")}</label>
+                    <label class="form-label" for="port"
+                      >{$_("steps.email.inputs.port")}</label>
                     <input
                       class="form-control"
                       id="port"
@@ -139,7 +226,9 @@
                       >{$_("steps.email.inputs.auth-method")}</label>
                     <select
                       class="form-select"
-                      bind:value={mailConfiguration[lastChosenService].authMethods}>
+                      bind:value={
+                        mailConfiguration[lastChosenService].authMethods
+                      }>
                       <option value="PLAIN">PLAIN</option>
                       <option value=""></option>
                     </select>
@@ -367,86 +456,7 @@
   function onUsernameChange() {
     const service = chosenService || lastChosenService;
     if (service && mailConfiguration[service]) {
-      mailConfiguration[service].sender =
-        mailConfiguration[service].username;
+      mailConfiguration[service].sender = mailConfiguration[service].username;
     }
   }
 </script>
-
-<style>
-  .smtp-steps-container {
-    display: flex;
-    width: 200%;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .smtp-step-pane {
-    width: 50%;
-    flex-shrink: 0;
-  }
-  
-  .slide-active {
-    transform: translateX(-50%);
-  }
-
-  .merged-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    overflow: visible;
-  }
-  
-  .merged-grid .form-control {
-    border-radius: 0;
-  }
-  
-  .merged-grid > .form-floating {
-    position: relative;
-    z-index: 1;
-  }
-  
-  .merged-grid > .form-floating:focus-within {
-    z-index: 3;
-  }
-
-  /* Mobile: stacked 1x2 */
-  @media (max-width: 768px) {
-    .merged-grid > :first-child .form-control {
-      border-top-left-radius: var(--bs-border-radius) !important;
-      border-top-right-radius: var(--bs-border-radius) !important;
-    }
-    .merged-grid > :last-child .form-control {
-      border-bottom-left-radius: var(--bs-border-radius) !important;
-      border-bottom-right-radius: var(--bs-border-radius) !important;
-    }
-    .merged-grid > :not(:last-child) {
-      margin-bottom: -1px;
-    }
-    .merged-grid > :not(:last-child) .form-control:not(:focus) {
-      border-bottom-color: transparent;
-    }
-  }
-
-  /* Desktop: 1x2 grid side by side */
-  @media (min-width: 769px) {
-    .merged-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .merged-grid > :nth-child(1) .form-control {
-      border-top-left-radius: var(--bs-border-radius) !important;
-      border-bottom-left-radius: var(--bs-border-radius) !important;
-    }
-    .merged-grid > :nth-child(2) .form-control {
-      border-top-right-radius: var(--bs-border-radius) !important;
-      border-bottom-right-radius: var(--bs-border-radius) !important;
-    }
-
-    .merged-grid > :nth-child(1) {
-      margin-right: -1px;
-    }
-
-    .merged-grid > :nth-child(1) .form-control:not(:focus) {
-      border-right-color: transparent;
-    }
-  }
-</style>

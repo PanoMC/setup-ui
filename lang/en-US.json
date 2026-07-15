@@ -72,6 +72,9 @@
       "title": "Account",
       "online-account": "Online Account",
       "online-account-description": "Connect your online Pano account to access plugins, themes, and updates.",
+      "featured-plugins": {
+        "title": "Featured Plugins"
+      },
       "inputs": {
         "email": "E-Mail (Required)",
         "username": "Username (Required)",
@@ -119,7 +122,9 @@
   },
   "language-label": "Select Language",
   "import": {
-    "toggle-btn": "Transfer Data",
+    "toggle-btn": "Transfer",
+    "modal-title": "Transfer Platform Data",
+    "get-platform-url": "Get Platform URL",
     "pano-host": {
       "title": "Host",
       "badge": "Recommended",
