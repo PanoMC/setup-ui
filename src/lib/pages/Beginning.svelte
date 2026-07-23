@@ -67,7 +67,7 @@
         </div>
         <div class="modal-body overflow-hidden p-0">
           <div class="modal-steps-container" class:slide-active={modalStep === 'pano-transfer'}>
-            <!-- Adım 1: Seçim Paneli -->
+            <!-- Step 1: Selection Panel -->
             <div class="modal-step-pane p-3">
               <div class="list-group">
                 <button
@@ -106,7 +106,7 @@
               </div>
             </div>
 
-            <!-- Adım 2: Transfer Bilgileri Paneli -->
+            <!-- Step 2: Transfer Details Panel -->
             <div class="modal-step-pane p-3">
               <button
                 type="button"
