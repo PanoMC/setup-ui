@@ -11,7 +11,7 @@
       },
       "devDependencies": {
         "@fortawesome/fontawesome-free": "^6.7.2",
-        "@panomc/sdk": "1.0.0-dev.40",
+        "@panomc/sdk": "1.0.0-dev.50",
         "@rollup/plugin-json": "^6.1.0",
         "@sveltejs/adapter-node": "^5.4.0",
         "@sveltejs/kit": "^2.49.0",
@@ -142,7 +142,7 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@panomc/sdk": ["@panomc/sdk@1.0.0-dev.40", "", { "dependencies": { "adm-zip": "^0.5.17", "svelte": "5.55.4", "tippy.js": "^6.3.7" } }, "sha512-Bv5Dn6zD+CCiDawpCRr2PYxhSotZw5gQHRecbKpEBb0L/Gh7Td43qRiBDjR2hb0JeYA5HFDc2W7Wbm2ZLye/Fg=="],
+    "@panomc/sdk": ["@panomc/sdk@1.0.0-dev.50", "", { "dependencies": { "adm-zip": "^0.5.17", "svelte": "5.55.4", "tippy.js": "^6.3.7" } }, "sha512-GgfGRSkA1kqhoe80UVPsQ+RFVDMrOz9P5csOvW/BSDv5XtTqF/PoPAEETly4FHZ1/sHNVw3NhXoW8AxnF8342w=="],
 
     "@parcel/watcher": ["@parcel/watcher@2.6.0", "", { "dependencies": { "detect-libc": "^2.0.3", "is-glob": "^4.0.3", "node-addon-api": "^7.0.0", "picomatch": "^4.0.4" }, "optionalDependencies": { "@parcel/watcher-android-arm64": "2.6.0", "@parcel/watcher-darwin-arm64": "2.6.0", "@parcel/watcher-darwin-x64": "2.6.0", "@parcel/watcher-freebsd-x64": "2.6.0", "@parcel/watcher-linux-arm-glibc": "2.6.0", "@parcel/watcher-linux-arm-musl": "2.6.0", "@parcel/watcher-linux-arm64-glibc": "2.6.0", "@parcel/watcher-linux-arm64-musl": "2.6.0", "@parcel/watcher-linux-x64-glibc": "2.6.0", "@parcel/watcher-linux-x64-musl": "2.6.0", "@parcel/watcher-win32-arm64": "2.6.0", "@parcel/watcher-win32-x64": "2.6.0" } }, "sha512-7FNeNl8NCE7aINx7WXiKQrPYZWC/hvrTsmk6zmxbI7LTXE7hVek/n8AfVgpe2y82zl3w0HvCHN0bVKMBoJcC0w=="],
 
