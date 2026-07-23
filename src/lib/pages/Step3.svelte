@@ -7,7 +7,7 @@
       </div>
 
       <div class="smtp-steps-container" class:slide-active={chosenService}>
-        <!-- Adım 1: Servis Seçimi -->
+        <!-- Step 1: Service Selection -->
         <div class="smtp-step-pane p-3">
           <div class="mb-3">
             {$_("steps.email.description")}
@@ -24,7 +24,7 @@
           </div>
         </div>
 
-        <!-- Adım 2: Servis Detayları -->
+        <!-- Step 2: Service Details -->
         <div class="smtp-step-pane p-3">
           {#if lastChosenService && mailConfiguration[lastChosenService]}
             <button
