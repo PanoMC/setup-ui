@@ -43,6 +43,29 @@
             <div>{$_("steps.website.inputs.url-host-mismatch")}</div>
           </div>
         {/if}
+        {#if portMismatch}
+          <div class="alert alert-warning d-flex align-items-start mt-2 mb-0">
+            <i class="fas fa-triangle-exclamation me-2 mt-1"></i>
+            <div>
+              {$_("steps.website.inputs.url-port-mismatch", {
+                values: {
+                  port: typedPort,
+                  current: window.location.port || "80/443",
+                },
+              })}
+            </div>
+          </div>
+        {/if}
+        {#if hasExplicitPort}
+          <div class="alert alert-warning d-flex align-items-start mt-2 mb-0">
+            <i class="fas fa-triangle-exclamation me-2 mt-1"></i>
+            <div>
+              {$_("steps.website.inputs.url-explicit-port", {
+                values: { port: typedPort },
+              })}
+            </div>
+          </div>
+        {/if}
       </div>
     </div>
   </form>
@@ -96,11 +119,28 @@
     }
   }
 
+  function extractPort(value) {
+    if (!value) return "";
+    try {
+      const normalized = value.includes("://") ? value : "https://" + value;
+      return new URL(normalized).port;
+    } catch (_) {
+      return "";
+    }
+  }
+
   $: typedHost = extractHost(websiteUrl);
   $: hostMismatch =
     typeof window !== "undefined" &&
     typedHost !== "" &&
     typedHost.toLowerCase() !== window.location.hostname.toLowerCase();
+
+  $: typedPort = extractPort(websiteUrl);
+  $: hasExplicitPort = typedPort !== "";
+  $: portMismatch =
+    typeof window !== "undefined" &&
+    hasExplicitPort &&
+    typedPort !== window.location.port;
 
   $: navigationState.update((s) => ({
     ...s,

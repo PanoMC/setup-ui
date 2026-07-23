@@ -30,7 +30,9 @@
         "url": "Web Site Adresi (Gerekli)",
         "url-placeholder": "https://benim-minecraft-sunucu-websitem.com",
         "url-helper": "Web sitenizin ziyaret edileceği tam adresi giriniz.",
-        "url-host-mismatch": "Girdiğin adres, şu anda Pano'ya eriştiğin adresten farklı. Kurulum tamamlandıktan sonra Pano, farklı host'lardan (IP adresi dahil) gelen ziyaretçileri otomatik olarak bu adrese yönlendirecek. Yeni adrese ulaşamazsan yönlendirmeyi kapatmak için config dosyasında `website-url-redirect: false` yapabilirsin — fakat kimlik doğrulama çerezleri bu host'a bağlandığı için farklı host'lardan girişler çalışmayabilir."
+        "url-host-mismatch": "Girdiğin adres, şu anda Pano'ya eriştiğin adresten farklı. Kurulum tamamlandıktan sonra Pano, farklı host'lardan (IP adresi dahil) gelen ziyaretçileri otomatik olarak bu adrese yönlendirecek. Yeni adrese ulaşamazsan yönlendirmeyi kapatmak için config dosyasında `website-url-redirect: false` yapabilirsin — fakat kimlik doğrulama çerezleri bu host'a bağlandığı için farklı host'lardan girişler çalışmayabilir.",
+        "url-port-mismatch": "Bu adresteki port ({port}), şu anda Pano'ya eriştiğin porttan ({current}) farklı. Ziyaretçilerinin gerçekten kullanacağı port olduğundan emin ol.",
+        "url-explicit-port": "Bu adres bir port ({port}) içeriyor. Ziyaretçiler sitene bir ters proxy (Nginx, Apache, Cloudflare) üzerinden standart porttan ulaşıyorsa, bağlantılar ve yönlendirmeler dahili bir porta işaret etmesin diye portu kaldır."
       }
     },
     "database": {
