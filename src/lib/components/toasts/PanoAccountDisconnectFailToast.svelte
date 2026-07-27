@@ -1,4 +1,5 @@
-<Toast id="{id}">{$_('components.toasts.pano-account-disconnect-fail')}</Toast>
+<Toast id="{id}" variant="danger"
+  >{$_('components.toasts.pano-account-disconnect-fail')}</Toast>
 
 <script>
   import { _ } from "svelte-i18n";

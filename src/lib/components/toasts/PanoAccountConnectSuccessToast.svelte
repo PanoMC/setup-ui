@@ -1,4 +1,5 @@
-<Toast id="{id}">{$_('components.toasts.pano-account-connect-success')}</Toast>
+<Toast id="{id}" variant="success"
+  >{$_('components.toasts.pano-account-connect-success')}</Toast>
 
 <script>
   import { _ } from "svelte-i18n";
