@@ -31,11 +31,11 @@
     "prettier": "^3.6.2",
     "prettier-plugin-svelte": "^3.4.0",
     "sass": "^1.94.2",
-    "svelte": "^5.43.14",
+    "svelte": "5.55.9",
     "svelte-preprocess": "^6.0.3",
     "tippy.js": "^6.3.7",
     "vite": "^7.2.4",
-    "@panomc/sdk": "1.0.0-dev.50"
+    "@panomc/sdk": "1.0.0-dev.57"
   },
   "type": "module",
   "dependencies": {
@@ -48,5 +48,8 @@
     "es5-ext",
     "esbuild",
     "svelte-preprocess"
-  ]
+  ],
+  "overrides": {
+    "esbuild": ">=0.25.0"
+  }
 }
