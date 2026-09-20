@@ -82,6 +82,18 @@ export default defineConfig(({ command }) => {
         },
       },
     },
+    optimizeDeps: {
+      // @panomc/sdk's core/js/* modules import the HOST app's `$lib/*` (variables,
+      // Store, ToastContainer). Vite's dev pre-bundler runs them through esbuild,
+      // which has no `$lib` alias, so `vite dev` died with
+      // "Could not resolve "$lib/variables.js"". Excluding the SDK serves it through
+      // Vite's normal transform pipeline where SvelteKit's `$lib` alias applies.
+      // (Same treatment as @panomc/theme-core's createViteConfig.)
+      exclude: ["@panomc/sdk"],
+      // The SDK's only third-party runtime dep; pre-bundle it up front so it is
+      // not discovered on first request (which forces a full page reload).
+      include: ["tippy.js"],
+    },
     server: {
       proxy: {
         "/api": env.VITE_API_URL.replace("/api", ""),
