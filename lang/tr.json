@@ -26,10 +26,13 @@
       "title": "Kimlik",
       "inputs": {
         "title": "Web Site (Gerekli)",
+        "panel-name": "Panel Adı (Gerekli)",
         "description": "Açıklama (Gerekli)",
         "url": "Web Site Adresi (Gerekli)",
+        "url-servers": "Panel Adresi (Gerekli)",
         "url-placeholder": "https://benim-minecraft-sunucu-websitem.com",
         "url-helper": "Web sitenizin ziyaret edileceği tam adresi giriniz.",
+        "url-helper-servers": "Panelinizin ve Minecraft sunucularınızın Pano'ya ulaşmak için kullanacağı adres.",
         "url-host-mismatch": "Girdiğin adres, şu anda Pano'ya eriştiğin adresten farklı. Kurulum tamamlandıktan sonra Pano, farklı host'lardan (IP adresi dahil) gelen ziyaretçileri otomatik olarak bu adrese yönlendirecek. Yeni adrese ulaşamazsan yönlendirmeyi kapatmak için config dosyasında `website-url-redirect: false` yapabilirsin — fakat kimlik doğrulama çerezleri bu host'a bağlandığı için farklı host'lardan girişler çalışmayabilir.",
         "url-port-mismatch": "Bu adresteki port ({port}), şu anda Pano'ya eriştiğin porttan ({current}) farklı. Ziyaretçilerinin gerçekten kullanacağı port olduğundan emin ol.",
         "url-explicit-port": "Bu adres bir port ({port}) içeriyor. Ziyaretçiler sitene bir ters proxy (Nginx, Apache, Cloudflare) üzerinden standart porttan ulaşıyorsa, bağlantılar ve yönlendirmeler dahili bir porta işaret etmesin diye portu kaldır."
@@ -59,6 +62,7 @@
     "email": {
       "title": "SMTP",
       "description": "Pano, e-posta gönderebilmek için bir e-posta sağlayıcısına ihtiyaç duyar. Lütfen kullanmak istediğiniz e-posta servisi ile oturum açın.",
+      "servers-intro": "Pano, size uyarı göndermek (sunucu çöktü, yedekleme başarısız oldu) ve şifrenizi sıfırlayabilmeniz için bir e-posta sağlayıcısına ihtiyaç duyar. Lütfen kullanmak istediğiniz e-posta servisi ile oturum açın.",
       "return-back-to-service-list-text": "Servis listesine geri dön",
       "inputs": {
         "username": "Kullanıcı Adı (Adres) (Gerekli)",
@@ -102,7 +106,8 @@
       },
       "confirm-skip-smtp": {
         "title": "SMTP kurulumunu atlamak istediğinize emin misiniz?",
-        "description": "Bu adımı atlamak, Şifre Sıfırlama veya E-Posta doğrulama gibi özelliklerin eksik veya çalışmamasına neden olabilir."
+        "description": "Bu adımı atlamak, Şifre Sıfırlama veya E-Posta doğrulama gibi özelliklerin eksik veya çalışmamasına neden olabilir.",
+        "description-servers": "Bu adımı atlarsanız Pano size uyarı e-postaları (sunucu çöktü, yedekleme başarısız oldu) ve şifre sıfırlama bağlantıları gönderemez."
       },
       "usage-data": {
         "title": "Kullanım Verileri",
@@ -146,6 +151,23 @@
     "description": "Beta sürümünü kurmak üzeresiniz. Beta sürümleri genellikle yayın adayıdır (release candidate), Alpha'ya kıyasla çok daha stabildir ve en yeni özellikleri içerir."
   },
   "language-label": "Dil Seçin",
+  "usage-mode": {
+    "title": "Pano'yu nasıl kullanacaksınız?",
+    "subtitle": "Bunu daha sonra panel ayarlarından değiştirebilirsiniz.",
+    "website": {
+      "title": "Web Sitesi",
+      "description": "Minecraft sunucunuz için bir web sitesi: haberler, forum, kayıt, mağaza."
+    },
+    "servers": {
+      "title": "Sunucu Yönetimi",
+      "description": "Sunucularınız için konsol, oyuncular, yedekler ve dosyalar. Herkese açık web sitesi olmaz."
+    },
+    "both": {
+      "title": "İkisi Birden",
+      "description": "Web sitesi ve sunucu yönetimi bir arada."
+    },
+    "recommended": "Önerilen"
+  },
   "import": {
     "toggle-btn": "Transfer Et",
     "modal-title": "Platform Verilerini Transfer Et",

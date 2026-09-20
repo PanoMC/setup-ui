@@ -3,25 +3,34 @@
     <CardHeader>{$_("steps.website.title")}</CardHeader>
     <div class="card-body vstack gap-3">
       <div class="d-flex flex-column">
-        <div class="form-floating input-group-top">
+        <div class="form-floating" class:input-group-top={!serversOnly}>
           <input
             id="websiteName"
-            class="form-control form-control-lg rounded-bottom-0"
+            class="form-control form-control-lg"
+            class:rounded-bottom-0={!serversOnly}
             placeholder="Panocraft"
             type="text"
             bind:value={websiteName} />
-          <label for="websiteName">{$_("steps.website.inputs.title")}</label>
+          <label for="websiteName">
+            {$_(
+              serversOnly
+                ? "steps.website.inputs.panel-name"
+                : "steps.website.inputs.title",
+            )}
+          </label>
         </div>
-        <div class="form-floating input-group-bottom">
-          <textarea
-            id="websiteDescription"
-            class="form-control rounded-top-0"
-            placeholder=" "
-            style="height: 128px;"
-            bind:value={websiteDescription}></textarea>
-          <label for="websiteDescription"
-            >{$_("steps.website.inputs.description")}</label>
-        </div>
+        {#if !serversOnly}
+          <div class="form-floating input-group-bottom">
+            <textarea
+              id="websiteDescription"
+              class="form-control rounded-top-0"
+              placeholder=" "
+              style="height: 128px;"
+              bind:value={websiteDescription}></textarea>
+            <label for="websiteDescription"
+              >{$_("steps.website.inputs.description")}</label>
+          </div>
+        {/if}
       </div>
 
       <div>
@@ -32,10 +41,20 @@
             placeholder={$_("steps.website.inputs.url-placeholder")}
             type="text"
             bind:value={websiteUrl} />
-          <label for="websiteUrl">{$_("steps.website.inputs.url")}</label>
+          <label for="websiteUrl">
+            {$_(
+              serversOnly
+                ? "steps.website.inputs.url-servers"
+                : "steps.website.inputs.url",
+            )}
+          </label>
         </div>
         <div class="form-text">
-          {$_("steps.website.inputs.url-helper")}
+          {$_(
+            serversOnly
+              ? "steps.website.inputs.url-helper-servers"
+              : "steps.website.inputs.url-helper",
+          )}
         </div>
         {#if hostMismatch}
           <div class="alert alert-warning d-flex align-items-start mt-2 mb-0">
@@ -84,7 +103,7 @@
 
 <script>
   import CardHeader from "$lib/components/CardHeader.svelte";
-  import { nextStep, navigationState } from "$lib/Store.js";
+  import { nextStep, navigationState, usageMode } from "$lib/Store.js";
   import { _ } from "svelte-i18n";
   import { onDestroy, onMount } from "svelte";
 
@@ -103,8 +122,14 @@
     }
   });
 
+  // SERVERS mode has no public website: the field is labelled as the panel name and the
+  // description is neither shown nor required (see AGENT.md "Usage mode").
+  $: serversOnly = $usageMode === "SERVERS";
+
   $: disabled =
-    websiteName === "" || websiteDescription === "" || websiteUrl === "";
+    websiteName === "" ||
+    (!serversOnly && websiteDescription === "") ||
+    websiteUrl === "";
 
   function extractHost(value) {
     if (!value) return "";
@@ -165,7 +190,8 @@
 
       nextStep({
         websiteName,
-        websiteDescription,
+        // Blank is accepted in SERVERS mode; the backend stores the name in its place.
+        websiteDescription: serversOnly ? "" : websiteDescription,
         websiteUrl,
       });
     }

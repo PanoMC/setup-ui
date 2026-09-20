@@ -84,7 +84,11 @@
         <!-- Step 1: Service Selection -->
         <div class="smtp-step-pane p-3">
           <div class="mb-3">
-            {$_("steps.email.description")}
+            {$_(
+              serversOnly
+                ? "steps.email.servers-intro"
+                : "steps.email.description",
+            )}
           </div>
 
           <div class="list-group">
@@ -340,7 +344,7 @@
   import CardHeader from "$lib/components/CardHeader.svelte";
   import { _ } from "svelte-i18n";
   import { onDestroy } from "svelte";
-  import { nextStep, navigationState } from "$lib/Store.js";
+  import { nextStep, navigationState, usageMode } from "$lib/Store.js";
 
   import { fade } from "svelte/transition";
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
@@ -360,6 +364,9 @@
   }
 
   export let mailConfiguration = {};
+
+  // In SERVERS mode e-mail is about alerts and password resets, not visitor mail.
+  $: serversOnly = $usageMode === "SERVERS";
 
   $: disabled =
     !chosenService ||

@@ -23,10 +23,13 @@
       "title": "Identity",
       "inputs": {
         "title": "Title (Required)",
+        "panel-name": "Panel Name (Required)",
         "description": "Description (Required)",
         "url": "Website Url (Required)",
+        "url-servers": "Panel Address (Required)",
         "url-placeholder": "https://my-minecraft-server-website.com",
         "url-helper": "Enter the full address where your website will be visited.",
+        "url-helper-servers": "The address your panel and your Minecraft servers will use to reach Pano.",
         "url-host-mismatch": "The address you entered is different from the one you're currently using to access Pano. After setup, Pano will automatically redirect visitors arriving on other hosts (including IP addresses) to this address. If you can't reach the new address, set `website-url-redirect: false` in the config file to disable the redirect — but cross-host logins may not work because authentication cookies are bound to this host.",
         "url-port-mismatch": "The port in this address ({port}) is different from the port you're using to reach Pano right now ({current}). Make sure it's the port your visitors will actually use.",
         "url-explicit-port": "This address includes a port ({port}). If visitors reach your site through a reverse proxy (Nginx, Apache, Cloudflare) on the standard port, remove the port so links and redirects don't point to an internal one."
@@ -56,6 +59,7 @@
     "email": {
       "title": "SMTP",
       "description": "Pano requires an email provider to be able to send emails. Please log in with the e-mail service you want to use.",
+      "servers-intro": "Pano uses e-mail to send you alerts — a server crashed, a backup failed — and to let you reset your password. Please log in with the e-mail service you want to use.",
       "return-back-to-service-list-text": "Back to service list",
       "inputs": {
         "username": "Username (Address) (Required)",
@@ -99,7 +103,8 @@
       },
       "confirm-skip-smtp": {
         "title": "Are you sure to skip setting up SMTP?",
-        "description": "Skipping this step may result in missing/not working features such as Password Reset or E-Mail validation."
+        "description": "Skipping this step may result in missing/not working features such as Password Reset or E-Mail validation.",
+        "description-servers": "Skipping this step means Pano can't e-mail you alerts (server crashed, backup failed) or send password reset links."
       },
       "usage-data": {
         "title": "Usage Data",
@@ -143,6 +148,23 @@
     "description": "You are about to install the Beta version. Beta versions are generally release candidates, much more stable than Alpha, and include the latest features."
   },
   "language-label": "Select Language",
+  "usage-mode": {
+    "title": "How will you use Pano?",
+    "subtitle": "You can change this later in the panel settings.",
+    "website": {
+      "title": "Website",
+      "description": "A website for your Minecraft server: news, forum, registration, store."
+    },
+    "servers": {
+      "title": "Server management",
+      "description": "Console, players, backups and files for your servers. No public website."
+    },
+    "both": {
+      "title": "Both",
+      "description": "Website and server management together."
+    },
+    "recommended": "Recommended"
+  },
   "import": {
     "toggle-btn": "Transfer",
     "modal-title": "Transfer Platform Data",

@@ -25,7 +25,7 @@
       </div>
     </div>
   {/if}
-  <div class="card-body">
+  <div class="card-body vstack gap-3">
     <div class="form-floating">
       <select
         class="form-select"
@@ -43,6 +43,8 @@
       </select>
       <label for="languageSelect">{$_("language-label")}</label>
     </div>
+
+    <UsageModeSelect bind:value={selectedUsageMode} disabled={disabled} />
   </div>
 </div>
 
@@ -191,7 +193,7 @@
 {/if}
 
 <script>
-  import { nextStep, navigationState } from "$lib/Store.js";
+  import { DEFAULT_USAGE_MODE, nextStep, navigationState } from "$lib/Store.js";
   import { onDestroy } from "svelte";
   import { fade, fly, slide } from "svelte/transition";
 
@@ -203,11 +205,15 @@
   } from "$lib/language.util";
   import { _, isLoading } from "svelte-i18n";
   import { PANO_WEBSITE_URL } from "$lib/variables.js";
+  import UsageModeSelect from "$lib/components/UsageModeSelect.svelte";
 
   export let stepInfo;
 
   let loading = false;
   $: disabled = !!stepInfo.error;
+
+  // Kept in component state so reopening the wizard on this step shows what is configured.
+  let selectedUsageMode = stepInfo.usageMode || DEFAULT_USAGE_MODE;
 
   let showTransferModal = false;
   let modalStep = 'selection';
@@ -281,6 +287,7 @@
 
       nextStep({
         locale: $currentLanguage.locale,
+        usageMode: selectedUsageMode,
       });
     }
   }

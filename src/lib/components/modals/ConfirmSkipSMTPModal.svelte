@@ -15,7 +15,11 @@
         <br/>
         <br/>
 
-        {$_("components.modals.confirm-skip-smtp.description")}
+        {$_(
+          $usageMode === "SERVERS"
+            ? "components.modals.confirm-skip-smtp.description-servers"
+            : "components.modals.confirm-skip-smtp.description",
+        )}
       </div>
       <div class="modal-footer flex-nowrap">
         <button
@@ -77,6 +81,7 @@
 
 <script>
   import { _ } from "svelte-i18n";
+  import { usageMode } from "$lib/Store.js";
 
   let loading = false;
 

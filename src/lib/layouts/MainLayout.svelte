@@ -240,6 +240,7 @@
     checkRoute,
     currentStep,
     session,
+    stepData,
   } from "$lib/Store.js";
   import { redirect } from "@sveltejs/kit";
   import { browser } from "$app/environment";
@@ -298,6 +299,7 @@
     const {
       data,
       data: {
+        stepInfo,
         stepInfo: { step, locale },
         CSRFToken,
         apiUrlEnv,
@@ -318,6 +320,7 @@
 
     session.set({ CSRFToken });
     currentStep.set(step);
+    stepData.set(stepInfo);
 
     await initLanguage(locale, event);
 
