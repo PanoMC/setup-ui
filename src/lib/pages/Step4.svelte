@@ -1,4 +1,3 @@
-
 <style>
   .connect-account-board {
     background-size: cover;
@@ -47,16 +46,16 @@
     grid-template-columns: 1fr;
     overflow: visible;
   }
-  
+
   .merged-grid .form-control {
     border-radius: 0;
   }
-  
+
   .merged-grid > .form-floating {
     position: relative;
     z-index: 1;
   }
-  
+
   .merged-grid > .form-floating:focus-within {
     z-index: 3;
   }
@@ -118,8 +117,8 @@
     }
   }
 </style>
-<div class="animate__animated animate__fadeIn animate__slower">
 
+<div class="animate__animated animate__fadeIn animate__slower">
   <form on:submit|preventDefault={submit}>
     <CardHeader>{$_("steps.account.title")}</CardHeader>
     <div class="card-body vstack gap-3">
@@ -182,7 +181,8 @@
               >{$_("steps.account.inputs.password-repeat")}</label>
           </div>
         </div>
-        <small class="text-body-secondary w-100 mt-2">{$_("steps.account.inputs.password-help-text")}</small>
+        <small class="text-body-secondary w-100 mt-2"
+          >{$_("steps.account.inputs.password-help-text")}</small>
       </div>
 
       <div class="row g-3">
@@ -203,7 +203,10 @@
                     ? panoAccount.username
                     : $_("steps.account.online-account")}
                 </h5>
-                <p class="mb-0" class:text-success={panoAccount} class:text-body={!panoAccount}>
+                <p
+                  class="mb-0"
+                  class:text-success={panoAccount}
+                  class:text-body={!panoAccount}>
                   {panoAccount
                     ? "Pano hesabınız başarıyla bağlandı."
                     : $_("steps.account.online-account-description")}
@@ -217,7 +220,10 @@
                     <button
                       type="button"
                       class="btn-close"
-                      use:tooltip={[$_("buttons.remove"), { placement: 'bottom' }]}
+                      use:tooltip={[
+                        $_("buttons.remove"),
+                        { placement: "bottom" },
+                      ]}
                       aria-label={$_("buttons.remove")}
                       on:click={onDisconnectClick}
                       disabled={disconnecting}></button>
@@ -242,12 +248,31 @@
           </div>
         </div>
       </div>
+
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="telemetry-enabled"
+          bind:checked={telemetryEnabled} />
+        <label class="form-check-label" for="telemetry-enabled">
+          {telemetryLabelParts[0]}<button
+            class="btn btn-link align-baseline p-0"
+            type="button"
+            on:click|preventDefault|stopPropagation={showUsageDataModal}
+            >{$_("steps.account.telemetry.label-link")}</button
+          >{telemetryLabelParts[1] ?? ""}
+        </label>
+        <small class="text-body-secondary d-block">
+          {$_("steps.account.telemetry.description")}
+        </small>
+      </div>
     </div>
   </form>
-  </div>
-
+</div>
 
 <ConfirmRemovePanoAccountModal />
+<UsageDataModal />
 
 <script context="module">
   /**  @type {import('@sveltejs/kit').LayoutLoad} */
@@ -287,6 +312,9 @@
   import ConfirmRemovePanoAccountModal, {
     show as showConfirmRemovePanoAccountModal,
   } from "$lib/components/modals/ConfirmRemovePanoAccountModal.svelte";
+  import UsageDataModal, {
+    show as showUsageDataModal,
+  } from "$lib/components/modals/UsageDataModal.svelte";
 
   import PanoAccountConnectSuccessToast from "$lib/components/toasts/PanoAccountConnectSuccessToast.svelte";
   import PanoAccountDisconnectSuccessToast from "$lib/components/toasts/PanoAccountDisconnectSuccessToast.svelte";
@@ -307,6 +335,19 @@
   let error = null;
   let connecting = !panoAccount && state && encodedData;
   let disconnecting;
+
+  // Opt-out, not opt-in: the platform defaults to sending usage data, so the box starts
+  // ticked and the value below is what the finish request actually commits.
+  let telemetryEnabled = true;
+
+  // "usage data" is a link, and it sits at a different point in the sentence in each
+  // language, so the label is translated with a {link} placeholder and split around it
+  // instead of being glued together from fragments.
+  const TELEMETRY_LINK_TOKEN = "\u0000";
+
+  $: telemetryLabelParts = $_("steps.account.telemetry.label", {
+    values: { link: TELEMETRY_LINK_TOKEN },
+  }).split(TELEMETRY_LINK_TOKEN);
 
   $: disabled =
     account.username === "" ||
@@ -403,7 +444,11 @@
 
     ApiUtil.post({
       path: "/api/setup/finish",
-      body: { ...account, setupLocale: $currentLanguage.locale },
+      body: {
+        ...account,
+        setupLocale: $currentLanguage.locale,
+        telemetryEnabled,
+      },
     })
       .then((body) => {
         if (body.result === "ok") {

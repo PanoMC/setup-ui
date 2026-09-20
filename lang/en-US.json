@@ -83,6 +83,11 @@
         "password": "Password (Required)",
         "password-repeat": "Password Repeat (Required)",
         "password-help-text": "Minimum 6 letters."
+      },
+      "telemetry": {
+        "label": "Send {link}",
+        "label-link": "usage data",
+        "description": "This data is used to make Pano better."
       }
     }
   },
@@ -95,6 +100,21 @@
       "confirm-skip-smtp": {
         "title": "Are you sure to skip setting up SMTP?",
         "description": "Skipping this step may result in missing/not working features such as Password Reset or E-Mail validation."
+      },
+      "usage-data": {
+        "title": "Usage Data",
+        "sent-platform": "Pano version, stage and channel",
+        "sent-system": "Java version, OS, CPU and memory",
+        "sent-website": "Website URL and domain",
+        "sent-ip": "Server IP address and country",
+        "sent-resources": "Active theme and installed plugins",
+        "sent-counts": "User, post, ticket, server and online player counts",
+        "sent-account": "panomc.com account connection status",
+        "sent-install": "Install date and a random install ID",
+        "turn-off": "You can turn this off anytime in Panel → Settings → Platform, or with {option} in config.conf.",
+        "turn-off-option": "telemetry.enabled = false",
+        "privacy-policy": "Privacy Policy",
+        "learn-more": "Learn more"
       }
     },
     "toasts": {
