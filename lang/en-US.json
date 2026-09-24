@@ -153,7 +153,7 @@
     "subtitle": "You can change this later in the panel settings.",
     "website": {
       "title": "Website",
-      "description": "A website for your Minecraft server: news, forum, registration, store."
+      "description": "A website for your Minecraft server: posts, tickets, themes, player registration."
     },
     "servers": {
       "title": "Server management",
