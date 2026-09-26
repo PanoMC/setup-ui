@@ -171,15 +171,82 @@
   "import": {
     "toggle-btn": "Transfer Et",
     "modal-title": "Platform Verilerini Transfer Et",
-    "get-platform-url": "Get Platform URL",
     "pano-host": {
-      "title": "Host",
+      "title": "Pano Backup",
       "badge": "Önerilen",
-      "description": "Pano Host hesabınızı bağlayarak yedeklerinizi ve ayarlarınızı doğrudan buluttan aktarın."
+      "description": "panomc.com hesabınızla giriş yapın ve Pano Backup yedeklerinizden birini geri yükleyin."
     },
     "other-pano": {
-      "title": "Başka bir Pano'dan Transfer Et",
-      "description": "Daha önce indirdiğiniz bir Pano yedek dosyasını yükleyin."
+      "title": "Yedek dosyasından geri yükle",
+      "description": "Bir Pano panelinden veya Pano Host'tan indirdiğiniz .panoarc yedeğini ya da dışa aktarımı yükleyin."
+    },
+    "file": {
+      "label": "Yedek dosyası",
+      "plain": "Bu yedek şifreli değil.",
+      "encrypted": "Bu yedek şifreli. Oluşturulurken kullanılan parolayı girin.",
+      "workload": "Bu yedek Pano Host örneğine kilitli ve burada açılamaz. Bunun yerine panomc.com üzerinden dışa aktarımını indirin.",
+      "unknown": "Bu bir Pano yedek dosyası değil."
+    },
+    "passphrase": "Parola",
+    "host": {
+      "intro": "Pano Backup yedeklerinizi görmek için bu Pano'yu panomc.com hesabınıza bağlayın.",
+      "connect": "panomc.com hesabını bağla",
+      "code-description": "panomc.com'u açın ve bu kodu onaylayın:",
+      "open": "panomc.com'u aç",
+      "waiting": "Onay bekleniyor...",
+      "expired": "Kodun süresi doldu. Yeniden bağlanın.",
+      "linked": "panomc.com hesabınıza bağlandı.",
+      "no-backups": "Bu hesapta henüz tamamlanmış bir Pano Backup yedeği yok."
+    },
+    "database": {
+      "title": "Geri yüklenecek veritabanı",
+      "description": "Yedeklenen site bu MySQL veya MariaDB veritabanına geri yüklenir. İçindeki Pano tabloları değiştirilir."
+    },
+    "restore-warning": "Geri yükleme, bu kurulumu yönetici hesapları ve ayarlarıyla birlikte yedeklenen siteyle değiştirir. İşlem bitince Pano yeniden başlar.",
+    "restore": "Geri yükle",
+    "progress": {
+      "title": "Siteniz geri yükleniyor",
+      "UPLOADING": "Yedek yükleniyor...",
+      "DOWNLOADING": "Yedek Pano Backup'tan indiriliyor...",
+      "RESTORING": "Yedek doğrulanıyor ve geri yükleniyor...",
+      "keep-open": "Bu sayfayı açık tutun."
+    },
+    "done": {
+      "title": "Geri yükleme tamamlandı",
+      "description": "Pano geri yüklenen siteyle yeniden başlıyor. Bu sayfa birazdan siteyi açacak.",
+      "manual": "Bir şey olmazsa Pano'yu kendiniz yeniden başlatıp bu adresi tekrar açın.",
+      "open": "Siteyi aç"
+    },
+    "errors": {
+      "generic": "Geri yükleme başarısız oldu ({code}).",
+      "NETWORK_ERROR": "Pano'ya ulaşılamıyor. Bağlantınızı kontrol edip tekrar deneyin.",
+      "BAD_REQUEST": "Bir şey eksik. Formu kontrol edip tekrar deneyin.",
+      "NOT_EXISTS": "Bu yedek artık mevcut değil.",
+      "FILE_TOO_LARGE": "Dosya buradan yüklemek için çok büyük.",
+      "PANO_BACKUP_BUSY": "Zaten başka bir geri yükleme çalışıyor.",
+      "NOT_AN_ARCHIVE": "Bu bir Pano yedek dosyası değil.",
+      "UNSUPPORTED_FORMAT": "Bu yedek daha yeni bir Pano ile oluşturulmuş. Önce Pano'yu güncelleyin.",
+      "PASSPHRASE_REQUIRED": "Bu yedek şifreli. Parolasını girin.",
+      "WRONG_PASSPHRASE": "Parola yanlış. Hiçbir şey değiştirilmedi.",
+      "TAMPERED": "Yedek bozuk veya değiştirilmiş. Hiçbir şey geri yüklenmedi.",
+      "TRUNCATED": "Yedek dosyası eksik. Hiçbir şey geri yüklenmedi.",
+      "INVALID_ARCHIVE": "Yedek dosyası bozuk. Hiçbir şey geri yüklenmedi.",
+      "UNSAFE_ENTRY": "Yedek güvenli olmayan dosyalar içerdiği için reddedildi.",
+      "UNSAFE_SQL": "Yedeğin veritabanı dökümü Pano'nun izin vermediği ifadeler içerdiği için reddedildi.",
+      "TOO_LARGE": "Yedek geri yüklemek için çok büyük.",
+      "WRONG_KIND": "Bu dosya tüm siteyi içeren bir Pano yedeği değil.",
+      "ARCHIVE_NEWER_THAN_TARGET": "Bu yedek daha yeni bir Pano ile oluşturulmuş. Önce Pano'yu güncelleyin, sonra geri yükleyin.",
+      "HASH_MISMATCH": "Yedek bütünlük kontrolünden geçemedi. Hiçbir şey geri yüklenmedi.",
+      "RESTORE_FAILED": "Geri yükleme başarısız oldu. Ayrıntılar için Pano konsoluna bakın.",
+      "DATABASE_CONNECTION_FAILED": "Veritabanına bağlanılamıyor. Veritabanı bilgilerini kontrol edin.",
+      "PANO_HOST_UNAVAILABLE": "panomc.com'a şu anda ulaşılamıyor. Daha sonra tekrar deneyin.",
+      "PANO_HOST_NOT_LINKED": "Bu Pano panomc.com'a bağlı değil. Yeniden bağlanın.",
+      "INVALID_TOKEN": "panomc.com bağlantısı iptal edilmiş. Yeniden bağlanın.",
+      "DOWNLOAD_FAILED": "Yedek Pano Backup'tan indirilemedi. Tekrar deneyin.",
+      "INTEGRITY_FAILED": "İndirilen yedek bütünlük kontrolünden geçemedi. Tekrar deneyin.",
+      "BACKUP_NOT_FOUND": "Bu Pano Backup yedeği artık mevcut değil.",
+      "PAYMENT_REQUIRED": "Bu panomc.com hesabının Pano Backup planı yok.",
+      "LINK_EXPIRED": "Kodun süresi doldu. Yeniden bağlanın."
     }
   }
 }

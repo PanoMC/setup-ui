@@ -10,6 +10,7 @@
     "build": "vite build",
     "package": "vite package",
     "preview": "vite preview",
+    "test": "bun test src",
     "lint": "npm-run-all -c lint:*",
     "lint:prettier": "prettier -c . --config .prettierrc",
     "format": "npm-run-all -c format:*",
