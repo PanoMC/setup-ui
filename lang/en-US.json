@@ -168,15 +168,82 @@
   "import": {
     "toggle-btn": "Transfer",
     "modal-title": "Transfer Platform Data",
-    "get-platform-url": "Get Platform URL",
     "pano-host": {
-      "title": "Host",
+      "title": "Pano Backup",
       "badge": "Recommended",
-      "description": "Connect your Pano Host account to import backups and settings directly from the cloud."
+      "description": "Sign in with your panomc.com account and restore one of your Pano Backups."
     },
     "other-pano": {
-      "title": "Transfer from another Pano",
-      "description": "Upload a previously downloaded Pano backup file."
+      "title": "Restore from a backup file",
+      "description": "Upload a .panoarc backup or export you downloaded from a Pano panel or Pano Host."
+    },
+    "file": {
+      "label": "Backup file",
+      "plain": "This backup is not encrypted.",
+      "encrypted": "This backup is encrypted. Enter the passphrase it was made with.",
+      "workload": "This backup is locked to its Pano Host instance and can't be opened here. Download an export of it on panomc.com instead.",
+      "unknown": "This is not a Pano backup file."
+    },
+    "passphrase": "Passphrase",
+    "host": {
+      "intro": "Connect this Pano to your panomc.com account to see your Pano Backups.",
+      "connect": "Connect panomc.com account",
+      "code-description": "Open panomc.com and approve this code:",
+      "open": "Open panomc.com",
+      "waiting": "Waiting for approval...",
+      "expired": "The code expired. Connect again.",
+      "linked": "Connected to your panomc.com account.",
+      "no-backups": "No finished Pano Backups for this link. To restore an earlier Pano, link again and choose that Pano on the panomc.com approval page."
+    },
+    "database": {
+      "title": "Database to restore into",
+      "description": "The backed-up site is restored into this MySQL or MariaDB database. Pano tables already in it are replaced."
+    },
+    "restore-warning": "Restoring replaces this setup with the backed-up site, including its admin accounts and settings. Pano restarts when it is done.",
+    "restore": "Restore",
+    "progress": {
+      "title": "Restoring your site",
+      "UPLOADING": "Uploading the backup...",
+      "DOWNLOADING": "Downloading the backup from Pano Backup...",
+      "RESTORING": "Checking and restoring the backup...",
+      "keep-open": "Keep this page open."
+    },
+    "done": {
+      "title": "Restore complete",
+      "description": "Pano is restarting with the restored site. This page opens it in a moment.",
+      "manual": "If nothing happens, restart Pano yourself and open this address again.",
+      "open": "Open the site"
+    },
+    "errors": {
+      "generic": "Restore failed ({code}).",
+      "NETWORK_ERROR": "Can't reach Pano. Check your connection and try again.",
+      "BAD_REQUEST": "Something is missing. Check the form and try again.",
+      "NOT_EXISTS": "That backup no longer exists.",
+      "FILE_TOO_LARGE": "The file is too large to upload here.",
+      "PANO_BACKUP_BUSY": "Another restore is already running.",
+      "NOT_AN_ARCHIVE": "This is not a Pano backup file.",
+      "UNSUPPORTED_FORMAT": "This backup was made by a newer Pano. Update Pano first.",
+      "PASSPHRASE_REQUIRED": "This backup is encrypted. Enter its passphrase.",
+      "WRONG_PASSPHRASE": "The passphrase is wrong. Nothing was changed.",
+      "TAMPERED": "The backup is damaged or was changed. Nothing was restored.",
+      "TRUNCATED": "The backup file is incomplete. Nothing was restored.",
+      "INVALID_ARCHIVE": "The backup file is damaged. Nothing was restored.",
+      "UNSAFE_ENTRY": "The backup contains unsafe files and was refused.",
+      "UNSAFE_SQL": "The backup's database dump contains statements Pano doesn't allow, so it was refused.",
+      "TOO_LARGE": "The backup is too large to restore.",
+      "WRONG_KIND": "This file is not a whole-site Pano backup.",
+      "ARCHIVE_NEWER_THAN_TARGET": "This backup was made by a newer Pano. Update Pano first, then restore it.",
+      "HASH_MISMATCH": "The backup failed its integrity check. Nothing was restored.",
+      "RESTORE_FAILED": "The restore failed. Check the Pano console for details.",
+      "DATABASE_CONNECTION_FAILED": "Can't connect to the database. Check the database details.",
+      "PANO_HOST_UNAVAILABLE": "panomc.com can't be reached right now. Try again later.",
+      "PANO_HOST_NOT_LINKED": "This Pano isn't connected to panomc.com. Connect again.",
+      "INVALID_TOKEN": "The panomc.com connection was revoked. Connect again.",
+      "DOWNLOAD_FAILED": "The backup couldn't be downloaded from Pano Backup. Try again.",
+      "INTEGRITY_FAILED": "The downloaded backup failed its integrity check. Try again.",
+      "BACKUP_NOT_FOUND": "That Pano Backup no longer exists.",
+      "PAYMENT_REQUIRED": "This panomc.com account has no Pano Backup plan.",
+      "LINK_EXPIRED": "The code expired. Connect again."
     }
   }
 }
