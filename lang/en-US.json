@@ -193,7 +193,7 @@
       "waiting": "Waiting for approval...",
       "expired": "The code expired. Connect again.",
       "linked": "Connected to your panomc.com account.",
-      "no-backups": "This account has no finished Pano Backups yet."
+      "no-backups": "No finished Pano Backups for this link. To restore an earlier Pano, link again and choose that Pano on the panomc.com approval page."
     },
     "database": {
       "title": "Database to restore into",

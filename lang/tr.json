@@ -196,7 +196,7 @@
       "waiting": "Onay bekleniyor...",
       "expired": "Kodun süresi doldu. Yeniden bağlanın.",
       "linked": "panomc.com hesabınıza bağlandı.",
-      "no-backups": "Bu hesapta henüz tamamlanmış bir Pano Backup yedeği yok."
+      "no-backups": "Bu bağlantı için tamamlanmış bir Pano Backup yedeği yok. Önceki bir Pano'yu geri yüklemek için yeniden bağlanın ve panomc.com onay sayfasında o Pano'yu seçin."
     },
     "database": {
       "title": "Geri yüklenecek veritabanı",
