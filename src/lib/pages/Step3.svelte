@@ -250,6 +250,8 @@
 <ConfirmSkipSMTPModal />
 
 <script context="module">
+  import { detectMailService } from "$lib/mail.util.js";
+
   const defaultMailConfiguration = Object.freeze({
     ssl: true,
     starttls: "DISABLED",
@@ -314,23 +316,7 @@
   export async function load({ parent }) {
     const { stepInfo } = await parent();
     const { email } = stepInfo;
-    const { sender, hostname, username, password, port } = email;
-
-    let chosenService = null;
-
-    if (sender && hostname && username && password && port) {
-      Object.keys(services).forEach((service) => {
-        const serviceOptions = services[service];
-
-        if (serviceOptions.config.hostname === hostname) {
-          chosenService = service;
-        }
-      });
-
-      if (!chosenService) {
-        chosenService = "OTHER";
-      }
-    }
+    const chosenService = detectMailService(email, services);
 
     const mailConfiguration = {
       [chosenService]: email,
