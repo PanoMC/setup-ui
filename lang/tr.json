@@ -189,14 +189,16 @@
     },
     "passphrase": "Parola",
     "host": {
-      "intro": "Pano Backup yedeklerinizi görmek için bu Pano'yu panomc.com hesabınıza bağlayın.",
+      "intro": "Pano Yedeklerinizi görmek için bu Pano'yu panomc.com hesabınıza bağlayın. Hesap, kurulumun son adımı için de bağlı kalır.",
       "connect": "panomc.com hesabını bağla",
-      "code-description": "panomc.com'u açın ve bu kodu onaylayın:",
-      "open": "panomc.com'u aç",
-      "waiting": "Onay bekleniyor...",
-      "expired": "Kodun süresi doldu. Yeniden bağlanın.",
-      "linked": "panomc.com hesabınıza bağlandı.",
-      "no-backups": "Bu bağlantı için tamamlanmış bir Pano Backup yedeği yok. Önceki bir Pano'yu geri yüklemek için yeniden bağlanın ve panomc.com onay sayfasında o Pano'yu seçin."
+      "no-backups": "Bu panomc.com hesabında henüz tamamlanmış bir Pano Yedeği yok.",
+      "reconnect": "Bu Pano'nun panomc.com bağlantısı iptal edilmiş. Pano Yedeklerinizi görmek için hesabınızı yeniden bağlayın.",
+      "reconnect-button": "Yeniden bağla",
+      "retry": "Tekrar dene",
+      "checking": "panomc.com bağlantınız kontrol ediliyor...",
+      "finishing": "panomc.com hesabınız bağlanıyor...",
+      "connected": "panomc.com hesabınıza bağlandı.",
+      "connected-as": "{username} panomc.com hesabına bağlandı."
     },
     "database": {
       "title": "Geri yüklenecek veritabanı",
@@ -240,13 +242,13 @@
       "RESTORE_FAILED": "Geri yükleme başarısız oldu. Ayrıntılar için Pano konsoluna bakın.",
       "DATABASE_CONNECTION_FAILED": "Veritabanına bağlanılamıyor. Veritabanı bilgilerini kontrol edin.",
       "PANO_HOST_UNAVAILABLE": "panomc.com'a şu anda ulaşılamıyor. Daha sonra tekrar deneyin.",
-      "PANO_HOST_NOT_LINKED": "Bu Pano panomc.com'a bağlı değil. Yeniden bağlanın.",
-      "INVALID_TOKEN": "panomc.com bağlantısı iptal edilmiş. Yeniden bağlanın.",
+      "INVALID_TOKEN": "panomc.com bağlantısı iptal edilmiş. Yeniden bağlayın.",
       "DOWNLOAD_FAILED": "Yedek Pano Backup'tan indirilemedi. Tekrar deneyin.",
       "INTEGRITY_FAILED": "İndirilen yedek bütünlük kontrolünden geçemedi. Tekrar deneyin.",
       "BACKUP_NOT_FOUND": "Bu Pano Backup yedeği artık mevcut değil.",
       "PAYMENT_REQUIRED": "Bu panomc.com hesabının Pano Backup planı yok.",
-      "LINK_EXPIRED": "Kodun süresi doldu. Yeniden bağlanın."
+      "CONNECT_REQUIRED": "Bu Pano panomc.com'a bağlı değil. Önce hesabınızı bağlayın.",
+      "PANO_CONNECT_FAILED": "panomc.com hesabı bağlanamadı. Tekrar deneyin."
     }
   }
 }

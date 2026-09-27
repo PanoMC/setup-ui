@@ -62,7 +62,7 @@
               <button
                 type="button"
                 class="list-group-item list-group-item-action host-item-gradient d-flex justify-content-between align-items-start p-3"
-                onclick={() => (step = "host")}>
+                onclick={openHost}>
                 <div class="me-auto text-start">
                   <div class="d-flex align-items-center gap-2">
                     <div
@@ -135,47 +135,36 @@
                   </div>
                 {/if}
               </div>
-            {:else if linkState !== "linked"}
+            {:else if hostState !== "connected"}
               <div class="vstack gap-2">
                 <p class="mb-0 text-body-secondary">
-                  {$_("import.host.intro")}
+                  {#if hostState === "reconnect"}
+                    {$_("import.host.reconnect")}
+                  {:else}
+                    {$_("import.host.intro")}
+                  {/if}
                 </p>
 
-                {#if linkState === "pending"}
-                  <div class="border rounded p-3 text-center vstack gap-2">
-                    <div class="small text-body-secondary">
-                      {$_("import.host.code-description")}
-                    </div>
-                    <div class="fs-3 fw-bold font-monospace">{code}</div>
-                    <a
-                      class="btn btn-outline-primary btn-sm align-self-center"
-                      href={verifyUrl}
-                      target="_blank"
-                      rel="noreferrer">
-                      {$_("import.host.open")}
-                      <i class="fa-solid fa-arrow-up-right-from-square ms-1"
-                      ></i>
-                    </a>
-                    <div
-                      class="small text-body-secondary hstack gap-2 justify-content-center">
-                      <span
-                        class="spinner-border spinner-border-sm"
-                        aria-hidden="true"></span>
-                      {$_("import.host.waiting")}
-                    </div>
-                  </div>
-                {:else if linkState === "expired"}
-                  <div class="alert alert-warning mb-0">
-                    {$_("import.host.expired")}
+                {#if hostState === "checking" || hostState === "finishing"}
+                  <div
+                    class="small text-body-secondary hstack gap-2 justify-content-center py-2">
+                    <span
+                      class="spinner-border spinner-border-sm"
+                      aria-hidden="true"></span>
+                    {hostState === "finishing"
+                      ? $_("import.host.finishing")
+                      : $_("import.host.checking")}
                   </div>
                 {/if}
               </div>
             {:else}
               <div class="vstack gap-2">
                 <div class="small text-success">
-                  <i class="fa-solid fa-circle-check me-1"></i>{$_(
-                    "import.host.linked",
-                  )}
+                  <i class="fa-solid fa-circle-check me-1"></i>{accountName
+                    ? $_("import.host.connected-as", {
+                        values: { username: accountName },
+                      })
+                    : $_("import.host.connected")}
                 </div>
 
                 {#if backupsLoading}
@@ -332,17 +321,23 @@
 
         {#if step === "file" || step === "host"}
           <div class="modal-footer">
-            {#if step === "host" && linkState !== "linked"}
+            {#if step === "host" && hostState !== "connected"}
               <button
                 type="button"
                 class="btn btn-primary w-100"
-                disabled={linkState === "starting" || linkState === "pending"}
-                onclick={startLink}>
-                {#if linkState === "starting" || linkState === "pending"}
+                disabled={hostState !== "connect" &&
+                  hostState !== "reconnect" &&
+                  hostState !== "failed"}
+                onclick={hostState === "failed" ? loadBackups : connect}>
+                {#if hostState === "redirecting" || hostState === "finishing"}
                   <span
                     class="spinner-border spinner-border-sm me-2"
                     aria-hidden="true"></span>
                   {$_("buttons.connecting")}
+                {:else if hostState === "failed"}
+                  {$_("import.host.retry")}
+                {:else if hostState === "reconnect"}
+                  {$_("import.host.reconnect-button")}
                 {:else}
                   {$_("import.host.connect")}
                 {/if}
@@ -372,7 +367,16 @@
   import { fade, fly, slide } from "svelte/transition";
   import { _ } from "svelte-i18n";
 
+  import { untrack } from "svelte";
+
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
+  import { currentLanguage } from "$lib/language.util";
+  import {
+    connectNeeded,
+    connectSucceeded,
+    connectUrl,
+  } from "$lib/panoHost.util.js";
+  import { PANO_WEBSITE_URL } from "$lib/variables.js";
   import {
     archiveKind,
     databaseProblem,
@@ -380,10 +384,13 @@
     formatBytes,
     inspectArchiveFile,
     jobPercent,
-    pollDelay,
   } from "$lib/restore.util.js";
 
-  let { open = $bindable(false) } = $props();
+  /**
+   * `resume`: the panomc.com sign-in came back to the first page (`connectReturn`); the dialog opens
+   * on "Pano Backup" and finishes the connection.
+   */
+  let { open = $bindable(false), resume = $bindable(null) } = $props();
 
   /** @type {"selection" | "file" | "host" | "running" | "done"} */
   let step = $state("selection");
@@ -398,10 +405,14 @@
   let passphrase = $state("");
   let database = $state({ host: "", dbName: "", username: "", password: "" });
 
-  /** @type {"idle" | "starting" | "pending" | "linked" | "expired"} */
-  let linkState = $state("idle");
-  let code = $state("");
-  let verifyUrl = $state("");
+  /**
+   * The platform connection (shared with setup step 4): "checking" the backups, "connect" /
+   * "reconnect" needed, "redirecting" to panomc.com, "finishing" a returned sign-in, "connected",
+   * or "failed" to list them (panomc.com unreachable, no plan, …; retry).
+   * @type {"checking" | "connect" | "reconnect" | "redirecting" | "finishing" | "connected" | "failed"}
+   */
+  let hostState = $state("checking");
+  let accountName = $state("");
   let backups = $state([]);
   let backupsLoading = $state(false);
   let selectedBackupId = $state(null);
@@ -414,11 +425,11 @@
   const locked = $derived(step === "running" || step === "done");
   const needsPassphrase = $derived(
     (step === "file" && fileKind === "passphrase") ||
-      (step === "host" && linkState === "linked" && backups.length > 0),
+      (step === "host" && hostState === "connected" && backups.length > 0),
   );
   const showDatabase = $derived(
     (step === "file" && (fileKind === "plain" || fileKind === "passphrase")) ||
-      (step === "host" && linkState === "linked" && backups.length > 0),
+      (step === "host" && hostState === "connected" && backups.length > 0),
   );
   const canRestore = $derived(
     databaseProblem(database) === null &&
@@ -462,9 +473,8 @@
     file = null;
     fileKind = null;
     passphrase = "";
-    linkState = "idle";
-    code = "";
-    verifyUrl = "";
+    hostState = "checking";
+    accountName = "";
     backups = [];
     selectedBackupId = null;
     uploadProgress = null;
@@ -473,7 +483,16 @@
 
   // Fresh dialog on every open; timers never outlive it.
   $effect(() => {
-    if (open) reset();
+    if (open) {
+      reset();
+
+      const returned = untrack(() => resume);
+
+      if (returned) {
+        resume = null;
+        finishConnect(returned);
+      }
+    }
 
     return clearTimer;
   });
@@ -489,7 +508,12 @@
     clearTimer();
     error = null;
     step = "selection";
-    if (linkState === "pending" || linkState === "starting") linkState = "idle";
+  }
+
+  function openHost() {
+    error = null;
+    step = "host";
+    loadBackups();
   }
 
   function fail(body) {
@@ -511,62 +535,94 @@
     }
   }
 
-  function startLink() {
+  /** Same connect as setup step 4; panomc.com sends the browser back to the first page. */
+  async function connect() {
+    const reconnect = hostState === "reconnect";
+
     error = null;
-    linkState = "starting";
+    hostState = "redirecting";
 
-    ApiUtil.post({ path: "/api/setup/pano-host/link" })
+    try {
+      if (reconnect) {
+        await ApiUtil.post({ path: "/api/setup/steps/4/platform/disconnect" });
+      }
+
+      const body = await ApiUtil.post({
+        path: "/api/setup/steps/4/platform/code",
+      });
+
+      if (body.result !== "ok") {
+        hostState = "connect";
+        fail(body);
+        return;
+      }
+
+      window.location.assign(
+        connectUrl({
+          websiteUrl: PANO_WEBSITE_URL,
+          publicKey: body.publicKey,
+          state: body.state,
+          redirectUrl: window.location.origin + "/",
+          locale: $currentLanguage.locale,
+        }),
+      );
+    } catch {
+      hostState = "connect";
+      fail(null);
+    }
+  }
+
+  /** @param {{ encodedData: string | null, state: string | null, failed: boolean }} returned */
+  function finishConnect(returned) {
+    step = "host";
+
+    if (returned.failed) {
+      hostState = "connect";
+      fail({ error: "PANO_CONNECT_FAILED" });
+      return;
+    }
+
+    hostState = "finishing";
+
+    ApiUtil.post({
+      path: "/api/setup/steps/4/platform/connect",
+      body: { encodedData: returned.encodedData, state: returned.state },
+    })
       .then((body) => {
-        if (body.result !== "ok") {
-          linkState = "idle";
-          fail(body);
-          return;
-        }
+        if (step !== "host") return;
 
-        code = body.code;
-        verifyUrl = body.verifyUrl;
-        linkState = "pending";
-        schedule(() => pollLink(body.interval), pollDelay(body.interval));
+        if (connectSucceeded(body)) {
+          loadBackups();
+        } else {
+          hostState = "connect";
+          fail(body);
+        }
       })
       .catch(() => {
-        linkState = "idle";
+        hostState = "connect";
         fail(null);
       });
   }
 
-  function pollLink(interval) {
-    if (!open || step !== "host" || linkState !== "pending") return;
-
-    ApiUtil.post({ path: "/api/setup/pano-host/link/poll" })
-      .then((body) => {
-        if (step !== "host" || linkState !== "pending") return;
-
-        if (body.result !== "ok") {
-          linkState = "idle";
-          fail(body);
-        } else if (body.status === "LINKED") {
-          linkState = "linked";
-          loadBackups();
-        } else if (body.status === "PENDING") {
-          schedule(() => pollLink(interval), pollDelay(interval));
-        } else {
-          linkState = "expired";
-        }
-      })
-      .catch(() => schedule(() => pollLink(interval), pollDelay(interval)));
-  }
-
   function loadBackups() {
+    if (hostState !== "finishing") hostState = "checking";
     backupsLoading = true;
 
     ApiUtil.get({ path: "/api/setup/pano-host/backups" })
       .then((body) => {
         backupsLoading = false;
+        if (step !== "host") return;
 
         if (body.result !== "ok") {
-          fail(body);
+          const needed = connectNeeded(body);
+
+          hostState = needed || "failed";
+          if (!needed) fail(body);
           return;
         }
+
+        hostState = "connected";
+        accountName = body.account?.username || "";
 
         backups = [...(body.backups || [])].sort(
           (a, b) => (b.createdAt || 0) - (a.createdAt || 0),
@@ -575,6 +631,7 @@
       })
       .catch(() => {
         backupsLoading = false;
+        hostState = "failed";
         fail(null);
       });
   }

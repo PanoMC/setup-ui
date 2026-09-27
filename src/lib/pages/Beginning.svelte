@@ -1,5 +1,5 @@
 <div class:opacity-50={disabled}>
-  {#if stepInfo.stage === 'ALPHA' && !$languageLoading && !$isLoading}
+  {#if stepInfo.stage === "ALPHA" && !$languageLoading && !$isLoading}
     <div class="card-body pb-0">
       <div class="alert alert-warning mb-0">
         <h6 class="alert-heading hstack gap-2">
@@ -12,7 +12,7 @@
       </div>
     </div>
   {/if}
-  {#if stepInfo.stage === 'BETA' && !$languageLoading && !$isLoading}
+  {#if stepInfo.stage === "BETA" && !$languageLoading && !$isLoading}
     <div class="card-body pb-0">
       <div class="alert alert-info mb-0">
         <h6 class="alert-heading hstack gap-2">
@@ -48,11 +48,13 @@
   </div>
 </div>
 
-<TransferModal bind:open={showTransferModal} />
+<TransferModal bind:open={showTransferModal} bind:resume={connectResume} />
 
 <script>
   import { DEFAULT_USAGE_MODE, nextStep, navigationState } from "$lib/Store.js";
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
+  import { page } from "$app/stores";
+  import { replaceState } from "$app/navigation";
 
   import {
     changeLanguage,
@@ -63,6 +65,7 @@
   import { _, isLoading } from "svelte-i18n";
   import UsageModeSelect from "$lib/components/UsageModeSelect.svelte";
   import TransferModal from "$lib/components/modals/TransferModal.svelte";
+  import { connectReturn } from "$lib/panoHost.util.js";
 
   export let stepInfo;
 
@@ -73,6 +76,19 @@
   let selectedUsageMode = stepInfo.usageMode || DEFAULT_USAGE_MODE;
 
   let showTransferModal = false;
+  let connectResume = null;
+
+  // The transfer dialog's panomc.com sign-in comes back here (`?encodedData=…&state=…`): reopen
+  // it on "Pano Backup" to finish the connection, and drop the query from the address bar.
+  onMount(() => {
+    const returned = connectReturn($page.url.searchParams);
+
+    if (!returned) return;
+
+    replaceState($page.url.pathname, {});
+    connectResume = returned;
+    showTransferModal = true;
+  });
 
   function openTransferModal() {
     showTransferModal = true;
@@ -86,7 +102,7 @@
     nextLabel: "buttons.start",
     backDisabled: true, // No back from first page
     showTransfer: true,
-    transferAction: openTransferModal
+    transferAction: openTransferModal,
   }));
 
   onDestroy(() => {

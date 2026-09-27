@@ -186,14 +186,16 @@
     },
     "passphrase": "Passphrase",
     "host": {
-      "intro": "Connect this Pano to your panomc.com account to see your Pano Backups.",
+      "intro": "Connect this Pano to your panomc.com account to see your Pano Backups. The account stays connected for the last setup step too.",
       "connect": "Connect panomc.com account",
-      "code-description": "Open panomc.com and approve this code:",
-      "open": "Open panomc.com",
-      "waiting": "Waiting for approval...",
-      "expired": "The code expired. Connect again.",
-      "linked": "Connected to your panomc.com account.",
-      "no-backups": "No finished Pano Backups for this link. To restore an earlier Pano, link again and choose that Pano on the panomc.com approval page."
+      "no-backups": "This panomc.com account has no finished Pano Backups yet.",
+      "reconnect": "The panomc.com connection of this Pano was revoked. Connect your account again to see your Pano Backups.",
+      "reconnect-button": "Connect again",
+      "retry": "Try again",
+      "checking": "Checking your panomc.com connection...",
+      "finishing": "Connecting your panomc.com account...",
+      "connected": "Connected to your panomc.com account.",
+      "connected-as": "Connected to the panomc.com account {username}."
     },
     "database": {
       "title": "Database to restore into",
@@ -237,13 +239,13 @@
       "RESTORE_FAILED": "The restore failed. Check the Pano console for details.",
       "DATABASE_CONNECTION_FAILED": "Can't connect to the database. Check the database details.",
       "PANO_HOST_UNAVAILABLE": "panomc.com can't be reached right now. Try again later.",
-      "PANO_HOST_NOT_LINKED": "This Pano isn't connected to panomc.com. Connect again.",
       "INVALID_TOKEN": "The panomc.com connection was revoked. Connect again.",
       "DOWNLOAD_FAILED": "The backup couldn't be downloaded from Pano Backup. Try again.",
       "INTEGRITY_FAILED": "The downloaded backup failed its integrity check. Try again.",
       "BACKUP_NOT_FOUND": "That Pano Backup no longer exists.",
       "PAYMENT_REQUIRED": "This panomc.com account has no Pano Backup plan.",
-      "LINK_EXPIRED": "The code expired. Connect again."
+      "CONNECT_REQUIRED": "This Pano isn't connected to panomc.com. Connect your account first.",
+      "PANO_CONNECT_FAILED": "Connecting the panomc.com account failed. Try again."
     }
   }
 }
