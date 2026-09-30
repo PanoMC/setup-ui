@@ -171,7 +171,20 @@
     "pano-host": {
       "title": "Pano Backup",
       "badge": "Recommended",
-      "description": "Sign in with your panomc.com account and restore one of your Pano Backups."
+      "description": "Sign in with your {website} account and restore one of your Pano Backups."
+    },
+    "move": {
+      "title": "Pano Host",
+      "description": "Move one of your Pano Host instances here: its files and database come over as they are now.",
+      "intro": "Connect this Pano to your {website} account to see your Pano Host instances.",
+      "none": "This account has no Pano Host instances.",
+      "note": "The instance keeps running on Pano Host. End its subscription on the website once the move is done.",
+      "submit": "Move here",
+      "reasons": {
+        "SUSPENDED": "Suspended, so it cannot be exported.",
+        "STATE": "It is being set up or changed right now, so it cannot be exported yet.",
+        "NO_PORTAL": "Not placed on a server yet, so it cannot be exported."
+      }
     },
     "other-pano": {
       "title": "Restore from a backup file",
@@ -179,23 +192,23 @@
     },
     "file": {
       "label": "Backup file",
+      "drop": "Drop a backup here or click to choose",
+      "change": "Choose another file",
       "plain": "This backup is not encrypted.",
+      "plain-short": "Plain archive",
       "encrypted": "This backup is encrypted. Enter the passphrase it was made with.",
-      "workload": "This backup is locked to its Pano Host instance and can't be opened here. Download an export of it on panomc.com instead.",
+      "encrypted-short": "Encrypted",
+      "workload": "This backup is locked to its Pano Host instance and can't be opened here. Download an export of it on {website} instead.",
       "unknown": "This is not a Pano backup file."
     },
     "passphrase": "Passphrase",
     "host": {
-      "intro": "Connect this Pano to your panomc.com account to see your Pano Backups. The account stays connected for the last setup step too.",
-      "connect": "Connect panomc.com account",
-      "no-backups": "This panomc.com account has no finished Pano Backups yet.",
-      "reconnect": "The panomc.com connection of this Pano was revoked. Connect your account again to see your Pano Backups.",
-      "reconnect-button": "Connect again",
-      "retry": "Try again",
-      "checking": "Checking your panomc.com connection...",
-      "finishing": "Connecting your panomc.com account...",
-      "connected": "Connected to your panomc.com account.",
-      "connected-as": "Connected to the panomc.com account {username}."
+      "intro": "Connect this Pano to your {website} account to see your Pano Backups.",
+      "connect": "Connect {website} account",
+      "linked": "Connected to {website} as {username}.",
+      "no-backups": "This account has no finished Pano Backups yet.",
+      "passphrase-hint": "Only needed when the backup was encrypted with a passphrase.",
+      "connect-failed": "The {website} account could not be connected. Try again."
     },
     "database": {
       "title": "Database to restore into",
@@ -206,6 +219,7 @@
     "progress": {
       "title": "Restoring your site",
       "UPLOADING": "Uploading the backup...",
+      "EXPORTING": "Pano Host is preparing the export of the instance...",
       "DOWNLOADING": "Downloading the backup from Pano Backup...",
       "RESTORING": "Checking and restoring the backup...",
       "keep-open": "Keep this page open."
@@ -238,14 +252,23 @@
       "HASH_MISMATCH": "The backup failed its integrity check. Nothing was restored.",
       "RESTORE_FAILED": "The restore failed. Check the Pano console for details.",
       "DATABASE_CONNECTION_FAILED": "Can't connect to the database. Check the database details.",
-      "PANO_HOST_UNAVAILABLE": "panomc.com can't be reached right now. Try again later.",
-      "INVALID_TOKEN": "The panomc.com connection was revoked. Connect again.",
+      "PANO_HOST_UNAVAILABLE": "{website} can't be reached right now. Try again later.",
+      "PANO_HOST_NOT_LINKED": "This Pano isn't connected to {website}. Connect again.",
+      "INVALID_TOKEN": "The {website} connection was revoked. Connect again.",
       "DOWNLOAD_FAILED": "The backup couldn't be downloaded from Pano Backup. Try again.",
       "INTEGRITY_FAILED": "The downloaded backup failed its integrity check. Try again.",
       "BACKUP_NOT_FOUND": "That Pano Backup no longer exists.",
-      "PAYMENT_REQUIRED": "This panomc.com account has no Pano Backup plan.",
-      "CONNECT_REQUIRED": "This Pano isn't connected to panomc.com. Connect your account first.",
-      "PANO_CONNECT_FAILED": "Connecting the panomc.com account failed. Try again."
+      "PAYMENT_REQUIRED": "This {website} account has no Pano Backup plan.",
+      "LINK_EXPIRED": "The code expired. Connect again.",
+      "EXPORT_FAILED": "Pano Host could not export this instance. Try again later.",
+      "RATE_LIMITED": "This instance was exported recently. A new export is possible once a day.",
+      "TASK_IN_PROGRESS": "The instance is busy with another task on Pano Host. Try again in a few minutes.",
+      "PORTAL_OFFLINE": "The server running this instance is offline. Try again later.",
+      "PORTAL_UNSUPPORTED": "The server running this instance cannot export it yet.",
+      "WORKLOAD_SUSPENDED": "This instance is suspended, so it cannot be exported.",
+      "INVALID_WORKLOAD_STATE": "This instance cannot be exported in its current state.",
+      "WORKLOAD_NOT_FOUND": "This instance was not found in your account.",
+      "CONNECT_REQUIRED": "Connect your account first."
     }
   }
 }

@@ -65,25 +65,55 @@
                 onclick={openHost}>
                 <div class="me-auto text-start">
                   <div class="d-flex align-items-center gap-2">
+                    <!-- The Pano Host mark (Pano Backup is a Pano Host service), as on panomc.com/host. -->
                     <div
-                      class="d-inline-flex align-items-center justify-content-center bg-primary rounded"
+                      class="d-inline-flex align-items-center justify-content-center bg-info rounded"
                       style="width: 24px; height: 24px;">
                       <img
                         src="/assets/img/logo.svg"
                         width="16"
                         height="16"
-                        alt="Pano" />
+                        alt="Pano Host" />
                     </div>
                     <h5 class="mb-0">{$_("import.pano-host.title")}</h5>
                     <span class="badge text-bg-primary"
                       >{$_("import.pano-host.badge")}</span>
                   </div>
                   <div class="text-body-secondary mt-2 fw-normal">
-                    {$_("import.pano-host.description")}
+                    {$_("import.pano-host.description", {
+                      values: { website },
+                    })}
                   </div>
                 </div>
                 <i
                   class="fa-solid fa-cloud-arrow-down text-body-secondary align-self-center fs-5"
+                ></i>
+              </button>
+
+              <!-- Move a Pano Host instance here (its export, downloaded and restored). -->
+              <button
+                type="button"
+                class="list-group-item list-group-item-action d-flex justify-content-between align-items-start p-3"
+                onclick={openMove}>
+                <div class="me-auto text-start">
+                  <div class="d-flex align-items-center gap-2">
+                    <div
+                      class="d-inline-flex align-items-center justify-content-center bg-info rounded"
+                      style="width: 24px; height: 24px;">
+                      <img
+                        src="/assets/img/logo.svg"
+                        width="16"
+                        height="16"
+                        alt="Pano Host" />
+                    </div>
+                    <h5 class="mb-0">{$_("import.move.title")}</h5>
+                  </div>
+                  <div class="text-body-secondary mt-2 fw-normal">
+                    {$_("import.move.description")}
+                  </div>
+                </div>
+                <i
+                  class="fa-solid fa-right-left text-body-secondary align-self-center fs-5"
                 ></i>
               </button>
 
@@ -102,7 +132,7 @@
                 ></i>
               </button>
             </div>
-          {:else if step === "file" || step === "host"}
+          {:else if step === "file" || step === "host" || step === "move"}
             <button
               type="button"
               class="btn btn-link text-decoration-none p-0 hstack gap-2 align-self-start"
@@ -112,68 +142,145 @@
             </button>
 
             {#if step === "file"}
-              <div>
-                <label class="form-label" for="restoreFile"
-                  >{$_("import.file.label")}</label>
-                <input
-                  class="form-control"
-                  id="restoreFile"
-                  type="file"
-                  accept=".panoarc,.zip"
-                  onchange={pickFile} />
-                {#if fileKind === "plain"}
-                  <div class="form-text">{$_("import.file.plain")}</div>
-                {:else if fileKind === "passphrase"}
-                  <div class="form-text">{$_("import.file.encrypted")}</div>
-                {:else if fileKind === "workload"}
-                  <div class="text-danger small mt-1">
-                    {$_("import.file.workload")}
+              <!-- Same as the panel's restore dialog: drop zone, then the picked file as a card. -->
+              <div class="vstack gap-2">
+                {#if file}
+                  <div
+                    class="d-flex align-items-center gap-3 border rounded p-3">
+                    <i
+                      class="fa-solid {fileKind === 'passphrase'
+                        ? 'fa-file-shield'
+                        : 'fa-file-zipper'} fa-2x text-body-secondary"
+                      aria-hidden="true"></i>
+                    <div class="vstack min-w-0">
+                      <span class="text-truncate">{file.name}</span>
+                      <span class="small text-body-secondary">
+                        {formatBytes(file.size)}
+                        {#if fileKind === "passphrase"}
+                          · <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                          {$_("import.file.encrypted-short")}
+                        {:else if fileKind === "plain"}
+                          · {$_("import.file.plain-short")}
+                        {/if}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn btn-link btn-sm ms-auto"
+                      aria-label={$_("import.file.change")}
+                      title={$_("import.file.change")}
+                      disabled={submitting}
+                      onclick={clearFile}>
+                      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                    </button>
                   </div>
-                {:else if fileKind === "unknown"}
-                  <div class="text-danger small mt-1">
+                {:else}
+                  <DragAndDropZone
+                    id="restoreFile"
+                    accept={[".panoarc", ".zip"]}
+                    style="min-height: 9rem;"
+                    icon="fa-solid fa-file-arrow-up fa-2x"
+                    title={$_("import.file.drop")}
+                    subtitle={$_("import.file.label")}
+                    ondrop={(picked) => void pickFile(picked)}
+                    onerror={() => (fileRejected = true)} />
+                {/if}
+                {#if fileRejected || fileKind === "unknown"}
+                  <div class="text-danger small">
                     {$_("import.file.unknown")}
+                  </div>
+                {:else if fileKind === "workload"}
+                  <div class="text-danger small">
+                    {$_("import.file.workload", { values: { website } })}
                   </div>
                 {/if}
               </div>
-            {:else if hostState !== "connected"}
+            {:else if step === "move"}
+              {#if moveState === "checking"}
+                <div class="text-center py-3">
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    aria-hidden="true"></span>
+                </div>
+              {:else if moveState === "connect"}
+                <p class="mb-0 text-body-secondary">
+                  {$_("import.move.intro", { values: { website } })}
+                </p>
+              {:else}
+                <div class="vstack gap-2">
+                  <div class="small text-success">
+                    <i class="fa-solid fa-circle-check me-1"></i>{$_(
+                      "import.host.linked",
+                      { values: { website, username: accountName } },
+                    )}
+                  </div>
+
+                  {#if instances.length === 0}
+                    <div class="alert alert-secondary mb-0">
+                      {$_("import.move.none")}
+                    </div>
+                  {:else}
+                    <div class="list-group">
+                      {#each instances as instance (instance.id)}
+                        <label
+                          class="list-group-item d-flex gap-2 align-items-start"
+                          class:opacity-50={!instance.exportable}>
+                          <input
+                            class="form-check-input mt-1"
+                            type="radio"
+                            name="panoHostInstance"
+                            value={instance.id}
+                            disabled={!instance.exportable}
+                            bind:group={selectedInstanceId} />
+                          <span class="vstack">
+                            <span class="fw-semibold"
+                              >{instance.name ||
+                                instance.label ||
+                                instance.id}</span>
+                            <span class="small text-body-secondary">
+                              {instance.label || instance.id}
+                            </span>
+                            {#if !instance.exportable}
+                              <span class="small text-danger">
+                                {$_(`import.move.reasons.${instance.reason}`, {
+                                  default: $_("import.move.reasons.STATE"),
+                                })}
+                              </span>
+                            {/if}
+                          </span>
+                        </label>
+                      {/each}
+                    </div>
+                    <div class="small text-body-secondary">
+                      {$_("import.move.note")}
+                    </div>
+                  {/if}
+                </div>
+              {/if}
+            {:else if hostState === "checking"}
+              <div class="text-center py-3">
+                <span
+                  class="spinner-border spinner-border-sm"
+                  aria-hidden="true"></span>
+              </div>
+            {:else if hostState === "connect"}
+              <!-- Not connected yet: the same connect flow as the last setup step; the dialog
+                   opens here again when the website sends the owner back. -->
               <div class="vstack gap-2">
                 <p class="mb-0 text-body-secondary">
-                  {#if hostState === "reconnect"}
-                    {$_("import.host.reconnect")}
-                  {:else}
-                    {$_("import.host.intro")}
-                  {/if}
+                  {$_("import.host.intro", { values: { website } })}
                 </p>
-
-                {#if hostState === "checking" || hostState === "finishing"}
-                  <div
-                    class="small text-body-secondary hstack gap-2 justify-content-center py-2">
-                    <span
-                      class="spinner-border spinner-border-sm"
-                      aria-hidden="true"></span>
-                    {hostState === "finishing"
-                      ? $_("import.host.finishing")
-                      : $_("import.host.checking")}
-                  </div>
-                {/if}
               </div>
             {:else}
               <div class="vstack gap-2">
                 <div class="small text-success">
-                  <i class="fa-solid fa-circle-check me-1"></i>{accountName
-                    ? $_("import.host.connected-as", {
-                        values: { username: accountName },
-                      })
-                    : $_("import.host.connected")}
+                  <i class="fa-solid fa-circle-check me-1"></i>{$_(
+                    "import.host.linked",
+                    { values: { website, username: accountName } },
+                  )}
                 </div>
 
-                {#if backupsLoading}
-                  <div class="text-center py-2">
-                    <span
-                      class="spinner-border spinner-border-sm"
-                      aria-hidden="true"></span>
-                  </div>
-                {:else if backups.length === 0}
+                {#if backups.length === 0}
                   <div class="alert alert-secondary mb-0">
                     {$_("import.host.no-backups")}
                   </div>
@@ -213,9 +320,15 @@
                   type="password"
                   autocomplete="off"
                   placeholder={$_("import.passphrase")}
+                  bind:this={passphraseInput}
                   bind:value={passphrase} />
                 <label for="restorePassphrase">{$_("import.passphrase")}</label>
               </div>
+              {#if step === "host"}
+                <div class="form-text mt-0">
+                  {$_("import.host.passphrase-hint")}
+                </div>
+              {/if}
             {/if}
 
             {#if showDatabase}
@@ -314,32 +427,28 @@
               class="alert alert-danger mb-0"
               transition:slide={{ duration: 150 }}>
               <i class="fa-solid fa-triangle-exclamation me-2"></i>
-              {$_(error.key, { values: { code: error.code } })}
+              {$_(error.key, { values: { code: error.code, website } })}
             </div>
           {/if}
         </div>
 
-        {#if step === "file" || step === "host"}
+        {#if step === "file" || step === "host" || step === "move"}
           <div class="modal-footer">
-            {#if step === "host" && hostState !== "connected"}
+            {#if (step === "host" && hostState !== "linked") || (step === "move" && moveState !== "linked")}
               <button
                 type="button"
                 class="btn btn-primary w-100"
-                disabled={hostState !== "connect" &&
-                  hostState !== "reconnect" &&
-                  hostState !== "failed"}
-                onclick={hostState === "failed" ? loadBackups : connect}>
-                {#if hostState === "redirecting" || hostState === "finishing"}
+                disabled={(step === "move" ? moveState : hostState) ===
+                  "checking" || connecting}
+                onclick={connect}>
+                {#if connecting}
                   <span
                     class="spinner-border spinner-border-sm me-2"
                     aria-hidden="true"></span>
                   {$_("buttons.connecting")}
-                {:else if hostState === "failed"}
-                  {$_("import.host.retry")}
-                {:else if hostState === "reconnect"}
-                  {$_("import.host.reconnect-button")}
                 {:else}
-                  {$_("import.host.connect")}
+                  <i class="fa-solid fa-link me-2" aria-hidden="true"></i>
+                  {$_("import.host.connect", { values: { website } })}
                 {/if}
               </button>
             {:else}
@@ -353,7 +462,9 @@
                     class="spinner-border spinner-border-sm me-2"
                     aria-hidden="true"></span>
                 {/if}
-                {$_("import.restore")}
+                {step === "move"
+                  ? $_("import.move.submit")
+                  : $_("import.restore")}
               </button>
             {/if}
           </div>
@@ -364,18 +475,14 @@
 {/if}
 
 <script>
+  import { tick } from "svelte";
   import { fade, fly, slide } from "svelte/transition";
   import { _ } from "svelte-i18n";
 
-  import { untrack } from "svelte";
+  import DragAndDropZone from "$lib/components/DragAndDropZone.svelte";
 
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
   import { currentLanguage } from "$lib/language.util";
-  import {
-    connectNeeded,
-    connectSucceeded,
-    connectUrl,
-  } from "$lib/panoHost.util.js";
   import { PANO_WEBSITE_URL } from "$lib/variables.js";
   import {
     archiveKind,
@@ -384,13 +491,23 @@
     formatBytes,
     inspectArchiveFile,
     jobPercent,
+    websiteHost,
   } from "$lib/restore.util.js";
 
   /**
-   * `resume`: the panomc.com sign-in came back to the first page (`connectReturn`); the dialog opens
-   * on "Pano Backup" and finishes the connection.
+   * `initialStep`: "host" reopens the dialog on Pano Backup, e.g. when the website sends the owner
+   * back from connecting their account; `initialError` shows why that connect did not work.
    */
-  let { open = $bindable(false), resume = $bindable(null) } = $props();
+  let {
+    open = $bindable(false),
+    initialStep = "selection",
+    initialError = null,
+  } = $props();
+
+  /** Where the dialog asks the setup page to reopen it on Pano Backup after the connect round trip. */
+  const REOPEN_KEY = "pano-setup-transfer";
+
+  const website = websiteHost(PANO_WEBSITE_URL);
 
   /** @type {"selection" | "file" | "host" | "running" | "done"} */
   let step = $state("selection");
@@ -402,20 +519,26 @@
   let file = $state(null);
   /** @type {"plain" | "passphrase" | "workload" | "unknown" | null} */
   let fileKind = $state(null);
+  /** The dropped file was not a .panoarc / .zip at all. */
+  let fileRejected = $state(false);
+  /** @type {HTMLInputElement | undefined} */
+  let passphraseInput = $state();
   let passphrase = $state("");
   let database = $state({ host: "", dbName: "", username: "", password: "" });
 
-  /**
-   * The platform connection (shared with setup step 4): "checking" the backups, "connect" /
-   * "reconnect" needed, "redirecting" to panomc.com, "finishing" a returned sign-in, "connected",
-   * or "failed" to list them (panomc.com unreachable, no plan, …; retry).
-   * @type {"checking" | "connect" | "reconnect" | "redirecting" | "finishing" | "connected" | "failed"}
-   */
+  /** Pano Backup: asking the account, not connected yet, or connected with its backups listed. */
+  /** @type {"checking" | "connect" | "linked"} */
   let hostState = $state("checking");
+  let connecting = $state(false);
   let accountName = $state("");
   let backups = $state([]);
-  let backupsLoading = $state(false);
   let selectedBackupId = $state(null);
+
+  /** Moving from Pano Host: the same connect step, then the account's instances. */
+  /** @type {"checking" | "connect" | "linked"} */
+  let moveState = $state("checking");
+  let instances = $state([]);
+  let selectedInstanceId = $state(null);
 
   let uploadProgress = $state(null);
   let job = $state(null);
@@ -425,18 +548,23 @@
   const locked = $derived(step === "running" || step === "done");
   const needsPassphrase = $derived(
     (step === "file" && fileKind === "passphrase") ||
-      (step === "host" && hostState === "connected" && backups.length > 0),
+      (step === "host" && hostState === "linked" && backups.length > 0),
   );
   const showDatabase = $derived(
     (step === "file" && (fileKind === "plain" || fileKind === "passphrase")) ||
-      (step === "host" && hostState === "connected" && backups.length > 0),
+      (step === "host" && hostState === "linked" && backups.length > 0) ||
+      (step === "move" && moveState === "linked" && !!selectedInstanceId),
   );
+  // A Pano Backup may be plain (a passphrase is recommended, not required) and the list does not
+  // say which, so its passphrase is optional: an encrypted one without it fails with its own error.
   const canRestore = $derived(
     databaseProblem(database) === null &&
       (step === "file"
         ? fileKind === "plain" ||
           (fileKind === "passphrase" && passphrase.length > 0)
-        : !!selectedBackupId && passphrase.length > 0),
+        : step === "move"
+          ? !!selectedInstanceId
+          : !!selectedBackupId),
   );
   const percent = $derived(
     job
@@ -472,26 +600,28 @@
     submitting = false;
     file = null;
     fileKind = null;
+    fileRejected = false;
     passphrase = "";
     hostState = "checking";
+    connecting = false;
     accountName = "";
     backups = [];
     selectedBackupId = null;
+    moveState = "checking";
+    instances = [];
+    selectedInstanceId = null;
     uploadProgress = null;
     job = null;
   }
 
-  // Fresh dialog on every open; timers never outlive it.
+  // Fresh dialog on every open (on `initialStep`); timers never outlive it.
   $effect(() => {
     if (open) {
       reset();
 
-      const returned = untrack(() => resume);
-
-      if (returned) {
-        resume = null;
-        finishConnect(returned);
-      }
+      if (initialStep === "host") openHost();
+      if (initialStep === "move") openMove();
+      if (initialError) error = initialError;
     }
 
     return clearTimer;
@@ -510,89 +640,62 @@
     step = "selection";
   }
 
-  function openHost() {
-    error = null;
-    step = "host";
-    loadBackups();
-  }
-
   function fail(body) {
     submitting = false;
     error = describeError(body && body.error ? body : { error: NETWORK_ERROR });
   }
 
-  async function pickFile(event) {
+  /**
+   * Reads the start of the chosen archive: an encrypted one asks for its passphrase right away,
+   * anything that is not a Pano backup is refused before it is uploaded.
+   *
+   * @param {File} picked
+   */
+  async function pickFile(picked) {
     error = null;
-    file = event.currentTarget.files?.[0] || null;
+    file = picked;
     fileKind = null;
-
-    if (file) {
-      try {
-        fileKind = archiveKind(await inspectArchiveFile(file));
-      } catch {
-        fileKind = "unknown";
-      }
-    }
-  }
-
-  /** Same connect as setup step 4; panomc.com sends the browser back to the first page. */
-  async function connect() {
-    const reconnect = hostState === "reconnect";
-
-    error = null;
-    hostState = "redirecting";
+    fileRejected = false;
 
     try {
-      if (reconnect) {
-        await ApiUtil.post({ path: "/api/setup/steps/4/platform/disconnect" });
-      }
-
-      const body = await ApiUtil.post({
-        path: "/api/setup/steps/4/platform/code",
-      });
-
-      if (body.result !== "ok") {
-        hostState = "connect";
-        fail(body);
-        return;
-      }
-
-      window.location.assign(
-        connectUrl({
-          websiteUrl: PANO_WEBSITE_URL,
-          publicKey: body.publicKey,
-          state: body.state,
-          redirectUrl: window.location.origin + "/",
-          locale: $currentLanguage.locale,
-        }),
-      );
+      fileKind = archiveKind(await inspectArchiveFile(picked));
     } catch {
-      hostState = "connect";
-      fail(null);
+      fileKind = "unknown";
+    }
+
+    if (fileKind === "passphrase") {
+      await tick();
+      passphraseInput?.focus();
     }
   }
 
-  /** @param {{ encodedData: string | null, state: string | null, failed: boolean }} returned */
-  function finishConnect(returned) {
+  function clearFile() {
+    file = null;
+    fileKind = null;
+    fileRejected = false;
+    passphrase = "";
+    error = null;
+  }
+
+  /** Pano Backup: lists the connected account's backups, or offers to connect one. */
+  function openHost() {
     step = "host";
+    hostState = "checking";
+    error = null;
 
-    if (returned.failed) {
-      hostState = "connect";
-      fail({ error: "PANO_CONNECT_FAILED" });
-      return;
-    }
-
-    hostState = "finishing";
-
-    ApiUtil.post({
-      path: "/api/setup/steps/4/platform/connect",
-      body: { encodedData: returned.encodedData, state: returned.state },
-    })
+    ApiUtil.get({ path: "/api/setup/pano-host/backups" })
       .then((body) => {
         if (step !== "host") return;
 
-        if (connectSucceeded(body)) {
-          loadBackups();
+        if (body.result === "ok") {
+          accountName = body.account?.username || "";
+          backups = [...(body.backups || [])].sort(
+            (a, b) => (b.createdAt || 0) - (a.createdAt || 0),
+          );
+          selectedBackupId = backups[0]?.id ?? null;
+          hostState = "linked";
+        } else if (body.hostError === "CONNECT_REQUIRED") {
+          hostState = "connect";
         } else {
           hostState = "connect";
           fail(body);
@@ -604,34 +707,65 @@
       });
   }
 
-  function loadBackups() {
-    if (hostState !== "finishing") hostState = "checking";
-    backupsLoading = true;
+  /** Pano Host: the account's instances (the exportable one preselected), or the connect step. */
+  function openMove() {
+    step = "move";
+    moveState = "checking";
+    error = null;
 
-    ApiUtil.get({ path: "/api/setup/pano-host/backups" })
+    ApiUtil.get({ path: "/api/setup/pano-host/instances" })
       .then((body) => {
-        backupsLoading = false;
-        if (step !== "host") return;
+        if (step !== "move") return;
 
-        if (body.result !== "ok") {
-          const needed = connectNeeded(body);
+        if (body.result === "ok") {
+          accountName = body.account?.username || "";
+          instances = body.workloads || [];
+          selectedInstanceId =
+            instances.find((instance) => instance.exportable)?.id ?? null;
+          moveState = "linked";
+        } else {
+          moveState = "connect";
+          if (body.hostError !== "CONNECT_REQUIRED") fail(body);
+        }
+      })
+      .catch(() => {
+        moveState = "connect";
+        fail(null);
+      });
+  }
 
-          hostState = needed || "failed";
-          if (!needed) fail(body);
+  /**
+   * Connects the panomc.com account like the last setup step does: a key from Pano, then the
+   * website's sign-in, which sends the owner back to this page. The setup page reopens this dialog
+   * on Pano Backup then (see Beginning.svelte).
+   */
+  function connect() {
+    error = null;
+    connecting = true;
+
+    ApiUtil.post({ path: "/api/setup/steps/4/platform/code" })
+      .then((body) => {
+        if (body.error) {
+          connecting = false;
+          fail(body);
           return;
         }
 
-        hostState = "connected";
-        accountName = body.account?.username || "";
+        try {
+          // Reopen on the step that asked (Pano Backup or Pano Host).
+          sessionStorage.setItem(REOPEN_KEY, step === "move" ? "move" : "host");
+        } catch {
+          // blocked storage: the account still connects, the dialog just does not reopen itself
+        }
 
-        backups = [...(body.backups || [])].sort(
-          (a, b) => (b.createdAt || 0) - (a.createdAt || 0),
+        const redirectUrl = encodeURIComponent(
+          window.location.origin + window.location.pathname,
         );
-        selectedBackupId = backups[0]?.id ?? null;
+
+        window.location.href = `${PANO_WEBSITE_URL}/auth?loginPanoPlatform=${encodeURIComponent(body.publicKey)}&redirectUrl=${redirectUrl}&state=${encodeURIComponent(body.state)}&hl=${$currentLanguage.locale}`;
       })
       .catch(() => {
-        backupsLoading = false;
-        hostState = "failed";
+        connecting = false;
         fail(null);
       });
   }
@@ -679,6 +813,18 @@
         path: "/api/setup/restore",
         body: form,
         onUploadProgress: (value) => (uploadProgress = value),
+      })
+        .then(started)
+        .catch(() => {
+          step = source;
+          fail(null);
+        });
+    } else if (step === "move") {
+      step = "running";
+
+      ApiUtil.post({
+        path: `/api/setup/pano-host/instances/${encodeURIComponent(selectedInstanceId)}/move`,
+        body: target,
       })
         .then(started)
         .catch(() => {

@@ -39,14 +39,23 @@ export const KNOWN_ERRORS = Object.freeze([
   "HASH_MISMATCH",
   "RESTORE_FAILED",
   "DATABASE_CONNECTION_FAILED",
-  "PANO_HOST_UNAVAILABLE",
+  "EXPORT_FAILED",
+  "RATE_LIMITED",
+  "TASK_IN_PROGRESS",
+  "PORTAL_OFFLINE",
+  "PORTAL_UNSUPPORTED",
+  "WORKLOAD_SUSPENDED",
+  "INVALID_WORKLOAD_STATE",
+  "WORKLOAD_NOT_FOUND",
   "CONNECT_REQUIRED",
-  "PANO_CONNECT_FAILED",
+  "PANO_HOST_UNAVAILABLE",
+  "PANO_HOST_NOT_LINKED",
   "INVALID_TOKEN",
   "DOWNLOAD_FAILED",
   "INTEGRITY_FAILED",
   "BACKUP_NOT_FOUND",
   "PAYMENT_REQUIRED",
+  "LINK_EXPIRED",
 ]);
 
 /**
@@ -215,4 +224,18 @@ export function describeError(source) {
       ? `import.errors.${code}`
       : "import.errors.generic",
   };
+}
+
+/**
+ * The host of the Pano website setup talks to (e.g. `panomc.com`), for `{website}` in the texts.
+ *
+ * @param {string | null | undefined} url `PANO_WEBSITE_URL`.
+ * @returns {string}
+ */
+export function websiteHost(url) {
+  try {
+    return new URL(String(url)).hostname || "panomc.com";
+  } catch {
+    return "panomc.com";
+  }
 }

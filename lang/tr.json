@@ -174,7 +174,20 @@
     "pano-host": {
       "title": "Pano Backup",
       "badge": "Önerilen",
-      "description": "panomc.com hesabınızla giriş yapın ve Pano Backup yedeklerinizden birini geri yükleyin."
+      "description": "{website} hesabınızla giriş yapın ve Pano Backup yedeklerinizden birini geri yükleyin."
+    },
+    "move": {
+      "title": "Pano Host",
+      "description": "Pano Host instance'larınızdan birini buraya taşıyın: dosyaları ve veritabanı şu anki hâliyle gelir.",
+      "intro": "Pano Host instance'larınızı görmek için bu Pano'yu {website} hesabınıza bağlayın.",
+      "none": "Bu hesabın Pano Host instance'ı yok.",
+      "note": "Instance Pano Host'ta çalışmaya devam eder. Taşıma bitince aboneliğini website üzerinden sonlandırın.",
+      "submit": "Buraya taşı",
+      "reasons": {
+        "SUSPENDED": "Askıya alındığı için dışa aktarılamaz.",
+        "STATE": "Şu an kuruluyor ya da değiştiriliyor, bu yüzden henüz dışa aktarılamaz.",
+        "NO_PORTAL": "Henüz bir sunucuya yerleştirilmedi, bu yüzden dışa aktarılamaz."
+      }
     },
     "other-pano": {
       "title": "Yedek dosyasından geri yükle",
@@ -182,23 +195,23 @@
     },
     "file": {
       "label": "Yedek dosyası",
+      "drop": "Yedeği buraya bırakın ya da seçmek için tıklayın",
+      "change": "Başka dosya seç",
       "plain": "Bu yedek şifreli değil.",
+      "plain-short": "Düz arşiv",
       "encrypted": "Bu yedek şifreli. Oluşturulurken kullanılan parolayı girin.",
-      "workload": "Bu yedek Pano Host örneğine kilitli ve burada açılamaz. Bunun yerine panomc.com üzerinden dışa aktarımını indirin.",
+      "encrypted-short": "Şifreli",
+      "workload": "Bu yedek Pano Host örneğine kilitli ve burada açılamaz. Bunun yerine {website} üzerinden dışa aktarımını indirin.",
       "unknown": "Bu bir Pano yedek dosyası değil."
     },
     "passphrase": "Parola",
     "host": {
-      "intro": "Pano Yedeklerinizi görmek için bu Pano'yu panomc.com hesabınıza bağlayın. Hesap, kurulumun son adımı için de bağlı kalır.",
-      "connect": "panomc.com hesabını bağla",
-      "no-backups": "Bu panomc.com hesabında henüz tamamlanmış bir Pano Yedeği yok.",
-      "reconnect": "Bu Pano'nun panomc.com bağlantısı iptal edilmiş. Pano Yedeklerinizi görmek için hesabınızı yeniden bağlayın.",
-      "reconnect-button": "Yeniden bağla",
-      "retry": "Tekrar dene",
-      "checking": "panomc.com bağlantınız kontrol ediliyor...",
-      "finishing": "panomc.com hesabınız bağlanıyor...",
-      "connected": "panomc.com hesabınıza bağlandı.",
-      "connected-as": "{username} panomc.com hesabına bağlandı."
+      "intro": "Pano Backup yedeklerinizi görmek için bu Pano'yu {website} hesabınıza bağlayın.",
+      "connect": "{website} hesabını bağla",
+      "linked": "{website} hesabına {username} olarak bağlı.",
+      "no-backups": "Bu hesabın henüz tamamlanmış bir Pano Backup yedeği yok.",
+      "passphrase-hint": "Sadece yedek bir parolayla şifrelendiyse gerekir.",
+      "connect-failed": "{website} hesabı bağlanamadı. Tekrar deneyin."
     },
     "database": {
       "title": "Geri yüklenecek veritabanı",
@@ -209,6 +222,7 @@
     "progress": {
       "title": "Siteniz geri yükleniyor",
       "UPLOADING": "Yedek yükleniyor...",
+      "EXPORTING": "Pano Host instance'ın dışa aktarımını hazırlıyor...",
       "DOWNLOADING": "Yedek Pano Backup'tan indiriliyor...",
       "RESTORING": "Yedek doğrulanıyor ve geri yükleniyor...",
       "keep-open": "Bu sayfayı açık tutun."
@@ -241,14 +255,23 @@
       "HASH_MISMATCH": "Yedek bütünlük kontrolünden geçemedi. Hiçbir şey geri yüklenmedi.",
       "RESTORE_FAILED": "Geri yükleme başarısız oldu. Ayrıntılar için Pano konsoluna bakın.",
       "DATABASE_CONNECTION_FAILED": "Veritabanına bağlanılamıyor. Veritabanı bilgilerini kontrol edin.",
-      "PANO_HOST_UNAVAILABLE": "panomc.com'a şu anda ulaşılamıyor. Daha sonra tekrar deneyin.",
-      "INVALID_TOKEN": "panomc.com bağlantısı iptal edilmiş. Yeniden bağlayın.",
+      "PANO_HOST_UNAVAILABLE": "{website} adresine şu anda ulaşılamıyor. Daha sonra tekrar deneyin.",
+      "PANO_HOST_NOT_LINKED": "Bu Pano {website} hesabına bağlı değil. Yeniden bağlanın.",
+      "INVALID_TOKEN": "{website} bağlantısı iptal edilmiş. Yeniden bağlanın.",
       "DOWNLOAD_FAILED": "Yedek Pano Backup'tan indirilemedi. Tekrar deneyin.",
       "INTEGRITY_FAILED": "İndirilen yedek bütünlük kontrolünden geçemedi. Tekrar deneyin.",
       "BACKUP_NOT_FOUND": "Bu Pano Backup yedeği artık mevcut değil.",
-      "PAYMENT_REQUIRED": "Bu panomc.com hesabının Pano Backup planı yok.",
-      "CONNECT_REQUIRED": "Bu Pano panomc.com'a bağlı değil. Önce hesabınızı bağlayın.",
-      "PANO_CONNECT_FAILED": "panomc.com hesabı bağlanamadı. Tekrar deneyin."
+      "PAYMENT_REQUIRED": "Bu {website} hesabının Pano Backup planı yok.",
+      "LINK_EXPIRED": "Kodun süresi doldu. Yeniden bağlanın.",
+      "EXPORT_FAILED": "Pano Host bu instance'ı dışa aktaramadı. Daha sonra tekrar deneyin.",
+      "RATE_LIMITED": "Bu instance kısa süre önce dışa aktarıldı. Günde bir kez yeni dışa aktarım yapılabilir.",
+      "TASK_IN_PROGRESS": "Instance Pano Host'ta başka bir işle meşgul. Birkaç dakika sonra tekrar deneyin.",
+      "PORTAL_OFFLINE": "Bu instance'ı çalıştıran sunucu çevrimdışı. Daha sonra tekrar deneyin.",
+      "PORTAL_UNSUPPORTED": "Bu instance'ı çalıştıran sunucu henüz dışa aktarma yapamıyor.",
+      "WORKLOAD_SUSPENDED": "Bu instance askıya alındığı için dışa aktarılamaz.",
+      "INVALID_WORKLOAD_STATE": "Bu instance şu anki durumunda dışa aktarılamaz.",
+      "WORKLOAD_NOT_FOUND": "Bu instance hesabınızda bulunamadı.",
+      "CONNECT_REQUIRED": "Önce hesabınızı bağlayın."
     }
   }
 }

@@ -10,6 +10,7 @@ import {
   inspectArchiveHeader,
   jobPercent,
   pollDelay,
+  websiteHost,
 } from "./restore.util.js";
 
 /** @param {object} header */
@@ -147,5 +148,13 @@ describe("helpers", () => {
       key: "import.errors.generic",
     });
     expect(describeError({ result: "ok" })).toBeNull();
+  });
+
+  test("websiteHost names the configured Pano website", () => {
+    expect(websiteHost("https://local.panomc.com:3003")).toBe(
+      "local.panomc.com",
+    );
+    expect(websiteHost("https://panomc.com/")).toBe("panomc.com");
+    expect(websiteHost(undefined)).toBe("panomc.com");
   });
 });

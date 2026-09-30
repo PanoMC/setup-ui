@@ -189,12 +189,14 @@
             </button>
           {/if}
 
-          {#if $currentStep === 0 && $navigationState.showTransfer}
+          <!-- Tied to the step (known when the page is rendered on the server), not to the flag the
+               first page sets on mount, so the button is there as soon as the page is. -->
+          {#if $currentStep === 0}
             <button
               class="btn btn-primary"
-              on:click={$navigationState.transferAction}
+              on:click={() => $navigationState.transferAction?.()}
               disabled={$navigationState.nextLoading}>
-              <i class="fa-solid fa-undo me-2"></i>{$_(
+              <i class="fa-solid fa-right-left me-2"></i>{$_(
                 "import.toggle-btn",
               )}</button>
           {/if}
