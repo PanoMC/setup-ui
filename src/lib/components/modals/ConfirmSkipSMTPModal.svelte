@@ -8,33 +8,34 @@
     <div class="modal-content">
       <div class="modal-body text-center">
         <div class="pb-3">
-          <i class="fas fa-question-circle fa-3x d-block m-auto text-gray"></i>
+          <i class="fa-solid fa-circle-question fa-3x d-block m-auto"></i>
         </div>
-        {$_("components.modals.confirm-skip-smtp.title")}
-
-        <br/>
-        <br/>
-
-        {$_(
-          $usageMode === "SERVERS"
-            ? "components.modals.confirm-skip-smtp.description-servers"
-            : "components.modals.confirm-skip-smtp.description",
-        )}
+        <h5 class="mb-2">{$_("components.modals.confirm-skip-smtp.title")}</h5>
+        <div class="text-body-secondary">
+          {$_(
+            $usageMode === "SERVERS"
+              ? "components.modals.confirm-skip-smtp.description-servers"
+              : "components.modals.confirm-skip-smtp.description",
+          )}
+        </div>
       </div>
       <div class="modal-footer flex-nowrap">
         <button
-          class="btn btn-link col-6 m-0"
+          class="btn btn-link text-decoration-none col-6 m-0"
           type="button"
-          class:disabled="{loading}"
-          on:click="{hide}">
+          disabled={loading}
+          onclick={hide}>
           {$_("buttons.cancel")}
         </button>
         <button
           class="btn btn-danger col-6 m-0"
           type="button"
-          class:disabled="{loading}"
-          on:click="{onYesClick}">
-          {$_("buttons.yes")}
+          disabled={loading}
+          onclick={onYesClick}>
+          {#if loading}
+            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+          {/if}
+          {$_("buttons.skip")}
         </button>
       </div>
     </div>

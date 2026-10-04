@@ -7,6 +7,7 @@
     "remove": "Remove",
     "close": "Close",
     "skip": "Skip",
+    "disconnect": "Disconnect",
     "next": "Next",
     "back": "Back",
     "finish": "Finish",
@@ -99,10 +100,11 @@
   "components": {
     "modals": {
       "confirm-remove-pano-account": {
-        "title": "Are you sure to disconnect your online Pano account?"
+        "title": "Disconnect your online Pano account?",
+        "description": "Pano will no longer be linked to your online account. You can connect it again later."
       },
       "confirm-skip-smtp": {
-        "title": "Are you sure to skip setting up SMTP?",
+        "title": "Skip setting up SMTP?",
         "description": "Skipping this step may result in missing/not working features such as Password Reset or E-Mail validation.",
         "description-servers": "Skipping this step means Pano can't e-mail you alerts (server crashed, backup failed) or send password reset links."
       },
@@ -179,7 +181,7 @@
       "intro": "Connect this Pano to your {website} account to see your Pano Host instances.",
       "none": "This account has no Pano Host instances.",
       "note": "The instance keeps running on Pano Host. End its subscription on the website once the move is done.",
-      "submit": "Move here",
+      "submit": "Move Here",
       "reasons": {
         "SUSPENDED": "Suspended, so it cannot be exported.",
         "STATE": "It is being set up or changed right now, so it cannot be exported yet.",

@@ -10,6 +10,7 @@
     "remove": "Kaldır",
     "close": "Kapat",
     "skip": "Atla",
+    "disconnect": "Bağlantıyı Kes",
     "next": "İleri",
     "back": "Geri",
     "finish": "Tamamla",
@@ -33,9 +34,9 @@
         "url-placeholder": "https://benim-minecraft-sunucu-websitem.com",
         "url-helper": "Web sitenizin ziyaret edileceği tam adresi giriniz.",
         "url-helper-servers": "Panelinizin ve Minecraft sunucularınızın Pano'ya ulaşmak için kullanacağı adres.",
-        "url-host-mismatch": "Girdiğin adres, şu anda Pano'ya eriştiğin adresten farklı. Kurulum tamamlandıktan sonra Pano, farklı host'lardan (IP adresi dahil) gelen ziyaretçileri otomatik olarak bu adrese yönlendirecek. Yeni adrese ulaşamazsan yönlendirmeyi kapatmak için config dosyasında `website-url-redirect: false` yapabilirsin — fakat kimlik doğrulama çerezleri bu host'a bağlandığı için farklı host'lardan girişler çalışmayabilir.",
-        "url-port-mismatch": "Bu adresteki port ({port}), şu anda Pano'ya eriştiğin porttan ({current}) farklı. Ziyaretçilerinin gerçekten kullanacağı port olduğundan emin ol.",
-        "url-explicit-port": "Bu adres bir port ({port}) içeriyor. Ziyaretçiler sitene bir ters proxy (Nginx, Apache, Cloudflare) üzerinden standart porttan ulaşıyorsa, bağlantılar ve yönlendirmeler dahili bir porta işaret etmesin diye portu kaldır."
+        "url-host-mismatch": "Girdiğiniz adres, şu anda Pano'ya eriştiğiniz adresten farklı. Kurulum tamamlandıktan sonra Pano, farklı host'lardan (IP adresi dahil) gelen ziyaretçileri otomatik olarak bu adrese yönlendirecek. Yeni adrese ulaşılamıyorsa yönlendirmeyi kapatmak için config dosyasında `website-url-redirect: false` olarak ayarlayabilirsiniz. Ancak kimlik doğrulama çerezleri bu host'a bağlı olduğundan farklı host'lardan yapılan girişler çalışmayabilir.",
+        "url-port-mismatch": "Bu adresteki port ({port}), şu anda Pano'ya eriştiğiniz porttan ({current}) farklı. Ziyaretçilerinizin gerçekten kullanacağı port olduğundan emin olun.",
+        "url-explicit-port": "Bu adres bir port ({port}) içeriyor. Ziyaretçiler sitenize bir ters proxy (Nginx, Apache, Cloudflare) üzerinden standart porttan ulaşıyorsa, bağlantılar ve yönlendirmeler dahili bir porta işaret etmesin diye portu kaldırın."
       }
     },
     "database": {
@@ -102,10 +103,11 @@
   "components": {
     "modals": {
       "confirm-remove-pano-account": {
-        "title": "Çevrimiçi Pano hesabınızı kaldırmak istediğinize emin misiniz?"
+        "title": "Çevrimiçi Pano hesabınızın bağlantısı kesilsin mi?",
+        "description": "Pano artık çevrimiçi hesabınıza bağlı olmayacak. Daha sonra tekrar bağlayabilirsiniz."
       },
       "confirm-skip-smtp": {
-        "title": "SMTP kurulumunu atlamak istediğinize emin misiniz?",
+        "title": "SMTP kurulumu atlansın mı?",
         "description": "Bu adımı atlamak, Şifre Sıfırlama veya E-Posta doğrulama gibi özelliklerin eksik veya çalışmamasına neden olabilir.",
         "description-servers": "Bu adımı atlarsanız Pano size uyarı e-postaları (sunucu çöktü, yedekleme başarısız oldu) ve şifre sıfırlama bağlantıları gönderemez."
       },
@@ -126,7 +128,7 @@
       }
     },
     "toasts": {
-      "pano-account-connect-success": "Pano hesabın başarıyla bağlandı!",
+      "pano-account-connect-success": "Pano hesabınız başarıyla bağlandı!",
       "pano-account-disconnect-success": "Pano hesabı başarıyla kaldırıldı!",
       "pano-account-disconnect-fail": "Pano hesabı kaldırılırken hata oluştu!"
     }
@@ -182,7 +184,7 @@
       "intro": "Pano Host instance'larınızı görmek için bu Pano'yu {website} hesabınıza bağlayın.",
       "none": "Bu hesabın Pano Host instance'ı yok.",
       "note": "Instance Pano Host'ta çalışmaya devam eder. Taşıma bitince aboneliğini website üzerinden sonlandırın.",
-      "submit": "Buraya taşı",
+      "submit": "Buraya Taşı",
       "reasons": {
         "SUSPENDED": "Askıya alındığı için dışa aktarılamaz.",
         "STATE": "Şu an kuruluyor ya da değiştiriliyor, bu yüzden henüz dışa aktarılamaz.",
@@ -218,7 +220,7 @@
       "description": "Yedeklenen site bu MySQL veya MariaDB veritabanına geri yüklenir. İçindeki Pano tabloları değiştirilir."
     },
     "restore-warning": "Geri yükleme, bu kurulumu yönetici hesapları ve ayarlarıyla birlikte yedeklenen siteyle değiştirir. İşlem bitince Pano yeniden başlar.",
-    "restore": "Geri yükle",
+    "restore": "Geri Yükle",
     "progress": {
       "title": "Siteniz geri yükleniyor",
       "UPLOADING": "Yedek yükleniyor...",

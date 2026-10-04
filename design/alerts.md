@@ -11,9 +11,10 @@ Alerts are plain Bootstrap 5 alerts (`alert alert-{variant}`). Do not restyle th
 
 ## Text
 
-- **Title**: always a `<b>` element, and always capitalized (`Update Available`, not
-  `Update available`). Write the capitalization in the language string itself. No `alert-heading`,
-  no `h1`–`h6`.
+- **Title**: always `<h5 class="alert-heading mb-2">`, and always capitalized
+  (`Update Available`, not `Update available`). Write the capitalization in the language string
+  itself. Do not add `fw-bold` or any other weight or size class. No other heading level, no `<b>`
+  or `<strong>`.
 - **Body / description**: default alert text. Never set a custom color or a custom size on it (no
   `text-*`, `small`, `fs-*`, `opacity-*`, inline styles).
 - Allowed emphasis inside the body: bold and italic.
@@ -31,7 +32,7 @@ Alerts are plain Bootstrap 5 alerts (`alert alert-{variant}`). Do not restyle th
 <div class="alert alert-warning alert-dismissible d-flex align-items-start" role="alert">
   <i class="fa-solid fa-triangle-exclamation me-3 mt-1" aria-hidden="true"></i>
   <div>
-    <b>{$_('alerts.update.title')}</b>
+    <h5 class="alert-heading mb-2">{$_('alerts.update.title')}</h5>
     <div>{$_('alerts.update.description')}</div>
     <ul class="mb-2">
       <li>{$_('alerts.update.item-1')}</li>
@@ -46,7 +47,9 @@ Alerts are plain Bootstrap 5 alerts (`alert alert-{variant}`). Do not restyle th
 
 ## Don't
 
-- Title as `<strong>`, `<h5 class="alert-heading">` or lowercase.
+- Title as `<b>`, `<strong>`, `<h6 class="alert-heading">` (any heading other than `h5`), with
+  `fw-bold`, without `mb-2`, or lowercase.
+- Title and description side by side on one line; the description goes in its own block below.
 - `small`, `text-muted` or colored spans on the description.
 - Icon on the right, on top, or inside the title element.
 - `btn btn-sm btn-warning` (or any regular button variant) as an alert action.

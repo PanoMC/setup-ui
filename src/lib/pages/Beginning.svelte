@@ -1,27 +1,23 @@
 <div class:opacity-50={disabled}>
   {#if stepInfo.stage === 'ALPHA' && !$languageLoading && !$isLoading}
     <div class="card-body pb-0">
-      <div class="alert alert-warning mb-0">
-        <h6 class="alert-heading hstack gap-2">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-          {$_("alpha-warning.title")}
-        </h6>
-        <p class="mb-0 small">
-          {$_("alpha-warning.description")}
-        </p>
+      <div class="alert alert-warning d-flex align-items-start mb-0" role="alert">
+        <i class="fa-solid fa-triangle-exclamation me-3 mt-1" aria-hidden="true"></i>
+        <div>
+          <h5 class="alert-heading d-inline me-2">{$_("alpha-warning.title")}</h5>
+          <span>{$_("alpha-warning.description")}</span>
+        </div>
       </div>
     </div>
   {/if}
   {#if stepInfo.stage === 'BETA' && !$languageLoading && !$isLoading}
     <div class="card-body pb-0">
-      <div class="alert alert-info mb-0">
-        <h6 class="alert-heading hstack gap-2">
-          <i class="fa-solid fa-circle-info"></i>
-          {$_("beta-warning.title")}
-        </h6>
-        <p class="mb-0 small">
-          {$_("beta-warning.description")}
-        </p>
+      <div class="alert alert-info d-flex align-items-start mb-0" role="alert">
+        <i class="fa-solid fa-circle-info me-3 mt-1" aria-hidden="true"></i>
+        <div>
+          <h5 class="alert-heading d-inline me-2">{$_("beta-warning.title")}</h5>
+          <span>{$_("beta-warning.description")}</span>
+        </div>
       </div>
     </div>
   {/if}

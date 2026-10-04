@@ -30,7 +30,7 @@
               rel="noreferrer"
               title="{$_("buttons.docs")}"
               aria-label={$_("buttons.docs")}>
-              <i class="fa-solid fa-book"></i>
+              <i class="fa-solid fa-book-open"></i>
             </a>
           </li>
           <li class="nav-item">
@@ -50,14 +50,20 @@
 
     <!-- Center Section: Logo (Order 2) -->
     <div class="col-4 d-flex justify-content-center order-2">
-      <div class="navbar-brand me-0 d-inline-flex align-items-center justify-content-center bg-primary rounded" style="width: 32px; height: 32px;">
-        <a
-          href={PANO_WEBSITE_URL}
-          target="_blank"
-          aria-label="Pano">
-          <img src="/assets/img/logo.svg" width="24" height="24" alt="Pano" />
-        </a>
-      </div>  
+      <a
+        class="navbar-brand me-0 d-flex align-items-center"
+        href={PANO_WEBSITE_URL}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Pano">
+        <img
+          src="/assets/img/logo.svg"
+          alt="Pano"
+          title="Pano"
+          width="34"
+          class="bg-primary rounded"
+          style="padding: 0.375rem;" />
+      </a>
     </div>
 
     <!-- Right Section: Version Info (Order 3) -->

@@ -1,107 +1,42 @@
-<style>
-  .usage-mode-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    width: 100%;
-    padding: 0.85rem;
-    text-align: start;
-    color: var(--bs-body-color);
-    background-color: transparent;
-    border: 1px solid var(--bs-border-color);
-    border-radius: var(--bs-border-radius);
-    transition:
-      border-color 0.15s ease-in-out,
-      background-color 0.15s ease-in-out,
-      box-shadow 0.15s ease-in-out;
-  }
-
-  .usage-mode-card:hover:not(:disabled) {
-    border-color: rgba(var(--bs-primary-rgb), 0.45);
-    background-color: rgba(var(--bs-primary-rgb), 0.06);
-  }
-
-  .usage-mode-card:focus-visible {
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
-  }
-
-  .usage-mode-card.selected {
-    border-color: rgba(var(--bs-primary-rgb), 0.6);
-    background-color: rgba(var(--bs-primary-rgb), 0.1);
-    box-shadow: inset 0 0 0 1px rgba(var(--bs-primary-rgb), 0.6);
-  }
-
-  .usage-mode-card:disabled {
-    cursor: default;
-  }
-
-  .usage-mode-card-head {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .usage-mode-icon {
-    width: 1.25rem;
-    text-align: center;
-    color: var(--bs-secondary-color);
-  }
-
-  .usage-mode-card.selected .usage-mode-icon {
-    color: var(--bs-primary);
-  }
-
-  .usage-mode-check {
-    color: var(--bs-primary);
-  }
-</style>
-
 <div>
-  <div class="mb-2">
-    <div class="fw-semibold" id="{uid}-label">{$_("usage-mode.title")}</div>
-    <div class="text-body-secondary small">{$_("usage-mode.subtitle")}</div>
+  <div class="mb-2 text-center">
+    <h5 id="{uid}-label">{$_("usage-mode.title")}</h5>
+    <p class="text-body-secondary">{$_("usage-mode.subtitle")}</p>
   </div>
 
   <div
-    class="row row-cols-1 row-cols-md-3 g-2"
+    class="list-group list-group-horizontal-md"
     role="radiogroup"
     aria-labelledby="{uid}-label">
     {#each modes as mode, index (mode.id)}
       {@const selected = value === mode.id}
-      <div class="col">
-        <button
-          {@attach register(index)}
-          type="button"
-          role="radio"
-          class="usage-mode-card h-100"
-          class:selected={selected}
-          aria-checked={selected}
-          tabindex={index === activeIndex ? 0 : -1}
-          disabled={disabled}
-          onclick={() => select(mode.id)}
-          onkeydown={onKeyDown}>
-          <span class="usage-mode-card-head">
-            <i class="{mode.icon} usage-mode-icon" aria-hidden="true"></i>
-            <span class="fw-semibold">
-              {$_("usage-mode." + mode.key + ".title")}
+      <button
+        {@attach register(index)}
+        type="button"
+        role="radio"
+        class="list-group-item list-group-item-action d-flex flex-column justify-content-start text-start"
+        class:active={selected}
+        style="flex: 1 1 0;"
+        aria-checked={selected}
+        tabindex={index === activeIndex ? 0 : -1}
+        disabled={disabled}
+        onclick={() => select(mode.id)}
+        onkeydown={onKeyDown}>
+        <span class="d-flex align-items-center gap-2 mb-1">
+          <i class="{mode.icon} text-center" style="width: 1.25rem;" aria-hidden="true"></i>
+          <span class="fw-semibold">
+            {$_("usage-mode." + mode.key + ".title")}
+          </span>
+          {#if mode.recommended && !selected}
+            <span class="badge text-bg-primary ms-auto">
+              {$_("usage-mode.recommended")}
             </span>
-            {#if mode.recommended && !selected}
-              <span class="badge text-bg-primary ms-auto">
-                {$_("usage-mode.recommended")}
-              </span>
-            {/if}
-            {#if selected}
-              <i
-                class="fa-solid fa-circle-check usage-mode-check ms-auto"
-                aria-hidden="true"></i>
-            {/if}
-          </span>
-          <span class="small text-body-secondary">
-            {$_("usage-mode." + mode.key + ".description")}
-          </span>
-        </button>
-      </div>
+          {/if}
+        </span>
+        <span class="d-block">
+          {$_("usage-mode." + mode.key + ".description")}
+        </span>
+      </button>
     {/each}
   </div>
 </div>
