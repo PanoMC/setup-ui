@@ -1,3 +1,24 @@
+<style>
+  .input-group-top {
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 1;
+  }
+  .input-group-top:focus-within {
+    z-index: 3;
+  }
+  .input-group-top .form-control:not(:focus) {
+    border-bottom-color: transparent;
+  }
+  .input-group-bottom {
+    position: relative;
+    z-index: 1;
+  }
+  .input-group-bottom:focus-within {
+    z-index: 3;
+  }
+</style>
+
 <div class="animate__animated animate__fadeIn animate__slower">
   <form on:submit|preventDefault={submit}>
     <CardHeader>{$_("steps.website.title")}</CardHeader>
@@ -197,24 +218,3 @@
     }
   }
 </script>
-
-<style>
-  .input-group-top {
-    margin-bottom: -1px;
-    position: relative;
-    z-index: 1;
-  }
-  .input-group-top:focus-within {
-    z-index: 3;
-  }
-  .input-group-top .form-control:not(:focus) {
-    border-bottom-color: transparent;
-  }
-  .input-group-bottom {
-    position: relative;
-    z-index: 1;
-  }
-  .input-group-bottom:focus-within {
-    z-index: 3;
-  }
-</style>

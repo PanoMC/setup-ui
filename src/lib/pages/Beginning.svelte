@@ -1,21 +1,28 @@
 <div class:opacity-50={disabled}>
-  {#if stepInfo.stage === 'ALPHA' && !$languageLoading && !$isLoading}
+  {#if stepInfo.stage === "ALPHA" && !$languageLoading && !$isLoading}
     <div class="card-body pb-0">
-      <div class="alert alert-warning d-flex align-items-start mb-0" role="alert">
-        <i class="fa-solid fa-triangle-exclamation me-3 mt-1" aria-hidden="true"></i>
+      <div
+        class="alert alert-warning d-flex align-items-start mb-0"
+        role="alert">
+        <i class="fa-solid fa-triangle-exclamation me-3 mt-1" aria-hidden="true"
+        ></i>
         <div>
-          <h5 class="alert-heading d-inline me-2">{$_("alpha-warning.title")}</h5>
+          <h5 class="alert-heading d-inline me-2">
+            {$_("alpha-warning.title")}
+          </h5>
           <span>{$_("alpha-warning.description")}</span>
         </div>
       </div>
     </div>
   {/if}
-  {#if stepInfo.stage === 'BETA' && !$languageLoading && !$isLoading}
+  {#if stepInfo.stage === "BETA" && !$languageLoading && !$isLoading}
     <div class="card-body pb-0">
       <div class="alert alert-info d-flex align-items-start mb-0" role="alert">
         <i class="fa-solid fa-circle-info me-3 mt-1" aria-hidden="true"></i>
         <div>
-          <h5 class="alert-heading d-inline me-2">{$_("beta-warning.title")}</h5>
+          <h5 class="alert-heading d-inline me-2">
+            {$_("beta-warning.title")}
+          </h5>
           <span>{$_("beta-warning.description")}</span>
         </div>
       </div>
@@ -112,19 +119,28 @@
 
     if (encodedData && state) {
       const body = await ApiUtil.post({
-        path: "/api/setup/steps/4/platform/connect",
+        path: "/setup/steps/4/platform/connect",
         body: { encodedData, state },
       }).catch(() => null);
 
-      if (!body || (body.error && body.error !== "ALREADY_CONNECTED_TO_PANO")) {
-        connectError = { key: "import.host.connect-failed", code: body?.error };
+      if (
+        !body ||
+        (body.error && body.error.code !== "ALREADY_CONNECTED_TO_PANO")
+      ) {
+        connectError = {
+          key: "import.host.connect-failed",
+          code: body?.error?.code,
+        };
       }
     } else if (params.has("failed")) {
       connectError = { key: "import.host.connect-failed", code: "FAILED" };
     }
 
     if (window.location.search) {
-      await goto(window.location.pathname, { replaceState: true, noScroll: true });
+      await goto(window.location.pathname, {
+        replaceState: true,
+        noScroll: true,
+      });
     }
 
     transferInitialStep = reopen;
@@ -139,7 +155,7 @@
     nextAction: start,
     nextLabel: "buttons.start",
     backDisabled: true, // No back from first page
-    transferAction: openTransferModal
+    transferAction: openTransferModal,
   }));
 
   onDestroy(() => {

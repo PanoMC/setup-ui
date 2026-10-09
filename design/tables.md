@@ -35,24 +35,35 @@ never loose buttons. A selected row gets `table-active`.
     <thead>
       <tr>
         <th class="align-middle" scope="col">
-          <div class="form-check d-flex justify-content-center align-items-center">
-            <input class="form-check-input" type="checkbox" onclick={selectAll} />
+          <div
+            class="form-check d-flex justify-content-center align-items-center">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              onclick={selectAll} />
           </div>
         </th>
-        <th class="align-middle text-nowrap" scope="col">{$_('pages.tickets.table.title')}</th>
-        <th class="align-middle text-nowrap" scope="col">{$_('pages.tickets.table.last-reply')}</th>
+        <th class="align-middle text-nowrap" scope="col"
+          >{$_("pages.tickets.table.title")}</th>
+        <th class="align-middle text-nowrap" scope="col"
+          >{$_("pages.tickets.table.last-reply")}</th>
       </tr>
     </thead>
     <tbody>
       {#each tickets as ticket (ticket.id)}
         <tr class:table-active={ticket.selected}>
           <th scope="row" class="align-middle">
-            <div class="form-check d-flex justify-content-center align-items-center">
-              <input class="form-check-input" type="checkbox" bind:checked={checked[ticket.id]} />
+            <div
+              class="form-check d-flex justify-content-center align-items-center">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                bind:checked={checked[ticket.id]} />
             </div>
           </th>
           <td class="align-middle">{ticket.title}</td>
-          <td class="align-middle text-nowrap"><Date time={ticket.lastUpdate} /></td>
+          <td class="align-middle text-nowrap"
+            ><Date time={ticket.lastUpdate} /></td>
         </tr>
       {/each}
     </tbody>

@@ -334,6 +334,7 @@
 
   import { fade } from "svelte/transition";
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
+  import { isOk } from "$lib/api.result.js";
 
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import ConfirmSkipSMTPModal, {
@@ -410,26 +411,24 @@
     error = null;
 
     ApiUtil.post({
-      path: "/api/setup/steps/3/verify",
+      path: "/setup/steps/3/verify",
       body: mailConfiguration[chosenService],
     })
       .then((body) => {
-        if (body.result === "ok") {
+        if (isOk(body)) {
           nextStep(mailConfiguration[chosenService]);
           return;
         }
 
         loading = false;
-        if (body.error) {
-          showError(
-            body.error === "INVALID_DATA"
-              ? {
-                  key: "INVALID_EMAIL_DATA",
-                  props: { mailError: body.mailError },
-                }
-              : body.error,
-          );
-        } else showError(NETWORK_ERROR);
+        showError(
+          body.error?.code === "INVALID_DATA"
+            ? {
+                key: "INVALID_EMAIL_DATA",
+                props: { mailError: body.error.details?.mailError },
+              }
+            : body.error?.code || NETWORK_ERROR,
+        );
       })
       .catch(() => {
         loading = false;

@@ -2,7 +2,7 @@
   .navbar {
     background-color: var(--bs-body-bg) !important;
   }
-  
+
   .navbar-brand-centered {
     margin: 0;
     z-index: 1050;
@@ -16,13 +16,12 @@
   }
 </style>
 
-<nav
-  class="navbar navbar-expand-xl border-bottom"
-  style="z-index: 1040;">
+<nav class="navbar navbar-expand-xl border-bottom" style="z-index: 1040;">
   <div class="container d-flex align-items-center">
     <div class="col-4 d-flex align-items-center order-1 gap-2">
       <div class="nav-item">
-        <span class="nav-text opacity-75">{version === "local-build" ? version : "v" + version}</span>
+        <span class="nav-text opacity-75"
+          >{version === "local-build" ? version : "v" + version}</span>
       </div>
     </div>
 
@@ -36,10 +35,11 @@
           style="width: 32px; height: 32px;">
           <img src="/assets/img/logo.svg" width="24" height="24" alt="Pano" />
         </a>
-      </div>  
+      </div>
     </div>
 
-    <div class="col-4 d-flex justify-content-end align-items-center gap-3 order-3">
+    <div
+      class="col-4 d-flex justify-content-end align-items-center gap-3 order-3">
       <div class="nav-item">
         <a
           href="{PANO_WEBSITE_URL}/docs"
@@ -71,7 +71,7 @@
   import tooltip from "$lib/tooltip.util.js";
   import { onMount } from "svelte";
   import { PANO_WEBSITE_URL } from "$lib/variables.js";
-  
+
   export let version = "1.0";
 
   let isDarkTheme = false;

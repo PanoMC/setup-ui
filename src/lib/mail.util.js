@@ -1,7 +1,7 @@
 /**
  * Picks the Step 3 mail service to pre-select from the saved mail settings.
  *
- * `GET /api/setup/step` never returns the SMTP password (it is unauthenticated), so the
+ * `GET /api/v1/setup/step` never returns the SMTP password (it is unauthenticated), so the
  * password is not required here: a saved hostname, sender, username and port are enough to
  * reopen the right service form, and the wizard asks for the password again.
  *

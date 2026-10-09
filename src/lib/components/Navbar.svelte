@@ -1,6 +1,4 @@
-<nav
-  class="navbar navbar-expand-xl border-bottom"
-  style="z-index: 1040;">
+<nav class="navbar navbar-expand-xl border-bottom" style="z-index: 1040;">
   <div class="container d-flex align-items-center">
     <!-- Left Section: Mobile Toggler & Desktop Links (Order 1) -->
     <div class="col-4 d-flex align-items-center order-1">
@@ -18,9 +16,7 @@
       </div>
 
       <!-- Desktop Navigation Links (Visible only on XL and above) -->
-      <div
-        class="collapse navbar-collapse d-xl-flex"
-        id="navbarContentDesktop">
+      <div class="collapse navbar-collapse d-xl-flex" id="navbarContentDesktop">
         <ul class="navbar-nav gap-2">
           <li class="nav-item">
             <a
@@ -28,7 +24,7 @@
               href="{PANO_WEBSITE_URL}/docs"
               target="_blank"
               rel="noreferrer"
-              title="{$_("buttons.docs")}"
+              title={$_("buttons.docs")}
               aria-label={$_("buttons.docs")}>
               <i class="fa-solid fa-book-open"></i>
             </a>
@@ -67,8 +63,10 @@
     </div>
 
     <!-- Right Section: Version Info (Order 3) -->
-    <div class="col-4 d-flex justify-content-end align-items-center gap-2 order-3">
-      <span class="small">{version === "local-build" ? version : "v" + version}</span>
+    <div
+      class="col-4 d-flex justify-content-end align-items-center gap-2 order-3">
+      <span class="small"
+        >{version === "local-build" ? version : "v" + version}</span>
     </div>
   </div>
 
@@ -80,8 +78,7 @@
     aria-labelledby="mobileMenuOffcanvasLabel"
     style="z-index: 1080; height: auto !important;">
     <div class="offcanvas-header border-bottom">
-      <div class="offcanvas-title fw-bold" id="mobileMenuOffcanvasLabel">
-      </div>
+      <div class="offcanvas-title fw-bold" id="mobileMenuOffcanvasLabel"></div>
       <button
         type="button"
         class="btn-close shadow-none"
@@ -119,7 +116,7 @@
   import { _ } from "svelte-i18n";
   import { onMount } from "svelte";
   import { PANO_WEBSITE_URL } from "$lib/variables.js";
-  
+
   export let version = "1.0";
 
   let isDarkTheme = false;

@@ -29,19 +29,27 @@ Alerts are plain Bootstrap 5 alerts (`alert alert-{variant}`). Do not restyle th
 ## Example
 
 ```svelte
-<div class="alert alert-warning alert-dismissible d-flex align-items-start" role="alert">
+<div
+  class="alert alert-warning alert-dismissible d-flex align-items-start"
+  role="alert">
   <i class="fa-solid fa-triangle-exclamation me-3 mt-1" aria-hidden="true"></i>
   <div>
-    <h5 class="alert-heading mb-2">{$_('alerts.update.title')}</h5>
-    <div>{$_('alerts.update.description')}</div>
+    <h5 class="alert-heading mb-2">{$_("alerts.update.title")}</h5>
+    <div>{$_("alerts.update.description")}</div>
     <ul class="mb-2">
-      <li>{$_('alerts.update.item-1')}</li>
-      <li>{$_('alerts.update.item-2')}</li>
+      <li>{$_("alerts.update.item-1")}</li>
+      <li>{$_("alerts.update.item-2")}</li>
     </ul>
-    <button class="btn alert-btn" type="button">{$_('alerts.update.install')}</button>
-    <a class="alert-link ms-2" href="{base}/settings/updates">{$_('alerts.update.details')}</a>
+    <button class="btn alert-btn" type="button"
+      >{$_("alerts.update.install")}</button>
+    <a class="alert-link ms-2" href="{base}/settings/updates"
+      >{$_("alerts.update.details")}</a>
   </div>
-  <button class="btn-close" type="button" aria-label={$_('close')} onclick={dismiss}></button>
+  <button
+    class="btn-close"
+    type="button"
+    aria-label={$_("close")}
+    onclick={dismiss}></button>
 </div>
 ```
 

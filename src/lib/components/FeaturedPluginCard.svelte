@@ -1,6 +1,8 @@
 <style>
   .plugin-card {
-    transition: border-color 0.15s ease, transform 0.15s ease;
+    transition:
+      border-color 0.15s ease,
+      transform 0.15s ease;
     border: 1px solid var(--bs-border-color);
     cursor: default;
   }
@@ -26,7 +28,8 @@
     <div class="d-flex align-items-start gap-3 mb-2">
       <div
         class="plugin-icon rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
-        style="background-color: {iconColor || 'var(--bs-tertiary-bg)'}; color: white;">
+        style="background-color: {iconColor ||
+          'var(--bs-tertiary-bg)'}; color: white;">
         <i class="{iconClass} fa-xl"></i>
       </div>
       <div class="d-flex flex-column overflow-hidden">
@@ -41,7 +44,8 @@
       {description}
     </p>
 
-    <div class="mt-auto d-flex align-items-center justify-content-between plugin-stats text-body-secondary">
+    <div
+      class="mt-auto d-flex align-items-center justify-content-between plugin-stats text-body-secondary">
       <div class="d-flex align-items-center gap-1">
         <i class="fa-solid fa-star fa-xs"></i>
         <span>{rating}</span>

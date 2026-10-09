@@ -32,16 +32,22 @@ Centered (`modal-body text-center`), in this order:
 ## Example
 
 ```svelte
-<div class="modal fade" tabindex="-1" aria-hidden="true" bind:this={modalElement}>
+<div
+  class="modal fade"
+  tabindex="-1"
+  aria-hidden="true"
+  bind:this={modalElement}>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body text-center">
         <div class="pb-3">
           <i class="fa-solid fa-circle-question fa-3x d-block m-auto"></i>
         </div>
-        <h5 class="mb-2">{$_('components.modals.confirm-delete-post.title')}</h5>
+        <h5 class="mb-2">
+          {$_("components.modals.confirm-delete-post.title")}
+        </h5>
         <div class="text-body-secondary">
-          {$_('components.modals.confirm-delete-post.description')}
+          {$_("components.modals.confirm-delete-post.description")}
         </div>
       </div>
       <div class="modal-footer flex-nowrap">
@@ -50,13 +56,19 @@ Centered (`modal-body text-center`), in this order:
           type="button"
           disabled={loading}
           onclick={hide}>
-          {$_('buttons.cancel')}
+          {$_("buttons.cancel")}
         </button>
-        <button class="btn btn-danger col-6 m-0" type="button" disabled={loading} onclick={confirm}>
+        <button
+          class="btn btn-danger col-6 m-0"
+          type="button"
+          disabled={loading}
+          onclick={confirm}>
           {#if loading}
-            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            <span
+              class="spinner-border spinner-border-sm me-1"
+              aria-hidden="true"></span>
           {/if}
-          {$_('buttons.delete')}
+          {$_("buttons.delete")}
         </button>
       </div>
     </div>

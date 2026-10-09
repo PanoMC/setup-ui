@@ -204,18 +204,50 @@ export function databaseProblem(database) {
 }
 
 /**
- * Turns a response body (`{error, hostError?}`) or a finished job (`{error}`) into a lang key.
+ * The error code of a response body (`{ error: { code } }`, doc 04 section 3) or of a finished
+ * restore job (`{ error: "CODE" }`, a job record, not an API body).
+ *
+ * @param {object | null | undefined} source
+ * @returns {string | null}
+ */
+export function errorCodeOf(source) {
+  const error = source && source.error;
+
+  if (!error) return null;
+
+  return String(typeof error === "object" ? error.code || "" : error) || null;
+}
+
+/**
+ * The Pano Host code behind a `PANO_HOST_ERROR` body (`error.details.hostError`), or `null`.
+ *
+ * @param {object | null | undefined} source
+ * @returns {string | null}
+ */
+export function hostErrorOf(source) {
+  const error = source && source.error;
+  const hostError =
+    error && typeof error === "object"
+      ? error.details?.hostError
+      : source?.hostError;
+
+  return hostError ? String(hostError) : null;
+}
+
+/**
+ * Turns a response body (`{ error: { code, details? } }`) or a finished job (`{ error }`) into a
+ * lang key.
  *
  * @param {object | null | undefined} source
  * @returns {{ code: string, key: string } | null}
  */
 export function describeError(source) {
-  if (!source || !source.error) return null;
+  let code = errorCodeOf(source);
 
-  let code = String(source.error);
+  if (!code) return null;
 
   if (code === "PANO_HOST_ERROR") {
-    code = String(source.hostError || "PANO_HOST_UNAVAILABLE");
+    code = hostErrorOf(source) || "PANO_HOST_UNAVAILABLE";
   }
 
   return {

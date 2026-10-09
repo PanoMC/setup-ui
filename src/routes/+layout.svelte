@@ -1,4 +1,4 @@
-<MainLayout stepInfo="{data.stepInfo}">
+<MainLayout stepInfo={data.stepInfo}>
   <slot />
 </MainLayout>
 

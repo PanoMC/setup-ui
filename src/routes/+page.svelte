@@ -1,4 +1,4 @@
-<Beginning stepInfo="{data.stepInfo}" />
+<Beginning stepInfo={data.stepInfo} />
 
 <script>
   import Beginning from "$lib/pages/Beginning.svelte";

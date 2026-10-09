@@ -14,7 +14,7 @@ export async function GET() {
   }
   const languages = {};
 
-  files.forEach(file => {
+  files.forEach((file) => {
     const filePath = path.join(languagesDir, file);
     const content = JSON.parse(fs.readFileSync(filePath, "utf-8"));
     const locale = path.basename(file, ".json");
@@ -22,13 +22,13 @@ export async function GET() {
       locale,
       name: content.name,
       "date-fns-code": content["date-fns-code"],
-      derivatives: content.derivatives || []
+      derivatives: content.derivatives || [],
     };
   });
 
   return new Response(JSON.stringify(languages), {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   });
 }

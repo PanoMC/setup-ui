@@ -9,7 +9,7 @@ name: Pano Setup-UI Release
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: ["dev"]
 
 permissions:
   contents: read
@@ -27,7 +27,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 'latest'
+          node-version: "latest"
 
       - name: Dry run to get next release version
         id: get-next-version
@@ -57,7 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: recursive          # Fetch submodules
+          submodules: recursive # Fetch submodules
           fetch-depth: 0
           token: ${{ secrets.TOKEN_GITHUB }}
 
@@ -70,7 +70,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 'latest'
+          node-version: "latest"
 
       - name: Install
         run: bun install

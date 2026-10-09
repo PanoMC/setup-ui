@@ -1,13 +1,15 @@
 {#if error || alwaysVisible}
   <div class="alert alert-danger mb-0" in:fade out:fade>
     <i class="fa-solid fa-triangle-exclamation me-2"></i>
-    {$_('errors.' + (error.key || error), {values: error.props})}
+    {$_("errors." + (error.key || error.code || error), {
+      values: error.props,
+    })}
   </div>
 {/if}
 
 <script>
   import { fade } from "svelte/transition";
-  import { _ } from "svelte-i18n"
+  import { _ } from "svelte-i18n";
 
   export let error;
 

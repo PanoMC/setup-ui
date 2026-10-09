@@ -1,3 +1,81 @@
+<style>
+  .merged-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
+  .merged-grid .form-control {
+    border-radius: 0;
+  }
+
+  .merged-grid > .form-floating {
+    position: relative;
+    z-index: 1;
+  }
+
+  .merged-grid > .form-floating:focus-within {
+    z-index: 3;
+  }
+
+  /* Mobile: stacked 1x4 */
+  @media (max-width: 991.98px) {
+    .merged-grid > :first-child .form-control {
+      border-top-left-radius: var(--bs-border-radius) !important;
+      border-top-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :last-child .form-control {
+      border-bottom-left-radius: var(--bs-border-radius) !important;
+      border-bottom-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :not(:last-child) {
+      margin-bottom: -1px;
+    }
+    .merged-grid > :not(:last-child) .form-control:not(:focus) {
+      border-bottom-color: transparent;
+    }
+  }
+
+  /* Desktop: 2x2 grid centered */
+  @media (min-width: 992px) {
+    .merged-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .merged-grid > :nth-child(1) .form-control {
+      border-top-left-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :nth-child(2) .form-control {
+      border-top-right-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :nth-child(3) .form-control {
+      border-bottom-left-radius: var(--bs-border-radius) !important;
+    }
+    .merged-grid > :nth-child(4) .form-control {
+      border-bottom-right-radius: var(--bs-border-radius) !important;
+    }
+
+    /* overlap row 1 over row 2 */
+    .merged-grid > :nth-child(1),
+    .merged-grid > :nth-child(2) {
+      margin-bottom: -1px;
+    }
+    /* overlap col 1 over col 2 */
+    .merged-grid > :nth-child(odd) {
+      margin-right: -1px;
+    }
+
+    /* Transparent borders to prevent thick lines */
+    .merged-grid > :nth-child(1) .form-control:not(:focus),
+    .merged-grid > :nth-child(2) .form-control:not(:focus) {
+      border-bottom-color: transparent;
+    }
+    .merged-grid > :nth-child(odd) .form-control:not(:focus) {
+      border-right-color: transparent;
+    }
+  }
+</style>
+
 <div class="animate__animated animate__fadeIn">
   <div>
     <CardHeader>{$_("steps.database.title")}</CardHeader>
@@ -82,7 +160,9 @@
       {/if}
 
       <!-- Manual Connection Fields -->
-      <div class="d-flex flex-column align-items-center w-100 pt-2" class:d-none={dbType === "portable"}>
+      <div
+        class="d-flex flex-column align-items-center w-100 pt-2"
+        class:d-none={dbType === "portable"}>
         <div class="merged-grid w-100">
           <div class="form-floating">
             <input
@@ -157,6 +237,7 @@
 
   import { nextStep, navigationState } from "$lib/Store.js";
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
+  import { isOk } from "$lib/api.result.js";
 
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
 
@@ -215,7 +296,7 @@
     installProgress = 0;
 
     progressInterval = setInterval(() => {
-      ApiUtil.get({ path: "/api/setup/step" }).then((body) => {
+      ApiUtil.get({ path: "/setup/step" }).then((body) => {
         if (body.installProgress !== undefined) {
           installProgress = body.installProgress;
         }
@@ -223,20 +304,17 @@
     }, 500);
 
     ApiUtil.post({
-      path: "/api/setup/steps/2/install-portable",
+      path: "/setup/steps/2/install-portable",
     })
       .then((body) => {
         clearInterval(progressInterval);
-        if (body.result === "ok") {
+        if (isOk(body)) {
           database = body.database;
           installed = true;
           installLoading = false;
           installProgress = 100;
-        } else if (body.error) {
-          showError(body.error);
-          installLoading = false;
         } else {
-          showError(NETWORK_ERROR);
+          showError(body.error?.code || NETWORK_ERROR);
           installLoading = false;
         }
       })
@@ -259,17 +337,19 @@
     }
 
     ApiUtil.post({
-      path: "/api/setup/steps/2/verify",
+      path: "/setup/steps/2/verify",
       body: database,
     })
       .then((body) => {
-        if (body.result === "ok") {
+        if (isOk(body)) {
           next();
-        } else if (body.error) {
+        } else {
           showError(
-            body.error === "INVALID_DATA" ? "INVALID_DB_DATA" : body.error,
+            body.error?.code === "INVALID_DATA"
+              ? "INVALID_DB_DATA"
+              : body.error?.code || NETWORK_ERROR,
           );
-        } else showError(NETWORK_ERROR);
+        }
       })
       .catch(() => {
         showError(NETWORK_ERROR);
@@ -288,81 +368,3 @@
     error = errorCode;
   }
 </script>
-
-<style>
-  .merged-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    overflow: visible;
-  }
-  
-  .merged-grid .form-control {
-    border-radius: 0;
-  }
-  
-  .merged-grid > .form-floating {
-    position: relative;
-    z-index: 1;
-  }
-  
-  .merged-grid > .form-floating:focus-within {
-    z-index: 3;
-  }
-
-  /* Mobile: stacked 1x4 */
-  @media (max-width: 991.98px) {
-    .merged-grid > :first-child .form-control {
-      border-top-left-radius: var(--bs-border-radius) !important;
-      border-top-right-radius: var(--bs-border-radius) !important;
-    }
-    .merged-grid > :last-child .form-control {
-      border-bottom-left-radius: var(--bs-border-radius) !important;
-      border-bottom-right-radius: var(--bs-border-radius) !important;
-    }
-    .merged-grid > :not(:last-child) {
-      margin-bottom: -1px;
-    }
-    .merged-grid > :not(:last-child) .form-control:not(:focus) {
-      border-bottom-color: transparent;
-    }
-  }
-
-  /* Desktop: 2x2 grid centered */
-  @media (min-width: 992px) {
-    .merged-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .merged-grid > :nth-child(1) .form-control {
-      border-top-left-radius: var(--bs-border-radius) !important;
-    }
-    .merged-grid > :nth-child(2) .form-control {
-      border-top-right-radius: var(--bs-border-radius) !important;
-    }
-    .merged-grid > :nth-child(3) .form-control {
-      border-bottom-left-radius: var(--bs-border-radius) !important;
-    }
-    .merged-grid > :nth-child(4) .form-control {
-      border-bottom-right-radius: var(--bs-border-radius) !important;
-    }
-
-    /* overlap row 1 over row 2 */
-    .merged-grid > :nth-child(1),
-    .merged-grid > :nth-child(2) {
-      margin-bottom: -1px;
-    }
-    /* overlap col 1 over col 2 */
-    .merged-grid > :nth-child(odd) {
-      margin-right: -1px;
-    }
-
-    /* Transparent borders to prevent thick lines */
-    .merged-grid > :nth-child(1) .form-control:not(:focus),
-    .merged-grid > :nth-child(2) .form-control:not(:focus) {
-      border-bottom-color: transparent;
-    }
-    .merged-grid > :nth-child(odd) .form-control:not(:focus) {
-      border-right-color: transparent;
-    }
-  }
-</style>

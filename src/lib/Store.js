@@ -16,7 +16,7 @@ export const currentStep = writable(0);
 export const DEFAULT_USAGE_MODE = "BOTH";
 
 /**
- * The whole body of the last `GET /api/setup/step` (or of the `PUT` that answered with the
+ * The whole body of the last `GET /api/v1/setup/step` (or of the `PUT` that answered with the
  * new step). Steps that need a field the wizard shares across steps - `usageMode` today -
  * read it from here instead of threading it through every `load()`.
  */
@@ -53,7 +53,7 @@ export const navigationState = writable({
 });
 
 export function checkCurrentStep() {
-  return ApiUtil.get({ path: "/api/setup/step" })
+  return ApiUtil.get({ path: "/setup/step" })
     .then((body) => {
       if (body.error) {
         return { ...body, step: 0 };
@@ -62,7 +62,7 @@ export function checkCurrentStep() {
       return body;
     })
     .catch(() => {
-      return { error: NETWORK_ERROR, step: 0 };
+      return { error: { code: NETWORK_ERROR }, step: 0 };
     })
     .then((stepInfo) => {
       stepData.set(stepInfo);
@@ -85,7 +85,7 @@ function initializeCurrentStep(path) {
 
 export function nextStep(body, path) {
   ApiUtil.put({
-    path: "/api/setup/step",
+    path: "/setup/step",
     body: { ...body, clientStep: get(currentStep) },
   }).then((response) => {
     if (response && !response.error) {
@@ -98,7 +98,7 @@ export function nextStep(body, path) {
 
 export function goToStep(step, path) {
   ApiUtil.put({
-    path: "/api/setup/step",
+    path: "/setup/step",
     body: { clientStep: get(currentStep), step: parseInt(step) },
   }).then(() => {
     initializeCurrentStep(path);
@@ -107,7 +107,7 @@ export function goToStep(step, path) {
 
 export function backStep(path) {
   ApiUtil.put({
-    path: "/api/setup/step",
+    path: "/setup/step",
     body: { clientStep: get(currentStep), step: get(currentStep) - 1 },
   }).then(() => {
     initializeCurrentStep(path);

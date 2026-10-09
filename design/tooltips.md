@@ -16,8 +16,8 @@ Tooltips use the `tooltip` action (`$lib/tooltip.util`, tippy.js).
 <button
   type="button"
   class="btn btn-link"
-  aria-label={$_('buttons.refresh')}
-  use:tooltip={[$_('buttons.refresh')]}>
+  aria-label={$_("buttons.refresh")}
+  use:tooltip={[$_("buttons.refresh")]}>
   <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
 </button>
 ```

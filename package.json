@@ -10,7 +10,7 @@
     "build": "vite build",
     "package": "vite package",
     "preview": "vite preview",
-    "test": "bun test src",
+    "test": "bun test ./src",
     "lint": "npm-run-all -c lint:*",
     "lint:prettier": "prettier -c . --config .prettierrc",
     "format": "npm-run-all -c format:*",
@@ -36,7 +36,7 @@
     "svelte-preprocess": "^6.0.3",
     "tippy.js": "^6.3.7",
     "vite": "^7.2.4",
-    "@panomc/sdk": "1.0.0-dev.59"
+    "@panomc/sdk": "file:./theme-core/packages/sdk"
   },
   "type": "module",
   "dependencies": {

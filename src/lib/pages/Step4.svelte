@@ -302,6 +302,7 @@
 
   import { navigationState, isFinishing } from "$lib/Store.js";
   import ApiUtil, { buildQueryParams, NETWORK_ERROR } from "$lib/api.util.js";
+  import { isOk } from "$lib/api.result.js";
   import { PANEL_URL, PANO_WEBSITE_URL } from "$lib/variables.js";
 
   import { show as showToast } from "$lib/components/ToastContainer.svelte";
@@ -382,7 +383,7 @@
   if (browser) {
     if (!panoAccount && state && encodedData) {
       ApiUtil.post({
-        path: "/api/setup/steps/4/platform/connect",
+        path: "/setup/steps/4/platform/connect",
         body: {
           encodedData,
           state,
@@ -390,7 +391,7 @@
       })
         .then(async (body) => {
           if (body.error) {
-            if (body.error === "ALREADY_CONNECTED_TO_PANO") {
+            if (body.error.code === "ALREADY_CONNECTED_TO_PANO") {
               await goto($page.url.pathname, { invalidateAll: true });
               connecting = false;
               return;
@@ -443,7 +444,7 @@
     error = null;
 
     ApiUtil.post({
-      path: "/api/setup/finish",
+      path: "/setup/finish",
       body: {
         ...account,
         setupLocale: $currentLanguage.locale,
@@ -451,10 +452,10 @@
       },
     })
       .then((body) => {
-        if (body.result === "ok") {
+        if (isOk(body)) {
           window.location.assign(PANEL_URL);
         } else if (body.error) {
-          showError(body.error);
+          showError(body.error.code);
         } else {
           showError(NETWORK_ERROR);
           console.log(body);
@@ -477,7 +478,7 @@
     connecting = true;
 
     ApiUtil.post({
-      path: "/api/setup/steps/4/platform/code",
+      path: "/setup/steps/4/platform/code",
     })
       .then((body) => {
         if (body.error) {
@@ -509,12 +510,12 @@
       disconnecting = true;
 
       ApiUtil.post({
-        path: "/api/setup/steps/4/platform/disconnect",
+        path: "/setup/steps/4/platform/disconnect",
       })
         .then(async (body) => {
           if (body.error) {
             await showToast(PanoAccountDisconnectFailToast);
-            error = body.error;
+            error = body.error.code;
 
             disconnecting = false;
             return;

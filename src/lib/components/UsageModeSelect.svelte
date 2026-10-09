@@ -23,7 +23,10 @@
         onclick={() => select(mode.id)}
         onkeydown={onKeyDown}>
         <span class="d-flex align-items-center gap-2 mb-1">
-          <i class="{mode.icon} text-center" style="width: 1.25rem;" aria-hidden="true"></i>
+          <i
+            class="{mode.icon} text-center"
+            style="width: 1.25rem;"
+            aria-hidden="true"></i>
           <span class="fw-semibold">
             {$_("usage-mode." + mode.key + ".title")}
           </span>

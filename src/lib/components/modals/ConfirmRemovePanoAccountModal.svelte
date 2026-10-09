@@ -10,7 +10,9 @@
         <div class="pb-3">
           <i class="fa-solid fa-circle-question fa-3x d-block m-auto"></i>
         </div>
-        <h5 class="mb-2">{$_("components.modals.confirm-remove-pano-account.title")}</h5>
+        <h5 class="mb-2">
+          {$_("components.modals.confirm-remove-pano-account.title")}
+        </h5>
         <div class="text-body-secondary">
           {$_("components.modals.confirm-remove-pano-account.description")}
         </div>
@@ -29,7 +31,9 @@
           disabled={loading}
           onclick={onYesClick}>
           {#if loading}
-            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            <span
+              class="spinner-border spinner-border-sm me-1"
+              aria-hidden="true"></span>
           {/if}
           {$_("buttons.disconnect")}
         </button>
@@ -87,7 +91,7 @@
 
     await $continueProcessObj();
 
-    hide()
+    hide();
     loading = false;
   }
 </script>

@@ -11,12 +11,17 @@ const config = {
     scss: {
       api: "modern-compiler",
       quietDeps: true,
-      silenceDeprecations: ["mixed-decls", "color-functions", "global-builtin", "import"],
+      silenceDeprecations: [
+        "mixed-decls",
+        "color-functions",
+        "global-builtin",
+        "import",
+      ],
     },
   }),
 
   onwarn: (warning, handler) => {
-    if (warning.code.startsWith('a11y-')) {
+    if (warning.code.startsWith("a11y-")) {
       return;
     }
 
@@ -24,7 +29,7 @@ const config = {
       return;
     }
 
-    console.log(warning.code)
+    console.log(warning.code);
 
     handler(warning);
   },

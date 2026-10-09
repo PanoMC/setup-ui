@@ -5,6 +5,8 @@ import {
   archiveKind,
   databaseProblem,
   describeError,
+  errorCodeOf,
+  hostErrorOf,
   formatBytes,
   inspectArchiveFile,
   inspectArchiveHeader,
@@ -148,6 +150,39 @@ describe("helpers", () => {
       key: "import.errors.generic",
     });
     expect(describeError({ result: "ok" })).toBeNull();
+  });
+
+  test("errors read the v1 envelope", () => {
+    expect(describeError({ error: { code: "WRONG_PASSPHRASE" } })).toEqual({
+      code: "WRONG_PASSPHRASE",
+      key: "import.errors.WRONG_PASSPHRASE",
+    });
+    expect(
+      describeError({
+        error: {
+          code: "PANO_HOST_ERROR",
+          details: { hostError: "PAYMENT_REQUIRED" },
+        },
+      }).key,
+    ).toBe("import.errors.PAYMENT_REQUIRED");
+    expect(describeError({ error: { code: "PANO_HOST_ERROR" } }).code).toBe(
+      "PANO_HOST_UNAVAILABLE",
+    );
+    expect(describeError({ error: { code: "NETWORK_ERROR" } }).key).toBe(
+      "import.errors.NETWORK_ERROR",
+    );
+    expect(describeError({})).toBeNull();
+    expect(errorCodeOf({ error: { code: "X" } })).toBe("X");
+    expect(errorCodeOf({ error: "Y" })).toBe("Y");
+    expect(
+      hostErrorOf({
+        error: {
+          code: "PANO_HOST_ERROR",
+          details: { hostError: "CONNECT_REQUIRED" },
+        },
+      }),
+    ).toBe("CONNECT_REQUIRED");
+    expect(hostErrorOf({ error: { code: "X" } })).toBeNull();
   });
 
   test("websiteHost names the configured Pano website", () => {

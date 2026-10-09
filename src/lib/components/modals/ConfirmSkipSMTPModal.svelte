@@ -33,7 +33,9 @@
           disabled={loading}
           onclick={onYesClick}>
           {#if loading}
-            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            <span
+              class="spinner-border spinner-border-sm me-1"
+              aria-hidden="true"></span>
           {/if}
           {$_("buttons.skip")}
         </button>
@@ -92,7 +94,7 @@
 
     await $continueProcessObj();
 
-    hide()
+    hide();
     loading = false;
   }
 </script>

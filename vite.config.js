@@ -29,9 +29,9 @@ function copyLangFolderPlugin() {
         await fs.promises.cp(srcDir, destDir, { recursive: true });
         console.log(`Copied "lang" folder from ${srcDir} to ${destDir}`);
       } catch (error) {
-        console.error("Error copying \"lang\" folder:", error);
+        console.error('Error copying "lang" folder:', error);
       }
-    }
+    },
   };
 }
 
@@ -59,7 +59,7 @@ function copyManifestPlugin(filename = "manifest.json") {
       } catch (err) {
         console.error("Failed to copy manifest.json:", err);
       }
-    }
+    },
   };
 }
 
@@ -71,7 +71,10 @@ export default defineConfig(({ command }) => {
       preprocessorOptions: {
         scss: {
           api: "modern-compiler",
-          loadPaths: [process.cwd(), path.resolve(process.cwd(), 'node_modules')],
+          loadPaths: [
+            process.cwd(),
+            path.resolve(process.cwd(), "node_modules"),
+          ],
           quietDeps: true,
           silenceDeprecations: [
             "mixed-decls",

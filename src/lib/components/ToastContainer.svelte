@@ -1,10 +1,7 @@
 <div
   class="toast-container position-fixed bottom-0 start-50 translate-middle-x mb-3">
   {#each $toasts as toast, index (toast)}
-    <svelte:component
-      this="{toast.component}"
-      id="{toast.id}"
-      {...toast.params} />
+    <svelte:component this={toast.component} id={toast.id} {...toast.params} />
   {/each}
 </div>
 

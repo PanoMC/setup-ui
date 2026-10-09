@@ -517,12 +517,15 @@
   import DragAndDropZone from "$lib/components/DragAndDropZone.svelte";
 
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
+
+  import { isOk } from "$lib/api.result.js";
   import { currentLanguage } from "$lib/language.util";
   import { PANO_WEBSITE_URL } from "$lib/variables.js";
   import {
     archiveKind,
     databaseProblem,
     describeError,
+    hostErrorOf,
     formatBytes,
     inspectArchiveFile,
     jobPercent,
@@ -683,7 +686,9 @@
 
   function fail(body) {
     submitting = false;
-    error = describeError(body && body.error ? body : { error: NETWORK_ERROR });
+    error = describeError(
+      body && body.error ? body : { error: { code: NETWORK_ERROR } },
+    );
   }
 
   /**
@@ -724,18 +729,18 @@
     hostState = "checking";
     error = null;
 
-    ApiUtil.get({ path: "/api/setup/pano-host/backups" })
+    ApiUtil.get({ path: "/setup/pano-host/backups" })
       .then((body) => {
         if (step !== "host") return;
 
-        if (body.result === "ok") {
+        if (isOk(body)) {
           accountName = body.account?.username || "";
           backups = [...(body.backups || [])].sort(
             (a, b) => (b.createdAt || 0) - (a.createdAt || 0),
           );
           selectedBackupId = backups[0]?.id ?? null;
           hostState = "linked";
-        } else if (body.hostError === "CONNECT_REQUIRED") {
+        } else if (hostErrorOf(body) === "CONNECT_REQUIRED") {
           hostState = "connect";
         } else {
           hostState = "connect";
@@ -754,11 +759,11 @@
     moveState = "checking";
     error = null;
 
-    ApiUtil.get({ path: "/api/setup/pano-host/instances" })
+    ApiUtil.get({ path: "/setup/pano-host/instances" })
       .then((body) => {
         if (step !== "move") return;
 
-        if (body.result === "ok") {
+        if (isOk(body)) {
           accountName = body.account?.username || "";
           instances = body.workloads || [];
           selectedInstanceId =
@@ -766,7 +771,7 @@
           moveState = "linked";
         } else {
           moveState = "connect";
-          if (body.hostError !== "CONNECT_REQUIRED") fail(body);
+          if (hostErrorOf(body) !== "CONNECT_REQUIRED") fail(body);
         }
       })
       .catch(() => {
@@ -784,7 +789,7 @@
     error = null;
     connecting = true;
 
-    ApiUtil.post({ path: "/api/setup/steps/4/platform/code" })
+    ApiUtil.post({ path: "/setup/steps/4/platform/code" })
       .then((body) => {
         if (body.error) {
           connecting = false;
@@ -814,7 +819,7 @@
   function started(body) {
     submitting = false;
 
-    if (body.result !== "ok") {
+    if (!isOk(body)) {
       step = source;
       fail(body);
       return;
@@ -851,7 +856,7 @@
       step = "running";
 
       ApiUtil.post({
-        path: "/api/setup/restore",
+        path: "/setup/restore",
         body: form,
         onUploadProgress: (value) => (uploadProgress = value),
       })
@@ -864,7 +869,7 @@
       step = "running";
 
       ApiUtil.post({
-        path: `/api/setup/pano-host/instances/${encodeURIComponent(selectedInstanceId)}/move`,
+        path: `/setup/pano-host/instances/${encodeURIComponent(selectedInstanceId)}/move`,
         body: target,
       })
         .then(started)
@@ -876,7 +881,7 @@
       step = "running";
 
       ApiUtil.post({
-        path: "/api/setup/pano-host/restore",
+        path: "/setup/pano-host/restore",
         body: { backupId: selectedBackupId, passphrase, ...target },
       })
         .then(started)
@@ -895,7 +900,7 @@
   }
 
   function pollJob() {
-    ApiUtil.get({ path: "/api/setup/restore" })
+    ApiUtil.get({ path: "/setup/restore" })
       .then((body) => {
         const current = body?.job;
 

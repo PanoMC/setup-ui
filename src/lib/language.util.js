@@ -1,6 +1,12 @@
 import { browser } from "$app/environment";
 import { get, writable } from "svelte/store";
-import { getLocaleFromNavigator, init as initI18n, locale, register, waitLocale } from "svelte-i18n";
+import {
+  getLocaleFromNavigator,
+  init as initI18n,
+  locale,
+  register,
+  waitLocale,
+} from "svelte-i18n";
 
 export const loadedLanguages = writable([]);
 export const languageLoading = writable(false);
@@ -68,7 +74,9 @@ export async function loadLanguage(language, event) {
 
   const useFetch = event ? event.fetch : fetch;
 
-  const response = await useFetch(`/setup-api/languages/${language.locale}.json`);
+  const response = await useFetch(
+    `/setup-api/languages/${language.locale}.json`,
+  );
   const languageFile = await response.json();
 
   register(language.locale, async () => languageFile);

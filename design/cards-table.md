@@ -48,14 +48,20 @@ Then:
 <div class="card">
   <CardHeader>
     <div slot="left">
-      {$_('pages.tickets.table-title', { values: { ticketCount: data.ticketCount } })}
+      {$_("pages.tickets.table-title", {
+        values: { ticketCount: data.ticketCount },
+      })}
     </div>
     <div slot="middle" style="width: 250px;">
-      <SearchInput autofocus initialValue={search} searching={isSearching} on:change={onSearch} />
+      <SearchInput
+        autofocus
+        initialValue={search}
+        searching={isSearching}
+        on:change={onSearch} />
     </div>
     <CardFilters slot="right">
-      <CardFiltersItem href="/tickets" active={pageType === 'ALL'}>
-        {$_('pages.tickets.all')}
+      <CardFiltersItem href="/tickets" active={pageType === "ALL"}>
+        {$_("pages.tickets.all")}
       </CardFiltersItem>
     </CardFilters>
   </CardHeader>
@@ -68,7 +74,8 @@ Then:
         <thead>
           <tr>
             <th scope="col"></th>
-            <th class="align-middle text-nowrap" scope="col">{$_('pages.tickets.table.title')}</th>
+            <th class="align-middle text-nowrap" scope="col"
+              >{$_("pages.tickets.table.title")}</th>
           </tr>
         </thead>
         <tbody>
@@ -81,14 +88,17 @@ Then:
                     class="btn btn-link"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
-                    title={$_('components.ticket-row.actions')}
-                    aria-label={$_('components.ticket-row.actions')}>
+                    title={$_("components.ticket-row.actions")}
+                    aria-label={$_("components.ticket-row.actions")}>
                     <span class="fas fa-ellipsis-v"></span>
                   </button>
                   <div class="dropdown-menu dropdown-menu-start">
-                    <button type="button" class="dropdown-item link-danger" onclick={remove}>
+                    <button
+                      type="button"
+                      class="dropdown-item link-danger"
+                      onclick={remove}>
                       <i class="fas fa-trash me-2"></i>
-                      {$_('buttons.delete')}
+                      {$_("buttons.delete")}
                     </button>
                   </div>
                 </div>
