@@ -4,7 +4,7 @@
     class:alert-warning={stage === "ALPHA"}
     class:alert-info={stage === "BETA"}
     role="alert"
-    transition:fade|global>
+    in:fade|global>
     <i
       class="fa-solid me-3 mt-1"
       class:fa-triangle-exclamation={stage === "ALPHA"}
