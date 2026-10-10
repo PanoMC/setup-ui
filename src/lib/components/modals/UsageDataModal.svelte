@@ -48,7 +48,10 @@
         <a href={PRIVACY_POLICY_URL} rel="noopener" target="_blank">
           {$_("components.modals.usage-data.privacy-policy")}
         </a>
-        <a href={TELEMETRY_DOCS_URL} rel="noopener" target="_blank">
+        <a
+          href={docsUrl("https://panomc.com", $locale, TELEMETRY_DOCS_PATH)}
+          rel="noopener"
+          target="_blank">
           {$_("components.modals.usage-data.learn-more")}
         </a>
       </div>
@@ -65,8 +68,7 @@
   // this consent text points at only ever live on panomc.com, whatever the platform is
   // configured to talk to.
   const PRIVACY_POLICY_URL = "https://panomc.com/privacy-policy";
-  const TELEMETRY_DOCS_URL =
-    "https://panomc.com/docs/platform/configuration/telemetry/";
+  const TELEMETRY_DOCS_PATH = "/platform/configuration/telemetry/";
 
   const modalElement = writable();
 
@@ -95,7 +97,8 @@
 </script>
 
 <script>
-  import { _ } from "svelte-i18n";
+  import { _, locale } from "svelte-i18n";
+  import { docsUrl } from "$lib/docs.util.js";
 
   // The config option is the only part of the sentence that wants monospace. Translating it
   // as a placeholder and splitting the sentence around it keeps one natural sentence per

@@ -42,7 +42,7 @@
       class="col-4 d-flex justify-content-end align-items-center gap-3 order-3">
       <div class="nav-item">
         <a
-          href="{PANO_WEBSITE_URL}/docs"
+          href={docsUrl(PANO_WEBSITE_URL, $locale)}
           target="_blank"
           rel="noreferrer"
           class="nav-link"
@@ -67,10 +67,11 @@
 </nav>
 
 <script>
-  import { _ } from "svelte-i18n";
+  import { _, locale } from "svelte-i18n";
   import tooltip from "$lib/tooltip.util.js";
   import { onMount } from "svelte";
   import { PANO_WEBSITE_URL } from "$lib/variables.js";
+  import { docsUrl } from "$lib/docs.util.js";
 
   export let version = "1.0";
 
