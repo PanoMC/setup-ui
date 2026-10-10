@@ -4,6 +4,8 @@ mock.module("$lib/api.util.js", () => ({ default: {} }));
 mock.module("$lib/api.result.js", () => ({ isOk: () => true }));
 
 const {
+  cardPlan,
+  manageLink,
   normalizeName,
   panoMailBody,
   panoMailError,
@@ -27,6 +29,8 @@ test("a connected account with a free plan", () => {
     mailsPerMonth: 500,
     mailsPerDay: 50,
     sender: null,
+    plan: null,
+    manageUrl: null,
   });
 });
 
@@ -121,5 +125,49 @@ test("the connect address encodes every part", () => {
     }),
   ).toBe(
     "https://panomc.com/auth?loginPanoPlatform=a%2Bb&redirectUrl=http%3A%2F%2Flocalhost%3A3002%2Fstep-3&state=s%2F1&hl=tr",
+  );
+});
+
+test("the card shows the account's own plan when connected", () => {
+  const parsed = parsePanoMail({
+    connected: true,
+    account: { username: "a" },
+    freePlan: { mailsPerMonth: 500, mailsPerDay: 50 },
+    plan: {
+      id: "p",
+      name: "Plus",
+      free: false,
+      mailsPerMonth: 5000,
+      mailsPerDay: 300,
+    },
+    manageUrl: "https://panomc.com/profile/mail",
+  });
+  expect(cardPlan(parsed)).toEqual({
+    badge: { name: "Plus" },
+    mailsPerMonth: 5000,
+    mailsPerDay: 300,
+  });
+  expect(
+    cardPlan({ ...parsed, plan: { ...parsed.plan, free: true } }).badge,
+  ).toEqual({ free: true });
+  expect(cardPlan({ ...parsed, connected: false })).toEqual({
+    badge: { free: true },
+    mailsPerMonth: 500,
+    mailsPerDay: 50,
+  });
+  expect(cardPlan({ ...parsed, plan: null }).mailsPerMonth).toBe(500);
+});
+
+test("the plan link returns to this page", () => {
+  expect(
+    manageLink(
+      "https://panomc.com/profile/mail",
+      "http://localhost:3002/step-3",
+    ),
+  ).toBe(
+    "https://panomc.com/profile/mail?return=http%3A%2F%2Flocalhost%3A3002%2Fstep-3",
+  );
+  expect(manageLink("https://x.test/a?b=1", "http://h/p")).toBe(
+    "https://x.test/a?b=1&return=http%3A%2F%2Fh%2Fp",
   );
 });

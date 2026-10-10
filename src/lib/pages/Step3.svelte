@@ -99,7 +99,9 @@
                   <div class="d-flex flex-wrap align-items-center gap-2">
                     <h5 class="mb-0">Pano Mail</h5>
                     <span class="badge text-bg-success"
-                      >{$_("steps.email.pano-mail.free")}</span>
+                      >{shownPlan.badge.free
+                        ? $_("steps.email.pano-mail.free")
+                        : shownPlan.badge.name}</span>
                   </div>
                   <div class="text-body-secondary">
                     {$_("steps.email.pano-mail.by", { values: { website } })}
@@ -108,12 +110,12 @@
               </div>
 
               <ul class="list-unstyled vstack gap-1 mb-0">
-                {#if panoMail.mailsPerMonth}
+                {#if shownPlan.mailsPerMonth}
                   <li>
                     <i
                       class="fa-solid fa-check text-success me-2"
                       aria-hidden="true"></i>
-                    {#if panoMail.mailsPerDay}
+                    {#if shownPlan.mailsPerDay}
                       {$_("steps.email.pano-mail.allowance-both", {
                         values: {
                           month: formattedAllowance,
@@ -136,13 +138,24 @@
               </ul>
 
               {#if panoMail.connected}
-                <div class="fw-semibold">
-                  <i
-                    class="fa-solid fa-circle-check text-success me-2"
-                    aria-hidden="true"></i>
-                  {$_("steps.email.pano-mail.signed-in", {
-                    values: { name: panoMail.username },
-                  })}
+                <div
+                  class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                  <div class="fw-semibold">
+                    <i
+                      class="fa-solid fa-circle-check text-success me-2"
+                      aria-hidden="true"></i>
+                    {$_("steps.email.pano-mail.signed-in", {
+                      values: { name: panoMail.username },
+                    })}
+                  </div>
+                  {#if panoMail.manageUrl}
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary btn-sm"
+                      on:click={changePlan}>
+                      {$_("steps.email.pano-mail.change-plan")}
+                    </button>
+                  {/if}
                 </div>
 
                 {#if panoMail.sender}
@@ -497,6 +510,8 @@
     senderComplete,
     verifyPanoMail,
     checkPanoMailName,
+    cardPlan,
+    manageLink,
   } from "$lib/pano-mail.util.js";
   import {
     createNameChecker,
@@ -548,17 +563,25 @@
   // The website this Pano talks to; the build-time address only when Pano does not say.
   $: websiteUrl = (panoMail.website || PANO_WEBSITE_URL).replace(/\/+$/, "");
   $: website = websiteHost(websiteUrl);
-  $: formattedAllowance = panoMail.mailsPerMonth
+  $: shownPlan = cardPlan(panoMail);
+  $: formattedAllowance = shownPlan.mailsPerMonth
     ? new Intl.NumberFormat($currentLanguage?.locale).format(
-        panoMail.mailsPerMonth,
+        shownPlan.mailsPerMonth,
       )
     : "";
 
-  $: formattedDay = panoMail.mailsPerDay
+  $: formattedDay = shownPlan.mailsPerDay
     ? new Intl.NumberFormat($currentLanguage?.locale).format(
-        panoMail.mailsPerDay,
+        shownPlan.mailsPerDay,
       )
     : "";
+
+  function changePlan() {
+    window.location.href = manageLink(
+      panoMail.manageUrl,
+      window.location.origin + window.location.pathname,
+    );
+  }
 
   function onSenderNameInput(event) {
     const value = normalizeName(event.currentTarget.value);

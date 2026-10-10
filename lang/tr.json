@@ -87,7 +87,8 @@
         "signed-in": "{name} olarak giriş yapıldı",
         "allowance-both": "Ayda {month}, günde {day} e-posta",
         "sender": "Gönderen adres",
-        "sender-name": "Ad"
+        "sender-name": "Ad",
+        "change-plan": "Paketi değiştir"
       },
       "own-server": "Kendi e-posta sunucumu kullan",
       "back-to-pano-mail": "Pano Mail'e dön"

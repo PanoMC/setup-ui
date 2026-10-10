@@ -86,7 +86,8 @@
         "signed-in": "Signed in as {name}",
         "allowance-both": "{month} e-mails a month, {day} a day",
         "sender": "Sender address",
-        "sender-name": "Name"
+        "sender-name": "Name",
+        "change-plan": "Change plan"
       },
       "own-server": "Use my own mail server",
       "back-to-pano-mail": "Back to Pano Mail"

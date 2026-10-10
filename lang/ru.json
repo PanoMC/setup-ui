@@ -87,7 +87,8 @@
         "signed-in": "Вы вошли как {name}",
         "allowance-both": "{month} писем в месяц, {day} в день",
         "sender": "Адрес отправителя",
-        "sender-name": "Имя"
+        "sender-name": "Имя",
+        "change-plan": "Сменить тариф"
       },
       "own-server": "Использовать свой почтовый сервер",
       "back-to-pano-mail": "Назад к Pano Mail"

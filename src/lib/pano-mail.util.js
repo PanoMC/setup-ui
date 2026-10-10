@@ -28,12 +28,17 @@ export function parsePanoMail(body) {
       mailsPerMonth: null,
       mailsPerDay: null,
       sender: null,
+      plan: null,
+      manageUrl: null,
     };
   }
 
   const month = Number(body.freePlan?.mailsPerMonth);
   const day = Number(body.freePlan?.mailsPerDay);
   const sender = body.sender;
+  const positive = (value) =>
+    Number.isFinite(Number(value)) && Number(value) > 0 ? Number(value) : null;
+  const plan = body.plan;
   const username = body.account?.username ? String(body.account.username) : "";
 
   return {
@@ -42,6 +47,17 @@ export function parsePanoMail(body) {
     username,
     mailsPerMonth: Number.isFinite(month) && month > 0 ? month : null,
     mailsPerDay: Number.isFinite(day) && day > 0 ? day : null,
+    plan:
+      plan && typeof plan === "object" && plan.name
+        ? {
+            id: plan.id ?? null,
+            name: String(plan.name),
+            free: plan.free === true,
+            mailsPerMonth: positive(plan.mailsPerMonth),
+            mailsPerDay: positive(plan.mailsPerDay),
+          }
+        : null,
+    manageUrl: body.manageUrl ? String(body.manageUrl) : null,
     sender:
       sender && typeof sender === "object" && sender.zone
         ? {
@@ -51,6 +67,35 @@ export function parsePanoMail(body) {
           }
         : null,
   };
+}
+
+/**
+ * What the card shows: the connected account's own plan when the API sends one, the free plan
+ * otherwise. `badge` is "free" or the plan's name.
+ *
+ * @returns {{ badge: { free: true } | { name: string }, mailsPerMonth: number | null, mailsPerDay: number | null }}
+ */
+export function cardPlan(panoMail) {
+  const plan = panoMail.connected ? panoMail.plan : null;
+
+  if (!plan) {
+    return {
+      badge: { free: true },
+      mailsPerMonth: panoMail.mailsPerMonth,
+      mailsPerDay: panoMail.mailsPerDay,
+    };
+  }
+
+  return {
+    badge: plan.free ? { free: true } : { name: plan.name },
+    mailsPerMonth: plan.mailsPerMonth,
+    mailsPerDay: plan.mailsPerDay,
+  };
+}
+
+/** The website's plan page; it sends the admin back to `pageUrl` (origin + pathname). */
+export function manageLink(manageUrl, pageUrl) {
+  return `${manageUrl}${manageUrl.includes("?") ? "&" : "?"}return=${encodeURIComponent(pageUrl)}`;
 }
 
 export const DEFAULT_LOCAL_PART = "no-reply";
