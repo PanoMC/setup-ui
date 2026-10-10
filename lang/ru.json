@@ -21,6 +21,9 @@
   "title": "Установщик Pano",
   "welcome-title": "Добро пожаловать",
   "steps": {
+    "start": {
+      "title": "Начало"
+    },
     "website": {
       "title": "Идентификация",
       "inputs": {

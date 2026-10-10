@@ -20,6 +20,9 @@
   "title": "Pano Installer",
   "welcome-title": "Welcome",
   "steps": {
+    "start": {
+      "title": "Start"
+    },
     "website": {
       "title": "Identity",
       "inputs": {

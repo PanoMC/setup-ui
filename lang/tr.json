@@ -21,6 +21,9 @@
   "title": "Pano Kurulum",
   "welcome-title": "Hoş geldiniz",
   "steps": {
+    "start": {
+      "title": "Başlangıç"
+    },
     "website": {
       "title": "Kimlik",
       "inputs": {
