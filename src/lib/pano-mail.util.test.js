@@ -3,7 +3,13 @@ import { expect, mock, test } from "bun:test";
 mock.module("$lib/api.util.js", () => ({ default: {} }));
 mock.module("$lib/api.result.js", () => ({ isOk: () => true }));
 
-const { parsePanoMail } = await import("./pano-mail.util.js");
+const {
+  normalizeName,
+  panoMailBody,
+  panoMailError,
+  parsePanoMail,
+  senderComplete,
+} = await import("./pano-mail.util.js");
 const { connectUrl } = await import("./pano-connect.util.js");
 
 test("a connected account with a free plan", () => {
@@ -19,7 +25,58 @@ test("a connected account with a free plan", () => {
     connected: true,
     username: "ahmet",
     mailsPerMonth: 500,
+    mailsPerDay: 50,
+    sender: null,
   });
+});
+
+test("the sender is read with the default local part", () => {
+  const parsed = parsePanoMail({
+    connected: true,
+    account: { username: "a" },
+    sender: { name: "craft", zone: "mail.panomc.site", localPart: "" },
+  });
+  expect(parsed.sender).toEqual({
+    name: "craft",
+    zone: "mail.panomc.site",
+    localPart: "no-reply",
+  });
+});
+
+test("only the month known gives the month only", () => {
+  const parsed = parsePanoMail({ freePlan: { mailsPerMonth: 500 } });
+  expect(parsed.mailsPerMonth).toBe(500);
+  expect(parsed.mailsPerDay).toBeNull();
+});
+
+test("the save body carries provider, name and local part", () => {
+  expect(
+    panoMailBody({ name: " PanoCraft ", zone: "z", localPart: "no-reply" }),
+  ).toEqual({
+    provider: "PANO_MAIL",
+    name: "panocraft",
+    localPart: "no-reply",
+  });
+  expect(panoMailBody(null)).toEqual({ provider: "PANO_MAIL" });
+});
+
+test("next waits for both fields", () => {
+  expect(senderComplete(null)).toBe(true);
+  expect(senderComplete({ name: "", localPart: "a" })).toBe(false);
+  expect(senderComplete({ name: "a", localPart: " " })).toBe(false);
+  expect(senderComplete({ name: "a", localPart: "b" })).toBe(true);
+  expect(normalizeName("AbC")).toBe("abc");
+});
+
+test("failures become alert errors", () => {
+  expect(panoMailError({ code: "INVALID_DATA" }, "w")).toEqual({
+    key: "PANO_MAIL_LOCAL_INVALID",
+  });
+  expect(
+    panoMailError({ code: "PANO_MAIL_NAME_RATE_LIMITED", minutes: 7 }, "w")
+      .props.minutes,
+  ).toBe(7);
+  expect(panoMailError({ code: "NETWORK_ERROR" }, "w")).toBe("NETWORK_ERROR");
 });
 
 test("no plan or no account shows no number and not connected", () => {

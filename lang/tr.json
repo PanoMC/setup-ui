@@ -84,7 +84,10 @@
         "allowance": "Ayda {count} e-posta",
         "no-setup": "Ayar gerekmez, hemen çalışır.",
         "sign-in": "{website} ile giriş yap",
-        "signed-in": "{name} olarak giriş yapıldı"
+        "signed-in": "{name} olarak giriş yapıldı",
+        "allowance-both": "Ayda {month}, günde {day} e-posta",
+        "sender": "Gönderen adres",
+        "sender-name": "Ad"
       },
       "own-server": "Kendi e-posta sunucumu kullan",
       "back-to-pano-mail": "Pano Mail'e dön"
@@ -156,7 +159,11 @@
     "DB_INSTALL_FAILED": "Taşınabilir MariaDB indirilip kurulurken bir hata oluştu.",
     "CONNECT_REQUIRED": "Önce {website} ile giriş yapın.",
     "PANO_MAIL_UNAVAILABLE": "Pano Mail şu an kullanılamıyor. Biraz sonra tekrar deneyin.",
-    "PANO_MAIL_CONNECT_FAILED": "{website} ile giriş yapılamadı. Tekrar deneyin."
+    "PANO_MAIL_CONNECT_FAILED": "{website} ile giriş yapılamadı. Tekrar deneyin.",
+    "PANO_MAIL_NAME_TAKEN": "Bu ad alınmış, başka bir ad deneyin.",
+    "PANO_MAIL_NAME_INVALID": "Ad yalnızca küçük harf, rakam ve tire içerebilir.",
+    "PANO_MAIL_NAME_RATE_LIMITED": "Ad az önce değiştirildi. {minutes} dakika sonra tekrar deneyin.",
+    "PANO_MAIL_LOCAL_INVALID": "@ işaretinden önceki kısım geçersiz."
   },
   "alpha-warning": {
     "title": "Alpha Sürüm",

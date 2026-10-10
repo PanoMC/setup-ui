@@ -113,9 +113,18 @@
                     <i
                       class="fa-solid fa-check text-success me-2"
                       aria-hidden="true"></i>
-                    {$_("steps.email.pano-mail.allowance", {
-                      values: { count: formattedAllowance },
-                    })}
+                    {#if panoMail.mailsPerDay}
+                      {$_("steps.email.pano-mail.allowance-both", {
+                        values: {
+                          month: formattedAllowance,
+                          day: formattedDay,
+                        },
+                      })}
+                    {:else}
+                      {$_("steps.email.pano-mail.allowance", {
+                        values: { count: formattedAllowance },
+                      })}
+                    {/if}
                   </li>
                 {/if}
                 <li>
@@ -135,6 +144,37 @@
                     values: { name: panoMail.username },
                   })}
                 </div>
+
+                {#if panoMail.sender}
+                  <div>
+                    <label class="form-label small mb-1" for="panoMailLocal"
+                      >{$_("steps.email.pano-mail.sender")}</label>
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        id="panoMailLocal"
+                        type="text"
+                        autocomplete="off"
+                        spellcheck="false"
+                        maxlength="64"
+                        bind:value={panoMail.sender.localPart} />
+                      <span class="input-group-text">@</span>
+                      <input
+                        class="form-control"
+                        id="panoMailName"
+                        type="text"
+                        autocomplete="off"
+                        spellcheck="false"
+                        maxlength="63"
+                        title={$_("steps.email.pano-mail.sender-name")}
+                        aria-label={$_("steps.email.pano-mail.sender-name")}
+                        value={panoMail.sender.name}
+                        on:input={onSenderNameInput} />
+                      <span class="input-group-text"
+                        >.{panoMail.sender.zone}</span>
+                    </div>
+                  </div>
+                {/if}
               {:else}
                 <button
                   type="button"
@@ -441,7 +481,13 @@
   import { currentLanguage } from "$lib/language.util.js";
   import { PANO_WEBSITE_URL } from "$lib/variables.js";
   import { websiteHost } from "$lib/restore.util.js";
-  import { PANO_MAIL_PROVIDER, verifyPanoMail } from "$lib/pano-mail.util.js";
+  import {
+    normalizeName,
+    panoMailBody,
+    panoMailError,
+    senderComplete,
+    verifyPanoMail,
+  } from "$lib/pano-mail.util.js";
   import {
     finishPanoConnect,
     startPanoConnect,
@@ -492,9 +538,25 @@
       )
     : "";
 
+  $: formattedDay = panoMail.mailsPerDay
+    ? new Intl.NumberFormat($currentLanguage?.locale).format(
+        panoMail.mailsPerDay,
+      )
+    : "";
+
+  function onSenderNameInput(event) {
+    const value = normalizeName(event.currentTarget.value);
+
+    event.currentTarget.value = value;
+    panoMail.sender.name = value;
+  }
+
   $: disabled =
     mode === "panomail"
-      ? checking || connecting || !panoMail.connected
+      ? checking ||
+        connecting ||
+        !panoMail.connected ||
+        !senderComplete(panoMail.sender)
       : ownDisabled;
 
   $: ownDisabled =
@@ -593,10 +655,15 @@
     error = null;
 
     if (mode === "panomail") {
-      verifyPanoMail().then((code) => {
-        if (!code) {
-          nextStep({ provider: PANO_MAIL_PROVIDER });
+      verifyPanoMail(panoMail.sender).then((failure) => {
+        if (!failure) {
+          nextStep(panoMailBody(panoMail.sender));
           return;
+        }
+
+        showError(panoMailError(failure, website));
+      });
+      return;
         }
 
         showError(

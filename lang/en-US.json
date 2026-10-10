@@ -83,7 +83,10 @@
         "allowance": "{count} e-mails a month",
         "no-setup": "No set-up, works right away.",
         "sign-in": "Sign in with {website}",
-        "signed-in": "Signed in as {name}"
+        "signed-in": "Signed in as {name}",
+        "allowance-both": "{month} e-mails a month, {day} a day",
+        "sender": "Sender address",
+        "sender-name": "Name"
       },
       "own-server": "Use my own mail server",
       "back-to-pano-mail": "Back to Pano Mail"
@@ -155,7 +158,11 @@
     "DB_INSTALL_FAILED": "Failed to download and install portable MariaDB.",
     "CONNECT_REQUIRED": "Sign in with {website} first.",
     "PANO_MAIL_UNAVAILABLE": "Pano Mail is not available right now. Try again in a moment.",
-    "PANO_MAIL_CONNECT_FAILED": "Could not sign in with {website}. Try again."
+    "PANO_MAIL_CONNECT_FAILED": "Could not sign in with {website}. Try again.",
+    "PANO_MAIL_NAME_TAKEN": "This name is taken, try another one.",
+    "PANO_MAIL_NAME_INVALID": "The name can only have lowercase letters, digits and hyphens.",
+    "PANO_MAIL_NAME_RATE_LIMITED": "The name was just changed. Try again in {minutes} minutes.",
+    "PANO_MAIL_LOCAL_INVALID": "The part before @ is not valid."
   },
   "alpha-warning": {
     "title": "Alpha Version",

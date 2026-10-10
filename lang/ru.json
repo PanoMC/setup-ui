@@ -84,7 +84,10 @@
         "allowance": "{count} писем в месяц",
         "no-setup": "Настройка не нужна, работает сразу.",
         "sign-in": "Войти через {website}",
-        "signed-in": "Вы вошли как {name}"
+        "signed-in": "Вы вошли как {name}",
+        "allowance-both": "{month} писем в месяц, {day} в день",
+        "sender": "Адрес отправителя",
+        "sender-name": "Имя"
       },
       "own-server": "Использовать свой почтовый сервер",
       "back-to-pano-mail": "Назад к Pano Mail"
@@ -156,7 +159,11 @@
     "DB_INSTALL_FAILED": "Не удалось скачать и установить портативную MariaDB.",
     "CONNECT_REQUIRED": "Сначала войдите через {website}.",
     "PANO_MAIL_UNAVAILABLE": "Pano Mail сейчас недоступен. Попробуйте чуть позже.",
-    "PANO_MAIL_CONNECT_FAILED": "Не удалось войти через {website}. Попробуйте ещё раз."
+    "PANO_MAIL_CONNECT_FAILED": "Не удалось войти через {website}. Попробуйте ещё раз.",
+    "PANO_MAIL_NAME_TAKEN": "Это имя занято, попробуйте другое.",
+    "PANO_MAIL_NAME_INVALID": "Имя может содержать только строчные буквы, цифры и дефисы.",
+    "PANO_MAIL_NAME_RATE_LIMITED": "Имя только что изменено. Повторите через {minutes} мин.",
+    "PANO_MAIL_LOCAL_INVALID": "Часть до @ недопустима."
   },
   "alpha-warning": {
     "title": "Предупреждение об Alpha-версии",
