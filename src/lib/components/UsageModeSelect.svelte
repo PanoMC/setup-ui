@@ -1,7 +1,7 @@
 <div>
-  <div class="mb-2 text-center">
-    <h5 id="{uid}-label">{$_("usage-mode.title")}</h5>
-  </div>
+  <h4 class="mt-3 mb-3 text-center" id="{uid}-label">
+    {$_("usage-mode.title")}
+  </h4>
 
   <div
     class="list-group list-group-horizontal-md"
@@ -42,7 +42,7 @@
     {/each}
   </div>
 
-  <small class="d-block mt-2 text-center text-body-secondary">
+  <small class="d-block mt-3 text-center text-body-secondary">
     {$_("usage-mode.subtitle")}
   </small>
 </div>
