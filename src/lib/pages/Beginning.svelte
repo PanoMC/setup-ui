@@ -1,33 +1,4 @@
 <div class:opacity-50={disabled}>
-  {#if stepInfo.stage === "ALPHA" && !$languageLoading && !$isLoading}
-    <div class="card-body pb-0">
-      <div
-        class="alert alert-warning d-flex align-items-start mb-0"
-        role="alert">
-        <i class="fa-solid fa-triangle-exclamation me-3 mt-1" aria-hidden="true"
-        ></i>
-        <div>
-          <h5 class="alert-heading d-inline me-2">
-            {$_("alpha-warning.title")}
-          </h5>
-          <span>{$_("alpha-warning.description")}</span>
-        </div>
-      </div>
-    </div>
-  {/if}
-  {#if stepInfo.stage === "BETA" && !$languageLoading && !$isLoading}
-    <div class="card-body pb-0">
-      <div class="alert alert-info d-flex align-items-start mb-0" role="alert">
-        <i class="fa-solid fa-circle-info me-3 mt-1" aria-hidden="true"></i>
-        <div>
-          <h5 class="alert-heading d-inline me-2">
-            {$_("beta-warning.title")}
-          </h5>
-          <span>{$_("beta-warning.description")}</span>
-        </div>
-      </div>
-    </div>
-  {/if}
   <div class="card-body vstack gap-3">
     <div class="form-floating">
       <select
@@ -69,7 +40,7 @@
     languageLoading,
     Languages,
   } from "$lib/language.util";
-  import { _, isLoading } from "svelte-i18n";
+  import { _ } from "svelte-i18n";
   import UsageModeSelect from "$lib/components/UsageModeSelect.svelte";
   import TransferModal from "$lib/components/modals/TransferModal.svelte";
 

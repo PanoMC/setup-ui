@@ -158,6 +158,9 @@
 
     <div class="vstack gap-3" class:d-none={$isFinishing}>
       <ErrorAlert error={stepInfo.error} />
+      {#if $currentStep === 0}
+        <StageAlert stage={stepInfo.stage} />
+      {/if}
       <PageActions>
         <div slot="left">
           {#if $currentStep !== 0}
@@ -356,6 +359,7 @@
 
   import App from "$lib/components/App.svelte";
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
+  import StageAlert from "$lib/components/StageAlert.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
   import tooltip from "$lib/tooltip.util.js";
   import PageHeader from "$lib/components/PageHeader.svelte";
