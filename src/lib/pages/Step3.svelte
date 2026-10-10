@@ -354,6 +354,7 @@
 
 <script context="module">
   import { detectMailService } from "$lib/mail.util.js";
+  import { fetchPanoMail } from "$lib/pano-mail.util.js";
 
   const defaultMailConfiguration = Object.freeze({
     ssl: true,
@@ -425,7 +426,10 @@
       [chosenService]: email,
     };
 
-    return { stepInfo: { mailConfiguration, chosenService } };
+    // Read with the page, so the card never flips after it is shown.
+    const panoMail = await fetchPanoMail();
+
+    return { stepInfo: { mailConfiguration, chosenService, panoMail } };
   }
 </script>
 
@@ -437,11 +441,7 @@
   import { currentLanguage } from "$lib/language.util.js";
   import { PANO_WEBSITE_URL } from "$lib/variables.js";
   import { websiteHost } from "$lib/restore.util.js";
-  import {
-    PANO_MAIL_PROVIDER,
-    fetchPanoMail,
-    verifyPanoMail,
-  } from "$lib/pano-mail.util.js";
+  import { PANO_MAIL_PROVIDER, verifyPanoMail } from "$lib/pano-mail.util.js";
   import {
     finishPanoConnect,
     startPanoConnect,
@@ -474,16 +474,18 @@
   // Pano Mail (the website's own e-mail service) is the default; "own" is the SMTP list + form.
   /** @type {"panomail" | "own"} */
   let mode = chosenService ? "own" : "panomail";
-  let checking = true;
+  let checking = false;
   let connecting = false;
-  let panoMail = {
+  export let panoMail = {
     website: null,
     connected: false,
     username: "",
     mailsPerMonth: null,
   };
 
-  $: website = panoMail.website || websiteHost(PANO_WEBSITE_URL);
+  // The website this Pano talks to; the build-time address only when Pano does not say.
+  $: websiteUrl = (panoMail.website || PANO_WEBSITE_URL).replace(/\/+$/, "");
+  $: website = websiteHost(websiteUrl);
   $: formattedAllowance = panoMail.mailsPerMonth
     ? new Intl.NumberFormat($currentLanguage?.locale).format(
         panoMail.mailsPerMonth,
@@ -515,6 +517,8 @@
 
   onMount(async () => {
     if (/[?&](encodedData|failed)=/.test(window.location.search)) {
+      checking = true;
+
       const failed = await finishPanoConnect(window.location.search);
 
       await goto(window.location.pathname, {
@@ -525,10 +529,10 @@
       if (failed) {
         error = { key: "PANO_MAIL_CONNECT_FAILED", props: { website } };
       }
-    }
 
-    panoMail = await fetchPanoMail();
-    checking = false;
+      panoMail = await fetchPanoMail();
+      checking = false;
+    }
   });
 
   onDestroy(() => {
@@ -562,7 +566,7 @@
     connecting = true;
 
     startPanoConnect({
-      websiteUrl: PANO_WEBSITE_URL,
+      websiteUrl,
       locale: $currentLanguage.locale,
     }).then((failed) => {
       if (!failed) return;
