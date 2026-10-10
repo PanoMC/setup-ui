@@ -39,7 +39,6 @@ bun run format              # prettier --write
 Use Svelte 5 runes for new code; i18n via `svelte-i18n`.
 
 <!-- pano-design-guidelines:start -->
-
 ## Panel design guidelines
 
 Before designing or changing any panel UI (pages, components, modals, alerts, forms…), read
