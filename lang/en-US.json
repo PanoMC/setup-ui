@@ -110,6 +110,17 @@
         "label": "Send {link}",
         "label-link": "usage data",
         "description": "This data is used to make Pano better."
+      },
+      "backup": {
+        "daily-free": "Back up daily with free Pano Backup ({gb} GB)",
+        "daily-free-nogb": "Back up daily with free Pano Backup",
+        "daily-plan": "Back up daily with {plan}",
+        "benefit-mail": "Free e-mail sending, {count} e-mails a month",
+        "benefit-mail-short": "Free e-mail sending",
+        "benefit-backup": "Free daily backups, {gb} GB",
+        "benefit-backup-short": "Free daily backups",
+        "benefit-store": "Plugins and themes from the store",
+        "benefit-updates": "Updates"
       }
     }
   },

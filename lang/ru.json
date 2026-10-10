@@ -111,6 +111,17 @@
         "label": "Отправлять {link}",
         "label-link": "данные об использовании",
         "description": "Эти данные используются, чтобы сделать Pano лучше."
+      },
+      "backup": {
+        "daily-free": "Ежедневная копия с бесплатным Pano Backup ({gb} ГБ)",
+        "daily-free-nogb": "Ежедневная копия с бесплатным Pano Backup",
+        "daily-plan": "Ежедневная копия с тарифом {plan}",
+        "benefit-mail": "Бесплатная отправка писем, {count} в месяц",
+        "benefit-mail-short": "Бесплатная отправка писем",
+        "benefit-backup": "Бесплатные ежедневные копии, {gb} ГБ",
+        "benefit-backup-short": "Бесплатные ежедневные копии",
+        "benefit-store": "Плагины и темы из магазина",
+        "benefit-updates": "Обновления"
       }
     }
   },

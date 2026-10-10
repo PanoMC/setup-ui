@@ -203,14 +203,24 @@
                     ? panoAccount.username
                     : $_("steps.account.online-account")}
                 </h5>
-                <p
-                  class="mb-0"
-                  class:text-success={panoAccount}
-                  class:text-body={!panoAccount}>
-                  {panoAccount
-                    ? "Pano hesabınız başarıyla bağlandı."
-                    : $_("steps.account.online-account-description")}
-                </p>
+                {#if panoAccount}
+                  <p class="mb-0 text-success">
+                    Pano hesabınız başarıyla bağlandı.
+                  </p>
+                {:else}
+                  <ul class="list-unstyled vstack gap-1 mb-0 text-body">
+                    {#each benefits as benefit (benefit.key)}
+                      <li>
+                        <i
+                          class="fa-solid {benefit.icon} fa-fw text-primary me-2"
+                          aria-hidden="true"></i>
+                        {$_("steps.account.backup." + benefit.key, {
+                          values: benefit.values,
+                        })}
+                      </li>
+                    {/each}
+                  </ul>
+                {/if}
               </div>
               <div class="col-lg-3 text-lg-end mt-3 mt-lg-0">
                 {#if panoAccount}
@@ -249,6 +259,33 @@
         </div>
       </div>
 
+      {#if showBackupSwitch(panoBackup, !!panoAccount)}
+        <div
+          class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+          <div class="form-check form-switch mb-0">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="daily-backup"
+              bind:checked={dailyBackup} />
+            <label class="form-check-label" for="daily-backup">
+              {$_("steps.account.backup." + backupLabel.key, {
+                values: backupLabel.values,
+              })}
+            </label>
+          </div>
+          {#if panoBackup.manageUrl}
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              on:click={changePlan}>
+              {$_("steps.email.pano-mail.change-plan")}
+            </button>
+          {/if}
+        </div>
+      {/if}
+
       <div class="form-check">
         <input
           class="form-check-input"
@@ -275,6 +312,9 @@
 <UsageDataModal />
 
 <script context="module">
+  import { fetchPanoBackup } from "$lib/pano-backup.util.js";
+  import { fetchPanoMail } from "$lib/pano-mail.util.js";
+
   /**  @type {import('@sveltejs/kit').LayoutLoad} */
   export async function load({ parent, url: { searchParams } }) {
     const {
@@ -285,7 +325,23 @@
     const encodedData = searchParams.get("encodedData");
     const state = searchParams.get("state");
 
-    return { stepInfo: { account, panoAccount, failed, encodedData, state } };
+    // Read with the page, so the lines and the switch never flip after they are shown.
+    const [panoBackup, panoMail] = await Promise.all([
+      fetchPanoBackup(),
+      fetchPanoMail(),
+    ]);
+
+    return {
+      stepInfo: {
+        account,
+        panoAccount,
+        failed,
+        encodedData,
+        state,
+        panoBackup,
+        panoMail,
+      },
+    };
   }
 </script>
 
@@ -308,6 +364,14 @@
   import { show as showToast } from "$lib/components/ToastContainer.svelte";
 
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
+  import {
+    backupSwitchLabel,
+    connectBenefits,
+    finishBody,
+    parsePanoBackup,
+    showBackupSwitch,
+  } from "$lib/pano-backup.util.js";
+  import { manageLink } from "$lib/pano-mail.util.js";
   import { currentLanguage } from "$lib/language.util.js";
 
   import ConfirmRemovePanoAccountModal, {
@@ -328,6 +392,8 @@
   };
 
   export let panoAccount;
+  export let panoBackup = parsePanoBackup(null);
+  export let panoMail = { mailsPerMonth: null };
   export let failed;
   export let encodedData;
   export let state;
@@ -336,6 +402,22 @@
   let error = null;
   let connecting = !panoAccount && state && encodedData;
   let disconnecting;
+  let dailyBackup = panoBackup.daily;
+
+  $: formatNumber = (value) =>
+    new Intl.NumberFormat($currentLanguage?.locale).format(value);
+  $: benefits = connectBenefits(
+    { mailsPerMonth: panoMail.mailsPerMonth, freeGb: panoBackup.freeGb },
+    formatNumber,
+  );
+  $: backupLabel = backupSwitchLabel(panoBackup);
+
+  function changePlan() {
+    window.location.href = manageLink(
+      panoBackup.manageUrl,
+      window.location.origin + window.location.pathname,
+    );
+  }
 
   // Opt-out, not opt-in: the platform defaults to sending usage data, so the box starts
   // ticked and the value below is what the finish request actually commits.
@@ -445,11 +527,16 @@
 
     ApiUtil.post({
       path: "/setup/finish",
-      body: {
-        ...account,
-        setupLocale: $currentLanguage.locale,
-        telemetryEnabled,
-      },
+      body: finishBody(
+        {
+          ...account,
+          setupLocale: $currentLanguage.locale,
+          telemetryEnabled,
+        },
+        panoBackup,
+        !!panoAccount,
+        dailyBackup,
+      ),
     })
       .then((body) => {
         if (isOk(body)) {

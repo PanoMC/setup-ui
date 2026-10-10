@@ -111,6 +111,17 @@
         "label": "{link} gönder",
         "label-link": "Kullanım verileri",
         "description": "Bu veriler Pano'yu daha iyi hale getirmemiz için kullanılacaktır."
+      },
+      "backup": {
+        "daily-free": "Ücretsiz Pano Backup ({gb} GB) ile günlük yedek al",
+        "daily-free-nogb": "Ücretsiz Pano Backup ile günlük yedek al",
+        "daily-plan": "{plan} ile günlük yedek al",
+        "benefit-mail": "Ücretsiz e-posta gönderimi, ayda {count} e-posta",
+        "benefit-mail-short": "Ücretsiz e-posta gönderimi",
+        "benefit-backup": "Ücretsiz günlük yedek, {gb} GB",
+        "benefit-backup-short": "Ücretsiz günlük yedek",
+        "benefit-store": "Mağazadan eklenti ve temalar",
+        "benefit-updates": "Güncellemeler"
       }
     }
   },
