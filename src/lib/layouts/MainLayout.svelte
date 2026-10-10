@@ -162,11 +162,6 @@
         <div slot="left">
           {#if $currentStep !== 0}
             <PageNav>
-              <li class="nav-item">
-                <button class="nav-link completed" on:click={() => goStep(0)}>
-                  <span>{$_("steps.start.title")}</span>
-                </button>
-              </li>
               {#each steps as step, index}
                 {@const stepNumber = index + 1}
                 <li class="nav-item">
