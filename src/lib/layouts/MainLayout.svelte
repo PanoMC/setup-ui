@@ -284,6 +284,11 @@
     const stepInfo = await checkCurrentStep();
     const { step } = stepInfo;
 
+    // Pano says which website it connects to; the environment value is only the fallback.
+    if (stepInfo.panoWebsiteUrl) {
+      updatePanoWebsiteUrl(stepInfo.panoWebsiteUrl);
+    }
+
     const route = checkRoute(step, pathname);
 
     if (route) {
@@ -319,6 +324,10 @@
 
     if (panoWebsiteUrlEnv) {
       updatePanoWebsiteUrl(panoWebsiteUrlEnv);
+    }
+
+    if (stepInfo.panoWebsiteUrl) {
+      updatePanoWebsiteUrl(stepInfo.panoWebsiteUrl);
     }
 
     if (browser) {
