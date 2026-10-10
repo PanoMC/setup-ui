@@ -664,15 +664,6 @@
         showError(panoMailError(failure, website));
       });
       return;
-        }
-
-        showError(
-          code === "CONNECT_REQUIRED" || code === "PANO_MAIL_UNAVAILABLE"
-            ? { key: code, props: { website } }
-            : code,
-        );
-      });
-      return;
     }
 
     ApiUtil.post({
