@@ -24,7 +24,7 @@
       "title": "Start"
     },
     "website": {
-      "title": "Identity",
+      "title": "Basics",
       "inputs": {
         "title": "Title (Required)",
         "panel-name": "Panel Name (Required)",
