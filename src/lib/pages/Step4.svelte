@@ -402,7 +402,8 @@
   let error = null;
   let connecting = !panoAccount && state && encodedData;
   let disconnecting;
-  let dailyBackup = panoBackup.daily;
+  // On by default: nothing is stored during the set-up, so the route's `daily` is always false here.
+  let dailyBackup = true;
 
   $: formatNumber = (value) =>
     new Intl.NumberFormat($currentLanguage?.locale).format(value);
