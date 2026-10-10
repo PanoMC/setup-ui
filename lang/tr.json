@@ -163,7 +163,8 @@
     "PANO_MAIL_NAME_TAKEN": "Bu ad alınmış, başka bir ad deneyin.",
     "PANO_MAIL_NAME_INVALID": "Ad yalnızca küçük harf, rakam ve tire içerebilir.",
     "PANO_MAIL_NAME_RATE_LIMITED": "Ad az önce değiştirildi. {minutes} dakika sonra tekrar deneyin.",
-    "PANO_MAIL_LOCAL_INVALID": "@ işaretinden önceki kısım geçersiz."
+    "PANO_MAIL_LOCAL_INVALID": "@ işaretinden önceki kısım geçersiz.",
+    "PANO_MAIL_NAME_LENGTH": "Ad {min}–{max} karakter olmalı."
   },
   "alpha-warning": {
     "title": "Alpha Sürüm",

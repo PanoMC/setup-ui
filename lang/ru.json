@@ -163,7 +163,8 @@
     "PANO_MAIL_NAME_TAKEN": "Это имя занято, попробуйте другое.",
     "PANO_MAIL_NAME_INVALID": "Имя может содержать только строчные буквы, цифры и дефисы.",
     "PANO_MAIL_NAME_RATE_LIMITED": "Имя только что изменено. Повторите через {minutes} мин.",
-    "PANO_MAIL_LOCAL_INVALID": "Часть до @ недопустима."
+    "PANO_MAIL_LOCAL_INVALID": "Часть до @ недопустима.",
+    "PANO_MAIL_NAME_LENGTH": "Имя должно содержать {min}–{max} симв."
   },
   "alpha-warning": {
     "title": "Предупреждение об Alpha-версии",

@@ -1,5 +1,6 @@
 import ApiUtil from "$lib/api.util.js";
 import { isOk } from "$lib/api.result.js";
+import { lengthOrInvalid } from "$lib/pano-name-check.js";
 
 /**
  * Pano Mail: the e-mail service of the website this Pano connects to. All calls live here so the
@@ -90,11 +91,22 @@ export function panoMailBody(sender) {
  * @param {string} website
  */
 export function panoMailError(failure, website) {
-  const { code, minutes } =
+  const { code, details } =
     typeof failure === "string" ? { code: failure } : failure;
+  const minutes = details?.minutes;
 
   if (code === "INVALID_DATA") {
     return { key: "PANO_MAIL_LOCAL_INVALID" };
+  }
+
+  if (code === "PANO_MAIL_NAME_INVALID") {
+    return {
+      ...lengthOrInvalid(
+        details?.reason,
+        Number(details?.minLength),
+        Number(details?.maxLength),
+      ),
+    };
   }
 
   if (
@@ -102,7 +114,6 @@ export function panoMailError(failure, website) {
       "CONNECT_REQUIRED",
       "PANO_MAIL_UNAVAILABLE",
       "PANO_MAIL_NAME_TAKEN",
-      "PANO_MAIL_NAME_INVALID",
       "PANO_MAIL_NAME_RATE_LIMITED",
     ].includes(code)
   ) {
@@ -132,7 +143,20 @@ export async function verifyPanoMail(sender) {
 
   if (isOk(body)) return null;
 
-  const minutes = body.error?.details?.minutes ?? body.error?.minutes;
+  return {
+    code: body.error?.code || "PANO_MAIL_UNAVAILABLE",
+    details: body.error?.details,
+  };
+}
 
-  return { code: body.error?.code || "PANO_MAIL_UNAVAILABLE", minutes };
+/** `POST /setup/pano-mail/name-check` -> the parsed answer; a missing route or error is UNKNOWN. */
+export async function checkPanoMailName(name) {
+  try {
+    return await ApiUtil.post({
+      path: "/setup/pano-mail/name-check",
+      body: { name },
+    });
+  } catch {
+    return null;
+  }
 }

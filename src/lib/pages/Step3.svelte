@@ -166,6 +166,8 @@
                         autocomplete="off"
                         spellcheck="false"
                         maxlength="63"
+                        class:is-valid={nameClass === "is-valid"}
+                        class:is-invalid={nameClass === "is-invalid"}
                         title={$_("steps.email.pano-mail.sender-name")}
                         aria-label={$_("steps.email.pano-mail.sender-name")}
                         value={panoMail.sender.name}
@@ -173,6 +175,13 @@
                       <span class="input-group-text"
                         >.{panoMail.sender.zone}</span>
                     </div>
+                    {#if nameMessage}
+                      <div class="invalid-feedback d-block">
+                        {$_("errors." + nameMessage.key, {
+                          values: nameMessage.props,
+                        })}
+                      </div>
+                    {/if}
                   </div>
                 {/if}
               {:else}
@@ -487,7 +496,14 @@
     panoMailError,
     senderComplete,
     verifyPanoMail,
+    checkPanoMailName,
   } from "$lib/pano-mail.util.js";
+  import {
+    createNameChecker,
+    nameCheckBlocks,
+    nameCheckClass,
+    nameCheckMessage,
+  } from "$lib/pano-name-check.js";
   import {
     finishPanoConnect,
     startPanoConnect,
@@ -549,14 +565,28 @@
 
     event.currentTarget.value = value;
     panoMail.sender.name = value;
+    nameChecker?.input(value);
   }
+
+  let nameState = null;
+  $: nameClass = nameCheckClass(nameState);
+  $: nameMessage = nameCheckMessage(nameState);
+
+  const nameChecker = panoMail.sender
+    ? createNameChecker({
+        check: checkPanoMailName,
+        initialName: panoMail.sender.name,
+        onChange: (state) => (nameState = state),
+      })
+    : null;
 
   $: disabled =
     mode === "panomail"
       ? checking ||
         connecting ||
         !panoMail.connected ||
-        !senderComplete(panoMail.sender)
+        !senderComplete(panoMail.sender) ||
+        nameCheckBlocks(nameState)
       : ownDisabled;
 
   $: ownDisabled =
@@ -598,6 +628,8 @@
   });
 
   onDestroy(() => {
+    nameChecker?.destroy();
+
     navigationState.update((s) => {
       if (s.nextAction === next) {
         return {

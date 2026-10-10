@@ -73,10 +73,24 @@ test("failures become alert errors", () => {
     key: "PANO_MAIL_LOCAL_INVALID",
   });
   expect(
-    panoMailError({ code: "PANO_MAIL_NAME_RATE_LIMITED", minutes: 7 }, "w")
-      .props.minutes,
+    panoMailError(
+      { code: "PANO_MAIL_NAME_RATE_LIMITED", details: { minutes: 7 } },
+      "w",
+    ).props.minutes,
   ).toBe(7);
   expect(panoMailError({ code: "NETWORK_ERROR" }, "w")).toBe("NETWORK_ERROR");
+  expect(
+    panoMailError(
+      {
+        code: "PANO_MAIL_NAME_INVALID",
+        details: { reason: "LENGTH", minLength: 3, maxLength: 32 },
+      },
+      "w",
+    ),
+  ).toEqual({ key: "PANO_MAIL_NAME_LENGTH", props: { min: 3, max: 32 } });
+  expect(
+    panoMailError({ code: "PANO_MAIL_NAME_INVALID", details: {} }, "w").key,
+  ).toBe("PANO_MAIL_NAME_INVALID");
 });
 
 test("no plan or no account shows no number and not connected", () => {

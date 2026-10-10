@@ -162,7 +162,8 @@
     "PANO_MAIL_NAME_TAKEN": "This name is taken, try another one.",
     "PANO_MAIL_NAME_INVALID": "The name can only have lowercase letters, digits and hyphens.",
     "PANO_MAIL_NAME_RATE_LIMITED": "The name was just changed. Try again in {minutes} minutes.",
-    "PANO_MAIL_LOCAL_INVALID": "The part before @ is not valid."
+    "PANO_MAIL_LOCAL_INVALID": "The part before @ is not valid.",
+    "PANO_MAIL_NAME_LENGTH": "The name must be {min}–{max} characters."
   },
   "alpha-warning": {
     "title": "Alpha Version",
