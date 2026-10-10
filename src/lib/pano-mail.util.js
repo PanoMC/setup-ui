@@ -1,6 +1,10 @@
 import ApiUtil from "$lib/api.util.js";
 import { isOk } from "$lib/api.result.js";
-import { lengthOrInvalid } from "$lib/pano-name-check.js";
+import {
+  idleState,
+  lengthOrInvalid,
+  parseNameCheck,
+} from "$lib/pano-name-check.js";
 
 /**
  * Pano Mail: the e-mail service of the website this Pano connects to. All calls live here so the
@@ -204,4 +208,14 @@ export async function checkPanoMailName(name) {
   } catch {
     return null;
   }
+}
+
+/** The state of the name the field starts with, read with the page; null without a name. */
+export async function initialNameCheck(name) {
+  if (!name) return null;
+
+  return {
+    ...idleState(name),
+    ...parseNameCheck(await checkPanoMailName(name)),
+  };
 }

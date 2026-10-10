@@ -1,6 +1,7 @@
 /**
  * Live check of the Pano Mail sender name while the admin types: debounced, stale answers are
- * ignored, and nothing is asked for an empty name or the name the field was prefilled with.
+ * ignored, and nothing is asked for an empty name. The name the field was prefilled with is
+ * checked once with the page (`initialState`), so it shows its state from the start.
  */
 
 export const NAME_CHECK_DELAY = 400;
@@ -87,12 +88,13 @@ export function lengthOrInvalid(reason, minLength, maxLength) {
 
 /**
  * @param {{ check: (name: string) => Promise<any>, onChange: (state: NameCheckState) => void,
- *   initialName?: string, delay?: number, timers?: { setTimeout: Function, clearTimeout: Function } }} options
+ *   initialName?: string, initialState?: NameCheckState | null, delay?: number, timers?: { setTimeout: Function, clearTimeout: Function } }} options
  */
 export function createNameChecker({
   check,
   onChange,
   initialName = "",
+  initialState = null,
   delay = NAME_CHECK_DELAY,
   timers = globalThis,
 }) {
@@ -109,8 +111,13 @@ export function createNameChecker({
 
       timers.clearTimeout(timer);
 
-      if (name === "" || name === initialName) {
+      if (name === "") {
         onChange(idleState(name));
+        return;
+      }
+
+      if (name === initialName) {
+        onChange(initialState ? { ...initialState } : idleState(name));
         return;
       }
 

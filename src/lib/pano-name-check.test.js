@@ -122,3 +122,21 @@ test("states, classes and messages", () => {
   expect(nameCheckBlocks({ ...ok, pending: true })).toBe(true);
   expect(parseNameCheck({ status: "WHAT" }).status).toBe("UNKNOWN");
 });
+
+test("typing back to the prefilled name restores the state read with the page", () => {
+  const timers = fakeTimers();
+  const states = [];
+  const checker = createNameChecker({
+    check: async () => ({ status: "TAKEN" }),
+    initialName: "mine",
+    initialState: { name: "mine", pending: false, status: "CURRENT" },
+    timers,
+    onChange: (s) => states.push(s),
+  });
+
+  checker.input("mines");
+  checker.input("mine");
+
+  expect(timers.armed).toBe(false);
+  expect(nameCheckClass(states.at(-1))).toBe("is-valid");
+});

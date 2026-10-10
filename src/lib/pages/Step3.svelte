@@ -416,7 +416,7 @@
 
 <script context="module">
   import { detectMailService } from "$lib/mail.util.js";
-  import { fetchPanoMail } from "$lib/pano-mail.util.js";
+  import { fetchPanoMail, initialNameCheck } from "$lib/pano-mail.util.js";
 
   const defaultMailConfiguration = Object.freeze({
     ssl: true,
@@ -491,7 +491,11 @@
     // Read with the page, so the card never flips after it is shown.
     const panoMail = await fetchPanoMail();
 
-    return { stepInfo: { mailConfiguration, chosenService, panoMail } };
+    const nameCheck = await initialNameCheck(panoMail.sender?.name);
+
+    return {
+      stepInfo: { mailConfiguration, chosenService, panoMail, nameCheck },
+    };
   }
 </script>
 
@@ -591,7 +595,8 @@
     nameChecker?.input(value);
   }
 
-  let nameState = null;
+  export let nameCheck = null;
+  let nameState = nameCheck;
   $: nameClass = nameCheckClass(nameState);
   $: nameMessage = nameCheckMessage(nameState);
 
@@ -599,6 +604,7 @@
     ? createNameChecker({
         check: checkPanoMailName,
         initialName: panoMail.sender.name,
+        initialState: nameCheck,
         onChange: (state) => (nameState = state),
       })
     : null;
