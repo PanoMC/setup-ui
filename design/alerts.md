@@ -6,6 +6,9 @@ Alerts are plain Bootstrap 5 alerts (`alert alert-{variant}`). Do not restyle th
 
 - **Icon on the left**, then the content. Use a Font Awesome icon matching the variant
   (`fa-circle-info`, `fa-triangle-exclamation`, `fa-circle-exclamation`, `fa-circle-check`).
+- **Waiting alerts**: while the alert waits on something (a payment, a deploy), a
+  `spinner-border spinner-border-sm me-3 mt-1` takes the icon's place. It turns into the matching
+  variant icon once the wait is over.
 - **Dismissible only when needed**: add `alert-dismissible` and the default Bootstrap
   `btn-close`. No custom close icon or button.
 
@@ -24,32 +27,27 @@ Alerts are plain Bootstrap 5 alerts (`alert alert-{variant}`). Do not restyle th
 
 - Buttons inside an alert use `alert-btn`, links use `alert-link`. No other button variants
   (`btn-primary`, `btn-outline-*`, …) inside an alert.
-- Action labels are capitalized (`Open Settings`, `Try Again`).
+- Action labels are capitalized (`Open Settings`, `Try Again`). Where the string cannot carry the
+  capitalization, add `text-capitalize` to the button or link.
+- An action goes **below** the text (`mt-2`), inside the content column. It is never placed on the
+  right edge of the alert, and never carries its own icon.
 
 ## Example
 
 ```svelte
-<div
-  class="alert alert-warning alert-dismissible d-flex align-items-start"
-  role="alert">
+<div class="alert alert-warning alert-dismissible d-flex align-items-start" role="alert">
   <i class="fa-solid fa-triangle-exclamation me-3 mt-1" aria-hidden="true"></i>
   <div>
-    <h5 class="alert-heading mb-2">{$_("alerts.update.title")}</h5>
-    <div>{$_("alerts.update.description")}</div>
+    <h5 class="alert-heading mb-2">{$_('alerts.update.title')}</h5>
+    <div>{$_('alerts.update.description')}</div>
     <ul class="mb-2">
-      <li>{$_("alerts.update.item-1")}</li>
-      <li>{$_("alerts.update.item-2")}</li>
+      <li>{$_('alerts.update.item-1')}</li>
+      <li>{$_('alerts.update.item-2')}</li>
     </ul>
-    <button class="btn alert-btn" type="button"
-      >{$_("alerts.update.install")}</button>
-    <a class="alert-link ms-2" href="{base}/settings/updates"
-      >{$_("alerts.update.details")}</a>
+    <button class="btn alert-btn" type="button">{$_('alerts.update.install')}</button>
+    <a class="alert-link ms-2" href="{base}/settings/updates">{$_('alerts.update.details')}</a>
   </div>
-  <button
-    class="btn-close"
-    type="button"
-    aria-label={$_("close")}
-    onclick={dismiss}></button>
+  <button class="btn-close" type="button" aria-label={$_('close')} onclick={dismiss}></button>
 </div>
 ```
 

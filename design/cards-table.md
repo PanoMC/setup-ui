@@ -41,6 +41,9 @@ Then:
 - they are one **dropdown menu**, not a row of buttons: trigger `btn btn-sm btn-link` with
   `fa-ellipsis-vertical`, menu `dropdown-menu dropdown-menu-end`, items `dropdown-item` — as in the
   console card.
+- **one action only → no menu**: a single action is a plain `btn btn-sm btn-link` (icon + label) in
+  the `right` slot. A menu that opens to show one item is an extra click for nothing. This applies to
+  card and page headers; a table row's control cell stays a dropdown (`tables.md`).
 
 ## Example
 
@@ -48,20 +51,14 @@ Then:
 <div class="card">
   <CardHeader>
     <div slot="left">
-      {$_("pages.tickets.table-title", {
-        values: { ticketCount: data.ticketCount },
-      })}
+      {$_('pages.tickets.table-title', { values: { ticketCount: data.ticketCount } })}
     </div>
     <div slot="middle" style="width: 250px;">
-      <SearchInput
-        autofocus
-        initialValue={search}
-        searching={isSearching}
-        on:change={onSearch} />
+      <SearchInput autofocus initialValue={search} searching={isSearching} on:change={onSearch} />
     </div>
     <CardFilters slot="right">
-      <CardFiltersItem href="/tickets" active={pageType === "ALL"}>
-        {$_("pages.tickets.all")}
+      <CardFiltersItem href="/tickets" active={pageType === 'ALL'}>
+        {$_('pages.tickets.all')}
       </CardFiltersItem>
     </CardFilters>
   </CardHeader>
@@ -74,8 +71,7 @@ Then:
         <thead>
           <tr>
             <th scope="col"></th>
-            <th class="align-middle text-nowrap" scope="col"
-              >{$_("pages.tickets.table.title")}</th>
+            <th class="align-middle text-nowrap" scope="col">{$_('pages.tickets.table.title')}</th>
           </tr>
         </thead>
         <tbody>
@@ -88,17 +84,14 @@ Then:
                     class="btn btn-link"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
-                    title={$_("components.ticket-row.actions")}
-                    aria-label={$_("components.ticket-row.actions")}>
+                    title={$_('components.ticket-row.actions')}
+                    aria-label={$_('components.ticket-row.actions')}>
                     <span class="fas fa-ellipsis-v"></span>
                   </button>
                   <div class="dropdown-menu dropdown-menu-start">
-                    <button
-                      type="button"
-                      class="dropdown-item link-danger"
-                      onclick={remove}>
+                    <button type="button" class="dropdown-item link-danger" onclick={remove}>
                       <i class="fas fa-trash me-2"></i>
-                      {$_("buttons.delete")}
+                      {$_('buttons.delete')}
                     </button>
                   </div>
                 </div>

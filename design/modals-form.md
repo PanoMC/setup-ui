@@ -8,6 +8,9 @@ A modal with inputs that creates, saves or edits something. Reference:
 
 - `modal-header` with the title (`<h5 class="modal-title">`) and, optionally, the default
   Bootstrap `btn-close` in the top right corner.
+- Header-level actions (a refresh, an info toggle) are icon-only `btn btn-link` buttons in a
+  `ms-auto d-flex align-items-center gap-1` group between the title and the `btn-close`. Never
+  more than two, and never a text button.
 - **The title is the only text describing the modal.** No description, subtitle, intro paragraph or
   hint under it or at the top of the body.
 
@@ -33,13 +36,13 @@ A modal with inputs that creates, saves or edits something. Reference:
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          {$_("components.modals.add-edit-post-category.create-category")}
+          {$_('components.modals.add-edit-post-category.create-category')}
         </h5>
         <button
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
-          aria-label={$_("buttons.close")}></button>
+          aria-label={$_('buttons.close')}></button>
       </div>
       <form onsubmit={onSubmit}>
         <div class="modal-body">
@@ -47,24 +50,19 @@ A modal with inputs that creates, saves or edits something. Reference:
             class="form-control form-control-lg mb-3"
             class:is-invalid={errors.title}
             type="text"
-            placeholder={$_(
-              "components.modals.add-edit-post-category.inputs.title.placeholder",
-            )}
+            placeholder={$_('components.modals.add-edit-post-category.inputs.title.placeholder')}
             bind:value={category.title} />
           <textarea
             class="form-control"
             rows="5"
             placeholder={$_(
-              "components.modals.add-edit-post-category.inputs.description.placeholder",
+              'components.modals.add-edit-post-category.inputs.description.placeholder',
             )}
             bind:value={category.description}></textarea>
         </div>
         <div class="modal-footer">
-          <button
-            class="btn btn-primary w-100"
-            type="submit"
-            disabled={loading}>
-            {$_("buttons.save")}
+          <button class="btn btn-primary w-100" type="submit" disabled={loading}>
+            {$_('buttons.save')}
           </button>
         </div>
       </form>
