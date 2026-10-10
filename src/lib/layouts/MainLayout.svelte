@@ -158,9 +158,6 @@
 
     <div class="vstack gap-3" class:d-none={$isFinishing}>
       <ErrorAlert error={stepInfo.error} />
-      {#if $currentStep === 0}
-        <StageAlert stage={stepInfo.stage} />
-      {/if}
       <PageActions>
         <div slot="left">
           {#if $currentStep !== 0}
@@ -236,6 +233,9 @@
       <div class="card">
         <slot />
       </div>
+      {#if $currentStep === 0}
+        <StageAlert stage={stepInfo.stage} />
+      {/if}
     </div>
   </div>
 </App>
