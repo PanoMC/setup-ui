@@ -61,7 +61,7 @@
       }
     },
     "email": {
-      "title": "SMTP",
+      "title": "E-mail",
       "description": "Pano requires an email provider to be able to send emails. Please log in with the e-mail service you want to use.",
       "servers-intro": "Pano uses e-mail to send you alerts — a server crashed, a backup failed — and to let you reset your password. Please log in with the e-mail service you want to use.",
       "return-back-to-service-list-text": "Back to service list",
@@ -76,7 +76,17 @@
         "hostname": "Hostname (Required)",
         "port": "Port (Required)",
         "auth-method": "Auth Method"
-      }
+      },
+      "pano-mail": {
+        "free": "Free",
+        "by": "E-mail service by {website}",
+        "allowance": "{count} e-mails a month",
+        "no-setup": "No set-up, works right away.",
+        "sign-in": "Sign in with {website}",
+        "signed-in": "Signed in as {name}"
+      },
+      "own-server": "Use my own mail server",
+      "back-to-pano-mail": "Back to Pano Mail"
     },
     "account": {
       "title": "Account",
@@ -107,7 +117,7 @@
         "description": "Pano will no longer be linked to your online account. You can connect it again later."
       },
       "confirm-skip-smtp": {
-        "title": "Skip setting up SMTP?",
+        "title": "Skip e-mail set-up?",
         "description": "Skipping this step may result in missing/not working features such as Password Reset or E-Mail validation.",
         "description-servers": "Skipping this step means Pano can't e-mail you alerts (server crashed, backup failed) or send password reset links."
       },
@@ -142,7 +152,10 @@
     "PANO_CONNECT_FAILED": "Failed to connect Pano servers, please try again later.",
     "PANO_DISCONNECT_FAILED": "Failed to disconnect Pano account, please try again later.",
     "INTERNAL_SERVER_ERROR": "An error occurred, please check Pano console and report it!",
-    "DB_INSTALL_FAILED": "Failed to download and install portable MariaDB."
+    "DB_INSTALL_FAILED": "Failed to download and install portable MariaDB.",
+    "CONNECT_REQUIRED": "Sign in with {website} first.",
+    "PANO_MAIL_UNAVAILABLE": "Pano Mail is not available right now. Try again in a moment.",
+    "PANO_MAIL_CONNECT_FAILED": "Could not sign in with {website}. Try again."
   },
   "alpha-warning": {
     "title": "Alpha Version",

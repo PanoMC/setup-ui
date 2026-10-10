@@ -61,7 +61,7 @@
   import { onDestroy, onMount } from "svelte";
   import { goto } from "$app/navigation";
 
-  import ApiUtil from "$lib/api.util.js";
+  import { finishPanoConnect } from "$lib/pano-connect.util.js";
 
   import {
     changeLanguage,
@@ -112,29 +112,13 @@
 
     if (reopen !== "host" && reopen !== "move") return;
 
-    const params = new URLSearchParams(window.location.search);
-    const encodedData = params.get("encodedData");
-    const state = params.get("state");
-    let connectError = null;
-
-    if (encodedData && state) {
-      const body = await ApiUtil.post({
-        path: "/setup/steps/4/platform/connect",
-        body: { encodedData, state },
-      }).catch(() => null);
-
-      if (
-        !body ||
-        (body.error && body.error.code !== "ALREADY_CONNECTED_TO_PANO")
-      ) {
-        connectError = {
+    const failed = await finishPanoConnect(window.location.search);
+    const connectError = failed
+      ? {
           key: "import.host.connect-failed",
-          code: body?.error?.code,
-        };
-      }
-    } else if (params.has("failed")) {
-      connectError = { key: "import.host.connect-failed", code: "FAILED" };
-    }
+          code: failed.code,
+        }
+      : null;
 
     if (window.location.search) {
       await goto(window.location.pathname, {

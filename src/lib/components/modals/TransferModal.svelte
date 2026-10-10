@@ -516,6 +516,7 @@
 
   import DragAndDropZone from "$lib/components/DragAndDropZone.svelte";
 
+  import { startPanoConnect } from "$lib/pano-connect.util.js";
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
 
   import { isOk } from "$lib/api.result.js";
@@ -789,31 +790,23 @@
     error = null;
     connecting = true;
 
-    ApiUtil.post({ path: "/setup/steps/4/platform/code" })
-      .then((body) => {
-        if (body.error) {
-          connecting = false;
-          fail(body);
-          return;
-        }
-
+    startPanoConnect({
+      websiteUrl: PANO_WEBSITE_URL,
+      locale: $currentLanguage.locale,
+      beforeRedirect() {
         try {
           // Reopen on the step that asked (Pano Backup or Pano Host).
           sessionStorage.setItem(REOPEN_KEY, step === "move" ? "move" : "host");
         } catch {
           // blocked storage: the account still connects, the dialog just does not reopen itself
         }
+      },
+    }).then((failed) => {
+      if (!failed) return;
 
-        const redirectUrl = encodeURIComponent(
-          window.location.origin + window.location.pathname,
-        );
-
-        window.location.href = `${PANO_WEBSITE_URL}/auth?loginPanoPlatform=${encodeURIComponent(body.publicKey)}&redirectUrl=${redirectUrl}&state=${encodeURIComponent(body.state)}&hl=${$currentLanguage.locale}`;
-      })
-      .catch(() => {
-        connecting = false;
-        fail(null);
-      });
+      connecting = false;
+      fail(failed.error ? failed : null);
+    });
   }
 
   function started(body) {

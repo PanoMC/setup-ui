@@ -10,6 +10,11 @@
     flex-shrink: 0;
   }
 
+  .pano-mail-card {
+    border-width: 2px;
+    background: var(--bs-primary-bg-subtle);
+  }
+
   .slide-active {
     transform: translateX(-50%);
   }
@@ -80,169 +85,267 @@
   <form on:submit|preventDefault={next}>
     <CardHeader>{$_("steps.email.title")}</CardHeader>
     <div class="card-body vstack gap-3 overflow-hidden p-0">
-      <div class="smtp-steps-container" class:slide-active={chosenService}>
-        <!-- Step 1: Service Selection -->
-        <div class="smtp-step-pane p-3">
-          <div class="mb-3">
-            {$_(
-              serversOnly
-                ? "steps.email.servers-intro"
-                : "steps.email.description",
-            )}
+      {#if mode === "panomail"}
+        <div class="p-3 vstack gap-3">
+          <ErrorAlert error={error} />
+
+          <div class="card pano-mail-card border-primary">
+            <div class="card-body vstack gap-3">
+              <div class="d-flex align-items-start gap-3">
+                <i
+                  class="fa-solid fa-envelope-circle-check fa-2x text-primary"
+                  aria-hidden="true"></i>
+                <div class="flex-grow-1">
+                  <div class="d-flex flex-wrap align-items-center gap-2">
+                    <h5 class="mb-0">Pano Mail</h5>
+                    <span class="badge text-bg-success"
+                      >{$_("steps.email.pano-mail.free")}</span>
+                  </div>
+                  <div class="text-body-secondary">
+                    {$_("steps.email.pano-mail.by", { values: { website } })}
+                  </div>
+                </div>
+              </div>
+
+              <ul class="list-unstyled vstack gap-1 mb-0">
+                {#if panoMail.mailsPerMonth}
+                  <li>
+                    <i
+                      class="fa-solid fa-check text-success me-2"
+                      aria-hidden="true"></i>
+                    {$_("steps.email.pano-mail.allowance", {
+                      values: { count: formattedAllowance },
+                    })}
+                  </li>
+                {/if}
+                <li>
+                  <i
+                    class="fa-solid fa-check text-success me-2"
+                    aria-hidden="true"></i>
+                  {$_("steps.email.pano-mail.no-setup")}
+                </li>
+              </ul>
+
+              {#if panoMail.connected}
+                <div class="fw-semibold">
+                  <i
+                    class="fa-solid fa-circle-check text-success me-2"
+                    aria-hidden="true"></i>
+                  {$_("steps.email.pano-mail.signed-in", {
+                    values: { name: panoMail.username },
+                  })}
+                </div>
+              {:else}
+                <button
+                  type="button"
+                  class="btn btn-primary w-100"
+                  disabled={checking || connecting}
+                  on:click={connectAccount}>
+                  {#if connecting}
+                    <span
+                      class="spinner-border spinner-border-sm me-2"
+                      aria-hidden="true"></span>
+                    {$_("buttons.connecting")}
+                  {:else}
+                    <i
+                      class="fa-solid fa-right-to-bracket me-2"
+                      aria-hidden="true"></i>
+                    {$_("steps.email.pano-mail.sign-in", {
+                      values: { website },
+                    })}
+                  {/if}
+                </button>
+              {/if}
+            </div>
           </div>
 
-          <div class="list-group">
-            {#each Object.keys(services) as service, index (service)}
-              <button
-                type="button"
-                class="list-group-item list-group-item-action fw-normal"
-                on:click={() => chooseService(service)}>
-                {$_(services[service].name) || services[service].name}</button>
-            {/each}
-          </div>
+          <button
+            type="button"
+            class="btn btn-link text-decoration-none align-self-center"
+            on:click={() => chooseMode("own")}>
+            {$_("steps.email.own-server")}
+          </button>
         </div>
-
-        <!-- Step 2: Service Details -->
-        <div class="smtp-step-pane p-3">
-          {#if lastChosenService && mailConfiguration[lastChosenService]}
+      {:else}
+        <div class="smtp-steps-container" class:slide-active={chosenService}>
+          <!-- Step 1: Service Selection -->
+          <div class="smtp-step-pane p-3">
             <button
               type="button"
               class="btn btn-link px-0 text-decoration-none mb-3"
-              on:click={() => (chosenService = null)}>
-              <i class="fa-solid fa-arrow-left me-1"></i>
-              {$_("steps.email.return-back-to-service-list-text")}
+              on:click={() => chooseMode("panomail")}>
+              <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
+              {$_("steps.email.back-to-pano-mail")}
             </button>
 
-            <div class="vstack gap-2">
-              <h5>{$_(services[lastChosenService].name)}</h5>
-
-              <ErrorAlert error={error} />
-
-              <div class="merged-grid w-100">
-                <div class="form-floating">
-                  <input
-                    class="form-control"
-                    id="mailUsername"
-                    type="text"
-                    placeholder="no-reply"
-                    bind:value={mailConfiguration[lastChosenService].username}
-                    on:input={onUsernameChange} />
-                  <label for="mailUsername"
-                    >{$_("steps.email.inputs.username")}</label>
-                </div>
-                <div class="form-floating">
-                  <input
-                    class="form-control"
-                    id="mailUserPassword"
-                    placeholder="****************"
-                    type="password"
-                    bind:value={
-                      mailConfiguration[lastChosenService].password
-                    } />
-                  <label for="mailUserPassword"
-                    >{$_("steps.email.inputs.password")}</label>
-                </div>
-              </div>
+            <div class="mb-3">
+              {$_(
+                serversOnly
+                  ? "steps.email.servers-intro"
+                  : "steps.email.description",
+              )}
             </div>
 
-            <details>
-              <summary class="pt-3"
-                >{$_("steps.email.inputs.details-button")}</summary>
+            <div class="list-group">
+              {#each Object.keys(services) as service, index (service)}
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action fw-normal"
+                  on:click={() => chooseService(service)}>
+                  {$_(services[service].name) ||
+                    services[service].name}</button>
+              {/each}
+            </div>
+          </div>
 
-              <div class="row g-3 pt-2">
-                <div class="col-12 col-md-6 mb-3">
-                  <label class="form-label"
-                    >{$_("steps.email.inputs.ssl")}</label>
-                  <div class="form-check">
+          <!-- Step 2: Service Details -->
+          <div class="smtp-step-pane p-3">
+            {#if lastChosenService && mailConfiguration[lastChosenService]}
+              <button
+                type="button"
+                class="btn btn-link px-0 text-decoration-none mb-3"
+                on:click={() => (chosenService = null)}>
+                <i class="fa-solid fa-arrow-left me-1"></i>
+                {$_("steps.email.return-back-to-service-list-text")}
+              </button>
+
+              <div class="vstack gap-2">
+                <h5>{$_(services[lastChosenService].name)}</h5>
+
+                <ErrorAlert error={error} />
+
+                <div class="merged-grid w-100">
+                  <div class="form-floating">
                     <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="ssl"
-                      id="ssl"
-                      aria-checked={mailConfiguration[lastChosenService].ssl}
-                      bind:checked={mailConfiguration[lastChosenService].ssl} />
-                    <label class="form-check-label" for="ssl">
-                      {$_("steps.email.inputs.active")}
-                    </label>
+                      class="form-control"
+                      id="mailUsername"
+                      type="text"
+                      placeholder="no-reply"
+                      bind:value={mailConfiguration[lastChosenService].username}
+                      on:input={onUsernameChange} />
+                    <label for="mailUsername"
+                      >{$_("steps.email.inputs.username")}</label>
                   </div>
-                </div>
-                <div class="col-12 col-md-6 mb-3">
-                  <label class="form-label" for="port"
-                    >{$_("steps.email.inputs.tls-setting")}</label>
-                  <select
-                    class="form-select"
-                    id="port"
-                    bind:value={mailConfiguration[lastChosenService].starttls}>
-                    <option value="REQUIRED">REQUIRED</option>
-                    <option value="OPTIONAL">OPTIONAL</option>
-                    <option value="DISABLED">DISABLED</option>
-                  </select>
+                  <div class="form-floating">
+                    <input
+                      class="form-control"
+                      id="mailUserPassword"
+                      placeholder="****************"
+                      type="password"
+                      bind:value={
+                        mailConfiguration[lastChosenService].password
+                      } />
+                    <label for="mailUserPassword"
+                      >{$_("steps.email.inputs.password")}</label>
+                  </div>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col-12 col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="sendingAddress"
-                      >{$_("steps.email.inputs.sending-address")}</label>
-                    <input
-                      class="form-control"
-                      id="sendingAddress"
-                      type="text"
-                      placeholder="no-reply@forexample.com"
-                      bind:value={
-                        mailConfiguration[lastChosenService].sender
-                      } />
-                  </div>
-                </div>
+              <details>
+                <summary class="pt-3"
+                  >{$_("steps.email.inputs.details-button")}</summary>
 
-                <div class="col-12 col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="hostname"
-                      >{$_("steps.email.inputs.hostname")}</label>
-                    <input
-                      class="form-control"
-                      id="hostname"
-                      type="text"
-                      placeholder="smtp.forexample.com"
-                      bind:value={
-                        mailConfiguration[lastChosenService].hostname
-                      } />
+                <div class="row g-3 pt-2">
+                  <div class="col-12 col-md-6 mb-3">
+                    <label class="form-label"
+                      >{$_("steps.email.inputs.ssl")}</label>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="ssl"
+                        id="ssl"
+                        aria-checked={mailConfiguration[lastChosenService].ssl}
+                        bind:checked={
+                          mailConfiguration[lastChosenService].ssl
+                        } />
+                      <label class="form-check-label" for="ssl">
+                        {$_("steps.email.inputs.active")}
+                      </label>
+                    </div>
                   </div>
-                </div>
-
-                <div class="col-12 col-md-6">
-                  <div class="mb-3">
+                  <div class="col-12 col-md-6 mb-3">
                     <label class="form-label" for="port"
-                      >{$_("steps.email.inputs.port")}</label>
-                    <input
-                      class="form-control"
-                      id="port"
-                      placeholder="465"
-                      type="number"
-                      bind:value={mailConfiguration[lastChosenService].port} />
-                  </div>
-                </div>
-
-                <div class="col-12 col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="port"
-                      >{$_("steps.email.inputs.auth-method")}</label>
+                      >{$_("steps.email.inputs.tls-setting")}</label>
                     <select
                       class="form-select"
+                      id="port"
                       bind:value={
-                        mailConfiguration[lastChosenService].authMethods
+                        mailConfiguration[lastChosenService].starttls
                       }>
-                      <option value="PLAIN">PLAIN</option>
-                      <option value=""></option>
+                      <option value="REQUIRED">REQUIRED</option>
+                      <option value="OPTIONAL">OPTIONAL</option>
+                      <option value="DISABLED">DISABLED</option>
                     </select>
                   </div>
                 </div>
-              </div>
-            </details>
-          {/if}
+
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="sendingAddress"
+                        >{$_("steps.email.inputs.sending-address")}</label>
+                      <input
+                        class="form-control"
+                        id="sendingAddress"
+                        type="text"
+                        placeholder="no-reply@forexample.com"
+                        bind:value={
+                          mailConfiguration[lastChosenService].sender
+                        } />
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="hostname"
+                        >{$_("steps.email.inputs.hostname")}</label>
+                      <input
+                        class="form-control"
+                        id="hostname"
+                        type="text"
+                        placeholder="smtp.forexample.com"
+                        bind:value={
+                          mailConfiguration[lastChosenService].hostname
+                        } />
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="port"
+                        >{$_("steps.email.inputs.port")}</label>
+                      <input
+                        class="form-control"
+                        id="port"
+                        placeholder="465"
+                        type="number"
+                        bind:value={
+                          mailConfiguration[lastChosenService].port
+                        } />
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="port"
+                        >{$_("steps.email.inputs.auth-method")}</label>
+                      <select
+                        class="form-select"
+                        bind:value={
+                          mailConfiguration[lastChosenService].authMethods
+                        }>
+                        <option value="PLAIN">PLAIN</option>
+                        <option value=""></option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </details>
+            {/if}
+          </div>
         </div>
-      </div>
+      {/if}
     </div>
   </form>
 </div>
@@ -329,7 +432,20 @@
 <script>
   import CardHeader from "$lib/components/CardHeader.svelte";
   import { _ } from "svelte-i18n";
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
+  import { goto } from "$app/navigation";
+  import { currentLanguage } from "$lib/language.util.js";
+  import { PANO_WEBSITE_URL } from "$lib/variables.js";
+  import { websiteHost } from "$lib/restore.util.js";
+  import {
+    PANO_MAIL_PROVIDER,
+    fetchPanoMail,
+    verifyPanoMail,
+  } from "$lib/pano-mail.util.js";
+  import {
+    finishPanoConnect,
+    startPanoConnect,
+  } from "$lib/pano-connect.util.js";
   import { nextStep, navigationState, usageMode } from "$lib/Store.js";
 
   import { fade } from "svelte/transition";
@@ -355,7 +471,31 @@
   // In SERVERS mode e-mail is about alerts and password resets, not visitor mail.
   $: serversOnly = $usageMode === "SERVERS";
 
+  // Pano Mail (the website's own e-mail service) is the default; "own" is the SMTP list + form.
+  /** @type {"panomail" | "own"} */
+  let mode = chosenService ? "own" : "panomail";
+  let checking = true;
+  let connecting = false;
+  let panoMail = {
+    website: null,
+    connected: false,
+    username: "",
+    mailsPerMonth: null,
+  };
+
+  $: website = panoMail.website || websiteHost(PANO_WEBSITE_URL);
+  $: formattedAllowance = panoMail.mailsPerMonth
+    ? new Intl.NumberFormat($currentLanguage?.locale).format(
+        panoMail.mailsPerMonth,
+      )
+    : "";
+
   $: disabled =
+    mode === "panomail"
+      ? checking || connecting || !panoMail.connected
+      : ownDisabled;
+
+  $: ownDisabled =
     !chosenService ||
     (chosenService &&
       (!mailConfiguration[chosenService].port ||
@@ -372,6 +512,24 @@
     showSkip: true,
     skipAction: skip,
   }));
+
+  onMount(async () => {
+    if (/[?&](encodedData|failed)=/.test(window.location.search)) {
+      const failed = await finishPanoConnect(window.location.search);
+
+      await goto(window.location.pathname, {
+        replaceState: true,
+        noScroll: true,
+      });
+
+      if (failed) {
+        error = { key: "PANO_MAIL_CONNECT_FAILED", props: { website } };
+      }
+    }
+
+    panoMail = await fetchPanoMail();
+    checking = false;
+  });
 
   onDestroy(() => {
     navigationState.update((s) => {
@@ -394,6 +552,26 @@
     error = errorCode;
   }
 
+  function chooseMode(newMode) {
+    error = null;
+    mode = newMode;
+  }
+
+  function connectAccount() {
+    error = null;
+    connecting = true;
+
+    startPanoConnect({
+      websiteUrl: PANO_WEBSITE_URL,
+      locale: $currentLanguage.locale,
+    }).then((failed) => {
+      if (!failed) return;
+
+      connecting = false;
+      showError(failed.error?.code || NETWORK_ERROR);
+    });
+  }
+
   function chooseService(service) {
     if (!mailConfiguration[service]) {
       mailConfiguration[service] = { ...services[service].config };
@@ -409,6 +587,22 @@
 
     loading = true;
     error = null;
+
+    if (mode === "panomail") {
+      verifyPanoMail().then((code) => {
+        if (!code) {
+          nextStep({ provider: PANO_MAIL_PROVIDER });
+          return;
+        }
+
+        showError(
+          code === "CONNECT_REQUIRED" || code === "PANO_MAIL_UNAVAILABLE"
+            ? { key: code, props: { website } }
+            : code,
+        );
+      });
+      return;
+    }
 
     ApiUtil.post({
       path: "/setup/steps/3/verify",
