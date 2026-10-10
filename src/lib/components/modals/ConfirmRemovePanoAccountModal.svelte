@@ -16,6 +16,13 @@
         <div class="text-body-secondary">
           {$_("components.modals.confirm-remove-pano-account.description")}
         </div>
+        {#if panoMail}
+          <div class="alert alert-warning text-start mt-3 mb-0" role="alert">
+            <i class="fa-solid fa-triangle-exclamation me-2" aria-hidden="true"
+            ></i>
+            {$_("components.modals.confirm-remove-pano-account.pano-mail")}
+          </div>
+        {/if}
       </div>
       <div class="modal-footer flex-nowrap">
         <button
@@ -82,6 +89,9 @@
 
 <script>
   import { _ } from "svelte-i18n";
+
+  /** Pano Mail is the chosen e-mail service: it stops with the account. */
+  export let panoMail = false;
 
   let loading = false;
 

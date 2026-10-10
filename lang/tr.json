@@ -130,7 +130,8 @@
     "modals": {
       "confirm-remove-pano-account": {
         "title": "Çevrimiçi Pano hesabınızın bağlantısı kesilsin mi?",
-        "description": "Pano artık çevrimiçi hesabınıza bağlı olmayacak. Daha sonra tekrar bağlayabilirsiniz."
+        "description": "Pano artık çevrimiçi hesabınıza bağlı olmayacak. Daha sonra tekrar bağlayabilirsiniz.",
+        "pano-mail": "E-posta için Pano Mail'i seçtiniz. Bağlantıyı keserseniz Pano e-posta gönderemez; e-posta adımından yeniden ayarlamanız gerekir."
       },
       "confirm-skip-smtp": {
         "title": "E-posta kurulumu atlansın mı?",

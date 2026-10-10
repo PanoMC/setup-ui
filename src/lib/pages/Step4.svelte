@@ -308,7 +308,7 @@
   </form>
 </div>
 
-<ConfirmRemovePanoAccountModal />
+<ConfirmRemovePanoAccountModal panoMail={panoMailChosen} />
 <UsageDataModal />
 
 <script context="module">
@@ -318,7 +318,7 @@
   /**  @type {import('@sveltejs/kit').LayoutLoad} */
   export async function load({ parent, url: { searchParams } }) {
     const {
-      stepInfo: { account, panoAccount },
+      stepInfo: { account, panoAccount, email },
     } = await parent();
 
     const failed = searchParams.get("failed");
@@ -340,6 +340,8 @@
         state,
         panoBackup,
         panoMail,
+        // Disconnecting the account turns Pano Mail off: the dialog says so.
+        panoMailChosen: email?.provider === "PANO_MAIL" && !!email?.enabled,
       },
     };
   }
@@ -394,6 +396,7 @@
   export let panoAccount;
   export let panoBackup = parsePanoBackup(null);
   export let panoMail = { mailsPerMonth: null };
+  export let panoMailChosen = false;
   export let failed;
   export let encodedData;
   export let state;
@@ -612,6 +615,7 @@
           await showToast(PanoAccountDisconnectSuccessToast);
 
           panoAccount = null;
+          panoMailChosen = false;
 
           disconnecting = false;
         })

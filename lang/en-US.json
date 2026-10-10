@@ -129,7 +129,8 @@
     "modals": {
       "confirm-remove-pano-account": {
         "title": "Disconnect your online Pano account?",
-        "description": "Pano will no longer be linked to your online account. You can connect it again later."
+        "description": "Pano will no longer be linked to your online account. You can connect it again later.",
+        "pano-mail": "You chose Pano Mail for e-mail. If you disconnect, Pano cannot send e-mail until you set it up again in the e-mail step."
       },
       "confirm-skip-smtp": {
         "title": "Skip e-mail set-up?",
