@@ -159,15 +159,15 @@
     "subtitle": "Bunu daha sonra panel ayarlarından değiştirebilirsiniz.",
     "website": {
       "title": "Web Sitesi",
-      "description": "Minecraft sunucunuz için bir web sitesi: yazılar, talepler, temalar, oyuncu kaydı."
+      "description": "Sunucunuzun web sitesi."
     },
     "servers": {
       "title": "Sunucu Yönetimi",
-      "description": "Sunucularınız için konsol, oyuncular, yedekler ve dosyalar. Herkese açık web sitesi olmaz."
+      "description": "Sunucularınızı buradan yönetin."
     },
     "both": {
       "title": "İkisi Birden",
-      "description": "Web sitesi ve sunucu yönetimi bir arada."
+      "description": "Site ve sunucu yönetimi bir arada."
     },
     "recommended": "Önerilen"
   },

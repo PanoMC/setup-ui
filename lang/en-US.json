@@ -158,15 +158,15 @@
     "subtitle": "You can change this later in the panel settings.",
     "website": {
       "title": "Website",
-      "description": "A website for your Minecraft server: posts, tickets, themes, player registration."
+      "description": "A website for your server."
     },
     "servers": {
       "title": "Server management",
-      "description": "Console, players, backups and files for your servers. No public website."
+      "description": "Manage your servers from here."
     },
     "both": {
       "title": "Both",
-      "description": "Website and server management together."
+      "description": "Website and server management in one."
     },
     "recommended": "Recommended"
   },
