@@ -353,10 +353,10 @@
   import tooltip from "$lib/tooltip.util.js";
   import { onDestroy } from "svelte";
 
-  import { page } from "$app/stores";
+  import { page } from "@panomc/sdk/core/js/appStores.js";
   import { goto } from "$app/navigation";
-  import { browser } from "$app/environment";
-  import { base } from "$app/paths";
+  import { browser } from "$app/env";
+  import { base } from "@panomc/sdk/core/js/basePath.js";
 
   import { navigationState, isFinishing } from "$lib/Store.js";
   import ApiUtil, { buildQueryParams, NETWORK_ERROR } from "$lib/api.util.js";
@@ -478,21 +478,21 @@
         .then(async (body) => {
           if (body.error) {
             if (body.error.code === "ALREADY_CONNECTED_TO_PANO") {
-              await goto($page.url.pathname, { invalidateAll: true });
+              await goto($page.url.pathname, { refreshAll: true });
               connecting = false;
               return;
             }
 
             const queryParameters = buildQueryParams({ failed: true });
             await goto($page.url.pathname + queryParameters, {
-              invalidateAll: true,
+              refreshAll: true,
             });
             connecting = false;
 
             return;
           }
 
-          await goto($page.url.pathname, { invalidateAll: true });
+          await goto($page.url.pathname, { refreshAll: true });
           await showToast(PanoAccountConnectSuccessToast);
 
           if (!account.username) {
@@ -508,7 +508,7 @@
         .catch(async (_) => {
           const queryParameters = buildQueryParams({ failed: true });
           await goto($page.url.pathname + queryParameters, {
-            invalidateAll: true,
+            refreshAll: true,
           });
         });
     }

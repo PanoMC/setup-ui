@@ -643,9 +643,7 @@
       const failed = await finishPanoConnect(window.location.search);
 
       await goto(window.location.pathname, {
-        replaceState: true,
-        noScroll: true,
-      });
+        replace: true, reset: false });
 
       if (failed) {
         error = { key: "PANO_MAIL_CONNECT_FAILED", props: { website } };

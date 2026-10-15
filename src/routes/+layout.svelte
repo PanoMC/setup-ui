@@ -4,7 +4,7 @@
 
 <script>
   import { onMount } from "svelte";
-  import { page } from "$app/stores";
+  import { page } from "@panomc/sdk/core/js/appStores.js";
   import MainLayout from "$lib/layouts/MainLayout.svelte";
 
   export let data;

@@ -7,7 +7,7 @@
 <slot />
 
 <script>
-  import { browser, dev } from "$app/environment";
+  import { browser, dev } from "$app/env";
   import "@theme-style";
 
   if (browser) {
