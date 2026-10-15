@@ -47,9 +47,15 @@ export async function handle({
 }
 
 /** @type {import('@sveltejs/kit').HandleServerError} */
-export function handleError({ error, event }) {
-  console.log("!!! [GLOBAL ERROR EVENT]:", event.url.href);
-  console.error("!!! [GLOBAL ERROR CONTENT]:", error);
+export function handleError({ error, event, status }) {
+  // A 4xx (`error(404, ...)` from a load) is an answer, not a fault of this server: not logged.
+  const code = Number(status ?? error?.status);
+
+  if (!(Number.isInteger(code) && code >= 400 && code < 500)) {
+    console.log("!!! [GLOBAL ERROR EVENT]:", event.url.href);
+    console.error("!!! [GLOBAL ERROR CONTENT]:", error);
+  }
+
   return {
     message: "Internal Error",
     code: error?.code,
