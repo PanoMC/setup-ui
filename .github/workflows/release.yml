@@ -9,7 +9,7 @@ name: Pano Setup-UI Release
 
 on:
   push:
-    branches: ["dev"]
+    branches: ["dev", "master"]
 
 permissions:
   contents: read
@@ -75,10 +75,12 @@ jobs:
       - name: Install
         run: bun install
 
-      - name: Create .env.local if branch is dev
+      - name: Create .env.local for the branch
         run: |
           if [[ "${{ steps.extract_branch.outputs.branch }}" == "dev" ]]; then
             echo "VITE_PANO_WEBSITE_URL=https://dev.panomc.com" > .env.local
+          else
+            echo "VITE_PANO_WEBSITE_URL=https://panomc.com" > .env.local
           fi
 
       - name: Build
