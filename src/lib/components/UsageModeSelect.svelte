@@ -30,7 +30,8 @@
             {$_("usage-mode." + mode.key + ".title")}
           </span>
           {#if mode.recommended && !selected}
-            <span class="badge text-bg-primary ms-auto">
+            <span
+              class="badge text-bg-primary position-absolute top-0 end-0 mt-2 me-2">
               {$_("usage-mode.recommended")}
             </span>
           {/if}
