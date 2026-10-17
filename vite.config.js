@@ -1,5 +1,7 @@
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig, loadEnv } from "vite";
+import NodeAdapter from "@sveltejs/adapter-node";
+import SveltePreprocess from "svelte-preprocess";
 import fs from "fs";
 import path from "path";
 
@@ -15,22 +17,27 @@ function copyLangFolderPlugin() {
       // Get the output directory from Vite config
       outDir = "build/";
     },
-    async closeBundle() {
-      const srcDir = path.resolve(process.cwd(), "lang");
-      const destDir = path.resolve(process.cwd(), outDir, "lang");
-
-      if (!fs.existsSync(srcDir)) {
-        console.warn(`Source folder "lang" not found at: ${srcDir}`);
-        return;
-      }
-
-      try {
-        // Copy the "lang" folder recursively to the destination
-        await fs.promises.cp(srcDir, destDir, { recursive: true });
-        console.log(`Copied "lang" folder from ${srcDir} to ${destDir}`);
-      } catch (error) {
-        console.error('Error copying "lang" folder:', error);
-      }
+    // SvelteKit 3 runs the adapter in a post `buildApp` hook, after every closeBundle, and
+    // adapter-node empties build/ first: copy into build/ only after it.
+    buildApp: {
+      order: "post",
+      async handler() {
+        const srcDir = path.resolve(process.cwd(), "lang");
+        const destDir = path.resolve(process.cwd(), outDir, "lang");
+  
+        if (!fs.existsSync(srcDir)) {
+          console.warn(`Source folder "lang" not found at: ${srcDir}`);
+          return;
+        }
+  
+        try {
+          // Copy the "lang" folder recursively to the destination
+          await fs.promises.cp(srcDir, destDir, { recursive: true });
+          console.log(`Copied "lang" folder from ${srcDir} to ${destDir}`);
+        } catch (error) {
+          console.error('Error copying "lang" folder:', error);
+        }
+      },
     },
   };
 }
@@ -44,21 +51,26 @@ function copyManifestPlugin(filename = "manifest.json") {
     configResolved(config) {
       outDir = "build/";
     },
-    async closeBundle() {
-      const srcPath = path.resolve(process.cwd(), filename);
-      const destPath = path.resolve(process.cwd(), outDir, filename);
-
-      if (!fs.existsSync(srcPath)) {
-        console.warn(`Manifest file not found at: ${srcPath}`);
-        return;
-      }
-
-      try {
-        await fs.promises.copyFile(srcPath, destPath);
-        console.log(`Copied manifest from ${srcPath} to ${destPath}`);
-      } catch (err) {
-        console.error("Failed to copy manifest.json:", err);
-      }
+    // SvelteKit 3 runs the adapter in a post `buildApp` hook, after every closeBundle, and
+    // adapter-node empties build/ first: copy into build/ only after it.
+    buildApp: {
+      order: "post",
+      async handler() {
+        const srcPath = path.resolve(process.cwd(), filename);
+        const destPath = path.resolve(process.cwd(), outDir, filename);
+  
+        if (!fs.existsSync(srcPath)) {
+          console.warn(`Manifest file not found at: ${srcPath}`);
+          return;
+        }
+  
+        try {
+          await fs.promises.copyFile(srcPath, destPath);
+          console.log(`Copied manifest from ${srcPath} to ${destPath}`);
+        } catch (err) {
+          console.error("Failed to copy manifest.json:", err);
+        }
+      },
     },
   };
 }
@@ -66,7 +78,40 @@ function copyManifestPlugin(filename = "manifest.json") {
 export default defineConfig(({ command }) => {
   return {
     clearScreen: false,
-    plugins: [sveltekit(), copyLangFolderPlugin(), copyManifestPlugin()],
+    plugins: [
+      sveltekit({
+        adapter: NodeAdapter(),
+        alias: { $lib: "src/lib" },
+        preprocess: SveltePreprocess({
+          scss: {
+            api: "modern-compiler",
+            quietDeps: true,
+            silenceDeprecations: [
+              "mixed-decls",
+              "color-functions",
+              "global-builtin",
+              "import",
+            ],
+          },
+        }),
+        onwarn: (warning, handler) => {
+          if (warning.code.startsWith("a11y-")) {
+            return;
+          }
+
+          if (
+            warning.code === "vite-plugin-svelte-preprocess-many-dependencies"
+          ) {
+            return;
+          }
+
+          console.log(warning.code);
+
+          handler(warning);
+        },
+      }),
+      copyLangFolderPlugin(), copyManifestPlugin(),
+    ],
     css: {
       preprocessorOptions: {
         scss: {
