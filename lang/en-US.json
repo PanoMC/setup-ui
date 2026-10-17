@@ -1,5 +1,6 @@
 {
   "name": "English (US)",
+  "derivatives": ["en-us"],
   "date-fns-code": "en-US",
   "buttons": {
     "connect": "Connect",
@@ -81,7 +82,7 @@
         "free": "Free",
         "by": "E-mail service by {website}",
         "allowance": "{count} e-mails a month",
-        "no-setup": "No set-up, works right away.",
+        "no-setup": "No setup, works right away.",
         "sign-in": "Sign in with {website}",
         "signed-in": "Signed in as {name}",
         "allowance-both": "{month} e-mails a month, {day} a day",
@@ -133,7 +134,7 @@
         "pano-mail": "You chose Pano Mail for e-mail. If you disconnect, Pano cannot send e-mail until you set it up again in the e-mail step."
       },
       "confirm-skip-smtp": {
-        "title": "Skip e-mail set-up?",
+        "title": "Skip e-mail setup?",
         "description": "Skipping this step may result in missing/not working features such as Password Reset or E-Mail validation.",
         "description-servers": "Skipping this step means Pano can't e-mail you alerts (server crashed, backup failed) or send password reset links."
       },

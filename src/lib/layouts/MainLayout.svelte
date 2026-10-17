@@ -248,8 +248,8 @@
     stepData,
   } from "$lib/Store.js";
   import { redirect } from "@sveltejs/kit";
-  import { browser } from "$app/environment";
-  import { asset } from "$app/paths";
+  import { browser } from "$app/env";
+  import { base } from "@panomc/sdk/core/js/basePath.js";
   import {
     updateApiUrl,
     updatePanoWebsiteUrl,
@@ -344,7 +344,7 @@
 
 <script>
   import { _ } from "svelte-i18n";
-  import { page } from "$app/state";
+  import { page } from "@panomc/sdk/core/js/appStores.js";
   import {
     goToStep,
     navigationState,
@@ -389,11 +389,11 @@
   setContext("pageTitle", pageTitle);
 
   function goStep(step) {
-    goToStep(step, page.url.pathname);
+    goToStep(step, $page.url.pathname);
   }
 
   function back() {
-    backStep(page.url.pathname);
+    backStep($page.url.pathname);
   }
 
   function handleNext() {

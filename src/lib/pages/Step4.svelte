@@ -353,10 +353,10 @@
   import tooltip from "$lib/tooltip.util.js";
   import { onDestroy } from "svelte";
 
-  import { page } from "$app/state";
+  import { page } from "@panomc/sdk/core/js/appStores.js";
   import { goto } from "$app/navigation";
-  import { browser } from "$app/environment";
-  import { asset } from "$app/paths";
+  import { browser } from "$app/env";
+  import { base } from "@panomc/sdk/core/js/basePath.js";
 
   import { navigationState, isFinishing } from "$lib/Store.js";
   import ApiUtil, { buildQueryParams, NETWORK_ERROR } from "$lib/api.util.js";
@@ -478,21 +478,21 @@
         .then(async (body) => {
           if (body.error) {
             if (body.error.code === "ALREADY_CONNECTED_TO_PANO") {
-              await goto(page.url.pathname, { invalidateAll: true });
+              await goto($page.url.pathname, { refreshAll: true });
               connecting = false;
               return;
             }
 
             const queryParameters = buildQueryParams({ failed: true });
-            await goto(page.url.pathname + queryParameters, {
-              invalidateAll: true,
+            await goto($page.url.pathname + queryParameters, {
+              refreshAll: true,
             });
             connecting = false;
 
             return;
           }
 
-          await goto(page.url.pathname, { invalidateAll: true });
+          await goto($page.url.pathname, { refreshAll: true });
           await showToast(PanoAccountConnectSuccessToast);
 
           if (!account.username) {
@@ -507,8 +507,8 @@
         })
         .catch(async (_) => {
           const queryParameters = buildQueryParams({ failed: true });
-          await goto(page.url.pathname + queryParameters, {
-            invalidateAll: true,
+          await goto($page.url.pathname + queryParameters, {
+            refreshAll: true,
           });
         });
     }
@@ -582,7 +582,7 @@
         // Encode dynamic parts to ensure the URL is safe
         const encodedPublicKey = encodeURIComponent(publicKey);
         const encodedRedirectUrl = encodeURIComponent(
-          page.url.origin + page.url.pathname,
+          $page.url.origin + $page.url.pathname,
         );
         const encodedState = encodeURIComponent(state);
 

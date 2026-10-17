@@ -1,7 +1,11 @@
 import { expect, mock, test } from "bun:test";
 
+import * as apiResult from "./api.result.js";
+
 mock.module("$lib/api.util.js", () => ({ default: {} }));
-mock.module("$lib/api.result.js", () => ({ isOk: () => true }));
+// The real module: bun mocks are process-wide and `$lib/api.result.js` is the file api.result.test.js tests, so a stub
+// here turned every isOk() of that test into `true`.
+mock.module("$lib/api.result.js", () => apiResult);
 
 const {
   cardPlan,
