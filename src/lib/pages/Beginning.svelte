@@ -3,25 +3,23 @@
     <div>
       <h5 class="mb-3" id="languageLabel">{$_("language-label")}</h5>
       <div
-        class="d-flex flex-column flex-md-row flex-wrap gap-2 gap-md-4"
+        class="list-group list-group-horizontal-md"
         role="radiogroup"
         aria-labelledby="languageLabel">
         {#each Object.keys($Languages) as language (language)}
-          <div class="form-check">
-            <input
-              type="radio"
-              class="form-check-input"
-              name="language"
-              id="language-{language}"
-              autocomplete="off"
-              value={language}
-              disabled={$languageLoading}
-              checked={$currentLanguage === $Languages[language]}
-              on:change={() => changeLanguage($Languages[language])} />
-            <label class="form-check-label" for="language-{language}">
-              {$Languages[language].name}
-            </label>
-          </div>
+          {@const selected = $currentLanguage === $Languages[language]}
+          <button
+            type="button"
+            role="radio"
+            class="list-group-item list-group-item-action d-flex align-items-center gap-2 text-start"
+            class:active={selected}
+            style="flex: 1 1 0;"
+            aria-checked={selected}
+            disabled={$languageLoading}
+            on:click={() => changeLanguage($Languages[language])}>
+            <LanguageFlag locale={$Languages[language].locale} />
+            <span class="fw-semibold">{$Languages[language].name}</span>
+          </button>
         {/each}
       </div>
     </div>
@@ -49,6 +47,7 @@
     Languages,
   } from "$lib/language.util";
   import { _ } from "svelte-i18n";
+  import LanguageFlag from "$lib/components/LanguageFlag.svelte";
   import UsageModeSelect from "$lib/components/UsageModeSelect.svelte";
   import TransferModal from "$lib/components/modals/TransferModal.svelte";
 

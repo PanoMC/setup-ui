@@ -194,7 +194,7 @@
             class:interactive={!panoAccount && !connecting}
             role="alert"
             on:click={!panoAccount && !connecting ? onConnectClick : null}
-            style="background-image: var(--welcome-gradient), url('{asset("/assets/img/connect-pano-bg.png")}');">
+            style="background-image: var(--welcome-gradient), url('{base}/assets/img/connect-pano-bg.png');">
             <div class="row align-items-center">
               <div class="col-lg-9">
                 <h5 class="alert-heading mb-2">

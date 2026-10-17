@@ -138,18 +138,18 @@
           class="loader-content position-relative"
           style="height: 100px; width: 100px;">
           <div class="logo-wrapper pano-anim center-content">
-            <img alt="Pano" src="{asset("/assets/img/logo.svg")}" class="logo-img" />
+            <img alt="Pano" src="{base}/assets/img/logo.svg" class="logo-img" />
           </div>
           <div class="mc-img-wrapper mc-anim center-content">
             <img
               alt="Minecraft"
-              src="{asset("/assets/img/minecraft-icon.png")}"
+              src="{base}/assets/img/minecraft-icon.png"
               class="mc-img" />
           </div>
           <div class="hytale-img-wrapper hytale-anim center-content">
             <img
               alt="Hytale"
-              src="{asset("/assets/img/hytale-icon.png")}"
+              src="{base}/assets/img/hytale-icon.png"
               class="hytale-img" />
           </div>
         </div>
