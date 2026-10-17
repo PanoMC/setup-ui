@@ -138,18 +138,18 @@
           class="loader-content position-relative"
           style="height: 100px; width: 100px;">
           <div class="logo-wrapper pano-anim center-content">
-            <img alt="Pano" src="{base}/assets/img/logo.svg" class="logo-img" />
+            <img alt="Pano" src="{asset("/assets/img/logo.svg")}" class="logo-img" />
           </div>
           <div class="mc-img-wrapper mc-anim center-content">
             <img
               alt="Minecraft"
-              src="{base}/assets/img/minecraft-icon.png"
+              src="{asset("/assets/img/minecraft-icon.png")}"
               class="mc-img" />
           </div>
           <div class="hytale-img-wrapper hytale-anim center-content">
             <img
               alt="Hytale"
-              src="{base}/assets/img/hytale-icon.png"
+              src="{asset("/assets/img/hytale-icon.png")}"
               class="hytale-img" />
           </div>
         </div>
@@ -182,7 +182,7 @@
         <div slot="right" class="hstack gap-2">
           {#if $currentStep !== 0}
             <button
-              class="btn btn-link"
+              class="btn btn-link text-decoration-none"
               on:click={back}
               disabled={$navigationState.nextLoading}>
               {$_("buttons.back")}
@@ -193,12 +193,12 @@
                first page sets on mount, so the button is there as soon as the page is. -->
           {#if $currentStep === 0}
             <button
-              class="btn btn-primary"
+              class="btn btn-link"
+              aria-label={$_("import.toggle-btn")}
+              use:tooltip={[$_("import.toggle-btn"), { placement: "top" }]}
               on:click={() => $navigationState.transferAction?.()}
               disabled={$navigationState.nextLoading}>
-              <i class="fa-solid fa-right-left me-2"></i>{$_(
-                "import.toggle-btn",
-              )}</button>
+              <i class="fa-solid fa-right-left"></i></button>
           {/if}
 
           <div class="btn-group">
@@ -249,7 +249,7 @@
   } from "$lib/Store.js";
   import { redirect } from "@sveltejs/kit";
   import { browser } from "$app/environment";
-  import { base } from "$app/paths";
+  import { asset } from "$app/paths";
   import {
     updateApiUrl,
     updatePanoWebsiteUrl,
@@ -344,7 +344,7 @@
 
 <script>
   import { _ } from "svelte-i18n";
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import {
     goToStep,
     navigationState,
@@ -389,11 +389,11 @@
   setContext("pageTitle", pageTitle);
 
   function goStep(step) {
-    goToStep(step, $page.url.pathname);
+    goToStep(step, page.url.pathname);
   }
 
   function back() {
-    backStep($page.url.pathname);
+    backStep(page.url.pathname);
   }
 
   function handleNext() {

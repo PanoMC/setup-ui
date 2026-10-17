@@ -10,11 +10,6 @@
     flex-shrink: 0;
   }
 
-  .pano-mail-card {
-    border-width: 2px;
-    background: var(--bs-primary-bg-subtle);
-  }
-
   .slide-active {
     transform: translateX(-50%);
   }
@@ -89,7 +84,7 @@
         <div class="p-3 vstack gap-3">
           <ErrorAlert error={error} />
 
-          <div class="card pano-mail-card border-primary">
+          <div class="card">
             <div class="card-body vstack gap-3">
               <div class="d-flex align-items-start gap-3">
                 <i
@@ -151,7 +146,7 @@
                   {#if panoMail.manageUrl}
                     <button
                       type="button"
-                      class="btn btn-outline-secondary btn-sm"
+                      class="btn btn-primary btn-sm text-capitalize"
                       on:click={changePlan}>
                       {$_("steps.email.pano-mail.change-plan")}
                     </button>

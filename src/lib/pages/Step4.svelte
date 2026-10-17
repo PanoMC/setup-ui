@@ -194,7 +194,7 @@
             class:interactive={!panoAccount && !connecting}
             role="alert"
             on:click={!panoAccount && !connecting ? onConnectClick : null}
-            style="background-image: var(--welcome-gradient), url('{base}/assets/img/connect-pano-bg.png');">
+            style="background-image: var(--welcome-gradient), url('{asset("/assets/img/connect-pano-bg.png")}');">
             <div class="row align-items-center">
               <div class="col-lg-9">
                 <h5 class="alert-heading mb-2">
@@ -278,7 +278,7 @@
           {#if panoBackup.manageUrl}
             <button
               type="button"
-              class="btn btn-outline-secondary btn-sm"
+              class="btn btn-primary btn-sm text-capitalize"
               on:click={changePlan}>
               {$_("steps.email.pano-mail.change-plan")}
             </button>
@@ -353,10 +353,10 @@
   import tooltip from "$lib/tooltip.util.js";
   import { onDestroy } from "svelte";
 
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
-  import { base } from "$app/paths";
+  import { asset } from "$app/paths";
 
   import { navigationState, isFinishing } from "$lib/Store.js";
   import ApiUtil, { buildQueryParams, NETWORK_ERROR } from "$lib/api.util.js";
@@ -478,13 +478,13 @@
         .then(async (body) => {
           if (body.error) {
             if (body.error.code === "ALREADY_CONNECTED_TO_PANO") {
-              await goto($page.url.pathname, { invalidateAll: true });
+              await goto(page.url.pathname, { invalidateAll: true });
               connecting = false;
               return;
             }
 
             const queryParameters = buildQueryParams({ failed: true });
-            await goto($page.url.pathname + queryParameters, {
+            await goto(page.url.pathname + queryParameters, {
               invalidateAll: true,
             });
             connecting = false;
@@ -492,7 +492,7 @@
             return;
           }
 
-          await goto($page.url.pathname, { invalidateAll: true });
+          await goto(page.url.pathname, { invalidateAll: true });
           await showToast(PanoAccountConnectSuccessToast);
 
           if (!account.username) {
@@ -507,7 +507,7 @@
         })
         .catch(async (_) => {
           const queryParameters = buildQueryParams({ failed: true });
-          await goto($page.url.pathname + queryParameters, {
+          await goto(page.url.pathname + queryParameters, {
             invalidateAll: true,
           });
         });
@@ -582,7 +582,7 @@
         // Encode dynamic parts to ensure the URL is safe
         const encodedPublicKey = encodeURIComponent(publicKey);
         const encodedRedirectUrl = encodeURIComponent(
-          $page.url.origin + $page.url.pathname,
+          page.url.origin + page.url.pathname,
         );
         const encodedState = encodeURIComponent(state);
 

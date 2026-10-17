@@ -4,7 +4,7 @@
 
 <script>
   import { onMount } from "svelte";
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import MainLayout from "$lib/layouts/MainLayout.svelte";
 
   export let data;
@@ -12,7 +12,7 @@
   onMount(() => {
     // Tells the hydration watchdog in app.html that this document booted (see there). Only a
     // real render counts: an error render keeps the one recovery reload available.
-    if ($page.error) return;
+    if (page.error) return;
     window.__PANO_APP_BOOTED__ = true;
     try {
       sessionStorage.removeItem("pano:hydration-reload");

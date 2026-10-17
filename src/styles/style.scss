@@ -10,6 +10,22 @@ $fa-font-path: "/assets/webfonts";
 @import "node_modules/@fortawesome/fontawesome-free/scss/brands";
 @import "node_modules/@fortawesome/fontawesome-free/scss/solid";
 
+// Outline buttons on the dark theme, as in the panel's SDK: the base outline-primary uses $primary
+// itself, which can be as dark as the dark surface, so on dark the tinted text-emphasis tone of
+// the palette keeps the label and the border readable.
+[data-bs-theme='dark'] .btn-outline-primary {
+  --bs-btn-color: var(--bs-primary-text-emphasis);
+  --bs-btn-border-color: var(--bs-primary-text-emphasis);
+  --bs-btn-hover-color: var(--bs-body-bg);
+  --bs-btn-hover-bg: var(--bs-primary-text-emphasis);
+  --bs-btn-hover-border-color: var(--bs-primary-text-emphasis);
+  --bs-btn-active-color: var(--bs-body-bg);
+  --bs-btn-active-bg: var(--bs-primary-text-emphasis);
+  --bs-btn-active-border-color: var(--bs-primary-text-emphasis);
+  --bs-btn-disabled-color: var(--bs-primary-text-emphasis);
+  --bs-btn-disabled-border-color: var(--bs-primary-text-emphasis);
+}
+
 :root {
   --animate-duration: 250ms;
 }

@@ -1,21 +1,29 @@
 <div class:opacity-50={disabled}>
   <div class="card-body vstack gap-3">
-    <div class="form-floating">
-      <select
-        class="form-select"
-        id="languageSelect"
-        disabled={$languageLoading}
-        autocomplete="false"
-        on:change={(e) => changeLanguage($Languages[e.target.value])}>
+    <div>
+      <h5 class="mb-3" id="languageLabel">{$_("language-label")}</h5>
+      <div
+        class="d-flex flex-column flex-md-row flex-wrap gap-2 gap-md-4"
+        role="radiogroup"
+        aria-labelledby="languageLabel">
         {#each Object.keys($Languages) as language (language)}
-          <option
-            value={language}
-            selected={$currentLanguage === $Languages[language]}>
-            {$Languages[language].name}
-          </option>
+          <div class="form-check">
+            <input
+              type="radio"
+              class="form-check-input"
+              name="language"
+              id="language-{language}"
+              autocomplete="off"
+              value={language}
+              disabled={$languageLoading}
+              checked={$currentLanguage === $Languages[language]}
+              on:change={() => changeLanguage($Languages[language])} />
+            <label class="form-check-label" for="language-{language}">
+              {$Languages[language].name}
+            </label>
+          </div>
         {/each}
-      </select>
-      <label for="languageSelect">{$_("language-label")}</label>
+      </div>
     </div>
 
     <UsageModeSelect bind:value={selectedUsageMode} disabled={disabled} />
