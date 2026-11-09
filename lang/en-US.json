@@ -224,7 +224,13 @@
         "SUSPENDED": "Suspended, so it cannot be exported.",
         "STATE": "It is being set up or changed right now, so it cannot be exported yet.",
         "NO_PORTAL": "Not placed on a server yet, so it cannot be exported."
-      }
+      },
+      "code-sent": "Enter the confirmation code sent to {email}.",
+      "code-label": "Confirmation code",
+      "code-resend": "Send again",
+      "code-wait": "You can ask for a new code in {seconds} s.",
+      "confirm": "Confirm and Move",
+      "code-hint": "We will e-mail a confirmation code to the account owner before the move starts."
     },
     "other-pano": {
       "title": "Restore from a backup file",
@@ -308,7 +314,10 @@
       "WORKLOAD_SUSPENDED": "This instance is suspended, so it cannot be exported.",
       "INVALID_WORKLOAD_STATE": "This instance cannot be exported in its current state.",
       "WORKLOAD_NOT_FOUND": "This instance was not found in your account.",
-      "CONNECT_REQUIRED": "Connect your account first."
+      "CONNECT_REQUIRED": "Connect your account first.",
+      "TRANSFER_CODE_INVALID": "The code is wrong or has expired.",
+      "TRANSFER_CODE_REQUIRED": "The confirmation has expired. Ask for a new code and try again.",
+      "TRANSFER_CODE_COOLDOWN": "Please wait {seconds} s before asking for another code."
     }
   }
 }

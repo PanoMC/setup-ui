@@ -256,8 +256,9 @@
                                 type="radio"
                                 name="panoHostInstance"
                                 value={instance.id}
-                                disabled={!instance.exportable}
-                                bind:group={selectedInstanceId} />
+                                disabled={!instance.exportable || submitting}
+                                bind:group={selectedInstanceId}
+                                onchange={clearMoveCode} />
                               <span class="vstack">
                                 <span class="fw-semibold"
                                   >{instance.name ||
@@ -285,6 +286,62 @@
                         <div class="small text-body-secondary">
                           {$_("import.move.note")}
                         </div>
+
+                        <!-- Pano Host e-mails the owner a code that confirms the move (like a transfer). -->
+                        {#if moveCode}
+                          <div
+                            class="vstack gap-2"
+                            transition:slide={{ duration: 150 }}>
+                            <label class="small" for="pano-move-code">
+                              {$_("import.move.code-sent", {
+                                values: { email: moveCode.email || "" },
+                              })}
+                            </label>
+                            <input
+                              id="pano-move-code"
+                              class="form-control form-control-lg text-center font-monospace"
+                              class:is-invalid={error?.code ===
+                                "TRANSFER_CODE_INVALID"}
+                              type="text"
+                              inputmode="numeric"
+                              maxlength={MOVE_CODE_LENGTH}
+                              autocomplete="one-time-code"
+                              placeholder="000000"
+                              aria-label={$_("import.move.code-label")}
+                              title={$_("import.move.code-label")}
+                              disabled={submitting}
+                              bind:this={moveCodeInput}
+                              bind:value={moveCodeValue}
+                              oninput={() =>
+                                (moveCodeValue = moveCodeValue
+                                  .replace(/\D/g, "")
+                                  .slice(0, MOVE_CODE_LENGTH))} />
+                            <div class="text-center small">
+                              {#if moveCodeWait > 0}
+                                <span class="text-body-secondary">
+                                  {$_("import.move.code-wait", {
+                                    values: { seconds: moveCodeWait },
+                                  })}
+                                </span>
+                              {:else}
+                                <button
+                                  type="button"
+                                  class="btn btn-link btn-sm text-decoration-none"
+                                  disabled={submitting}
+                                  onclick={() => void requestMoveCode()}>
+                                  {$_("import.move.code-resend")}
+                                </button>
+                              {/if}
+                            </div>
+                          </div>
+                        {:else if selectedInstanceId}
+                          <div class="small text-body-secondary">
+                            <i
+                              class="fa-solid fa-envelope me-1"
+                              aria-hidden="true"></i
+                            >{$_("import.move.code-hint")}
+                          </div>
+                        {/if}
                       {/if}
                     </div>
                   {/if}
@@ -460,7 +517,13 @@
                   class="alert alert-danger mb-0"
                   transition:slide={{ duration: 150 }}>
                   <i class="fa-solid fa-triangle-exclamation me-2"></i>
-                  {$_(error.key, { values: { code: error.code, website } })}
+                  {$_(error.key, {
+                    values: {
+                      code: error.code,
+                      website,
+                      seconds: error.seconds ?? 0,
+                    },
+                  })}
                 </div>
               {/if}
             </div>
@@ -498,7 +561,9 @@
                     aria-hidden="true"></span>
                 {/if}
                 {step === "move"
-                  ? $_("import.move.submit")
+                  ? moveCode
+                    ? $_("import.move.confirm")
+                    : $_("import.move.submit")
                   : $_("import.restore")}
               </button>
             {/if}
@@ -530,6 +595,7 @@
     formatBytes,
     inspectArchiveFile,
     jobPercent,
+    resendWaitSeconds,
     websiteHost,
   } from "$lib/restore.util.js";
 
@@ -585,6 +651,15 @@
   let instances = $state([]);
   let selectedInstanceId = $state(null);
 
+  const MOVE_CODE_LENGTH = 6;
+  /** `{email (masked), expiresAt, resendAfter}` of the e-mailed code that confirms the move; null = not asked yet. */
+  let moveCode = $state(null);
+  let moveCodeValue = $state("");
+  let moveCodeWait = $state(0);
+  /** @type {HTMLInputElement | undefined} */
+  let moveCodeInput = $state();
+  let moveCodeTicker = null;
+
   let uploadProgress = $state(null);
   let job = $state(null);
 
@@ -608,7 +683,8 @@
         ? fileKind === "plain" ||
           (fileKind === "passphrase" && passphrase.length > 0)
         : step === "move"
-          ? !!selectedInstanceId
+          ? !!selectedInstanceId &&
+            (!moveCode || moveCodeValue.length === MOVE_CODE_LENGTH)
           : !!selectedBackupId),
   );
   const percent = $derived(
@@ -633,6 +709,55 @@
     timer = null;
   }
 
+  function stopMoveCodeTicker() {
+    if (moveCodeTicker) clearInterval(moveCodeTicker);
+    moveCodeTicker = null;
+  }
+
+  /** Drops the asked code (another instance was picked, or the confirmation expired). */
+  function clearMoveCode() {
+    stopMoveCodeTicker();
+    moveCode = null;
+    moveCodeValue = "";
+    moveCodeWait = 0;
+  }
+
+  /** @param {any} sent the answer of `POST …/move/code`. */
+  function trackMoveCode(sent) {
+    stopMoveCodeTicker();
+    moveCode = sent || {};
+    moveCodeValue = "";
+
+    const update = () =>
+      (moveCodeWait = resendWaitSeconds(moveCode?.resendAfter, Date.now()));
+
+    update();
+    moveCodeTicker = setInterval(update, 1000);
+  }
+
+  /** Asks Pano Host to e-mail the owner the code that confirms moving the chosen instance. */
+  async function requestMoveCode() {
+    if (!selectedInstanceId || submitting) return;
+
+    error = null;
+    submitting = true;
+
+    const body = await ApiUtil.post({
+      path: `/setup/pano-host/instances/${encodeURIComponent(selectedInstanceId)}/move/code`,
+      body: {},
+    }).catch(() => null);
+
+    if (!isOk(body)) {
+      fail(body);
+      return;
+    }
+
+    submitting = false;
+    trackMoveCode(body);
+    await tick();
+    moveCodeInput?.focus();
+  }
+
   function schedule(fn, ms) {
     clearTimer();
     timer = setTimeout(fn, ms);
@@ -655,6 +780,7 @@
     moveState = "checking";
     instances = [];
     selectedInstanceId = null;
+    clearMoveCode();
     uploadProgress = null;
     job = null;
   }
@@ -669,7 +795,10 @@
       if (initialError) error = initialError;
     }
 
-    return clearTimer;
+    return () => {
+      clearTimer();
+      stopMoveCodeTicker();
+    };
   });
 
   function close() {
@@ -759,6 +888,7 @@
     step = "move";
     moveState = "checking";
     error = null;
+    clearMoveCode();
 
     ApiUtil.get({ path: "/setup/pano-host/instances" })
       .then((body) => {
@@ -815,6 +945,7 @@
     if (!isOk(body)) {
       step = source;
       fail(body);
+      if (error?.code === "TRANSFER_CODE_REQUIRED") clearMoveCode();
       return;
     }
 
@@ -824,6 +955,12 @@
 
   function restore() {
     if (!canRestore || submitting) return;
+
+    // Moving from Pano Host: the e-mailed code comes first.
+    if (step === "move" && !moveCode) {
+      void requestMoveCode();
+      return;
+    }
 
     error = null;
     submitting = true;
@@ -863,7 +1000,7 @@
 
       ApiUtil.post({
         path: `/setup/pano-host/instances/${encodeURIComponent(selectedInstanceId)}/move`,
-        body: target,
+        body: { ...target, code: moveCodeValue },
       })
         .then(started)
         .catch(() => {
@@ -911,6 +1048,8 @@
         } else if (current.status === "FAILED") {
           step = source;
           error = describeError(current);
+          // The code was used when the move started: another try asks for a new one.
+          if (source === "move") clearMoveCode();
         } else {
           schedule(pollJob, 2000);
         }

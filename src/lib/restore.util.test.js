@@ -10,6 +10,7 @@ import {
   formatBytes,
   inspectArchiveFile,
   inspectArchiveHeader,
+  resendWaitSeconds,
   jobPercent,
   pollDelay,
   websiteHost,
@@ -191,5 +192,49 @@ describe("helpers", () => {
     );
     expect(websiteHost("https://panomc.com/")).toBe("panomc.com");
     expect(websiteHost(undefined)).toBe("panomc.com");
+  });
+});
+
+describe("move confirmation code", () => {
+  test("code errors of Pano Host get their own sentence, a cooldown its seconds", () => {
+    expect(
+      describeError({
+        error: {
+          code: "PANO_HOST_ERROR",
+          details: { hostError: "TRANSFER_CODE_INVALID" },
+        },
+      }),
+    ).toEqual({
+      code: "TRANSFER_CODE_INVALID",
+      key: "import.errors.TRANSFER_CODE_INVALID",
+    });
+    expect(
+      describeError({
+        error: {
+          code: "PANO_HOST_ERROR",
+          details: {
+            hostError: "TRANSFER_CODE_COOLDOWN",
+            retryAfterSeconds: 41.2,
+          },
+        },
+      }),
+    ).toEqual({
+      code: "TRANSFER_CODE_COOLDOWN",
+      key: "import.errors.TRANSFER_CODE_COOLDOWN",
+      seconds: 42,
+    });
+    // A move job whose grant expired.
+    expect(describeError({ error: "TRANSFER_CODE_REQUIRED" }).key).toBe(
+      "import.errors.TRANSFER_CODE_REQUIRED",
+    );
+  });
+
+  test("resend wait accepts epoch seconds and milliseconds", () => {
+    const now = 1_800_000_000_000;
+
+    expect(resendWaitSeconds(1_800_000_060_000, now)).toBe(60);
+    expect(resendWaitSeconds(1_800_000_030, now)).toBe(30);
+    expect(resendWaitSeconds(1_700_000_000_000, now)).toBe(0);
+    expect(resendWaitSeconds(null, now)).toBe(0);
   });
 });

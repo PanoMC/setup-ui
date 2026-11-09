@@ -56,6 +56,9 @@ export const KNOWN_ERRORS = Object.freeze([
   "BACKUP_NOT_FOUND",
   "PAYMENT_REQUIRED",
   "LINK_EXPIRED",
+  "TRANSFER_CODE_INVALID",
+  "TRANSFER_CODE_REQUIRED",
+  "TRANSFER_CODE_COOLDOWN",
 ]);
 
 /**
@@ -250,12 +253,43 @@ export function describeError(source) {
     code = hostErrorOf(source) || "PANO_HOST_UNAVAILABLE";
   }
 
-  return {
+  const described = {
     code,
     key: KNOWN_ERRORS.includes(code)
       ? `import.errors.${code}`
       : "import.errors.generic",
   };
+  const error = source && source.error;
+  const retryAfter = Number(
+    error && typeof error === "object"
+      ? error.details?.retryAfterSeconds
+      : source?.retryAfterSeconds,
+  );
+
+  // `TRANSFER_CODE_COOLDOWN {retryAfterSeconds}`: for `{seconds}` in its sentence.
+  if (Number.isFinite(retryAfter) && retryAfter > 0) {
+    described.seconds = Math.ceil(retryAfter);
+  }
+
+  return described;
+}
+
+/**
+ * Seconds until another confirmation code may be asked for, from the `resendAfter` Pano Host sent
+ * (epoch seconds or milliseconds); 0 = now.
+ *
+ * @param {number | string | null | undefined} resendAfter
+ * @param {number} now epoch milliseconds.
+ * @returns {number}
+ */
+export function resendWaitSeconds(resendAfter, now) {
+  const value = Number(resendAfter);
+
+  if (!Number.isFinite(value) || value <= 0) return 0;
+
+  const at = value < 1e11 ? value * 1000 : value;
+
+  return Math.max(0, Math.ceil((at - now) / 1000));
 }
 
 /**

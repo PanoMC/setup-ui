@@ -224,7 +224,13 @@
         "SUSPENDED": "Askıya alındığı için dışa aktarılamaz.",
         "STATE": "Şu an kuruluyor ya da değiştiriliyor, bu yüzden henüz dışa aktarılamaz.",
         "NO_PORTAL": "Henüz bir sunucuya yerleştirilmedi, bu yüzden dışa aktarılamaz."
-      }
+      },
+      "code-sent": "{email} e-posta adresinize gelen onay kodunu girin.",
+      "code-label": "Doğrulama kodu",
+      "code-resend": "Tekrar gönder",
+      "code-wait": "{seconds} sn sonra yeni bir kod isteyebilirsiniz.",
+      "confirm": "Onayla ve Taşı",
+      "code-hint": "Taşıma başlamadan önce hesap sahibine bir onay kodu e-postayla gönderilir."
     },
     "other-pano": {
       "title": "Yedek dosyasından geri yükle",
@@ -308,7 +314,10 @@
       "WORKLOAD_SUSPENDED": "Bu instance askıya alındığı için dışa aktarılamaz.",
       "INVALID_WORKLOAD_STATE": "Bu instance şu anki durumunda dışa aktarılamaz.",
       "WORKLOAD_NOT_FOUND": "Bu instance hesabınızda bulunamadı.",
-      "CONNECT_REQUIRED": "Önce hesabınızı bağlayın."
+      "CONNECT_REQUIRED": "Önce hesabınızı bağlayın.",
+      "TRANSFER_CODE_INVALID": "Kod yanlış veya süresi dolmuş.",
+      "TRANSFER_CODE_REQUIRED": "Onayın süresi doldu. Yeni bir kod isteyip tekrar deneyin.",
+      "TRANSFER_CODE_COOLDOWN": "Yeni bir kod istemeden önce {seconds} sn bekleyin."
     }
   }
 }
