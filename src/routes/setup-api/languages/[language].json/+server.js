@@ -1,18 +1,11 @@
 import fs from "fs";
-import path from "path";
+import { resolveLanguageFile } from "$lib/language-file.js";
 
 /** @type {import("@sveltejs/kit").RequestHandler} */
 export async function GET({ params }) {
-  const { language } = params;
-  let filePath = path.resolve(`lang/${language}.json`);
+  const filePath = resolveLanguageFile(params.language);
 
-  if (!fs.existsSync(filePath)) {
-    filePath = path.resolve(
-      path.dirname(process.argv[1]) + `/lang/${language}.json`,
-    );
-  }
-
-  if (fs.existsSync(filePath)) {
+  if (filePath) {
     const fileContent = fs.readFileSync(filePath, "utf-8");
     return new Response(fileContent, {
       headers: {
