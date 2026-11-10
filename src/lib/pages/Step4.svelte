@@ -1,46 +1,4 @@
 <style>
-  .connect-account-board {
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  :global([data-bs-theme="light"]) .connect-account-board {
-    --welcome-gradient: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.95) 20%,
-      rgba(255, 255, 255, 0.5) 100%
-    );
-  }
-
-  :global([data-bs-theme="dark"]) .connect-account-board,
-  :global([data-bs-theme="copper"]) .connect-account-board {
-    --welcome-gradient: linear-gradient(
-      90deg,
-      rgba(20, 22, 25, 0.95) 20%,
-      rgba(20, 22, 25, 0.5) 100%
-    );
-  }
-
-  @media (max-width: 991.98px) {
-    .connect-account-board {
-      --welcome-gradient: linear-gradient(
-        180deg,
-        rgba(var(--bs-body-bg-rgb), 0.95) 40%,
-        rgba(var(--bs-body-bg-rgb), 0.8) 100%
-      ) !important;
-    }
-  }
-
-  .connect-account-board .alert-link {
-    text-decoration: none;
-  }
-
-  .connect-account-board.interactive {
-    cursor: pointer;
-  }
-
   .merged-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -185,77 +143,44 @@
           >{$_("steps.account.inputs.password-help-text")}</small>
       </div>
 
-      <div class="row g-3">
-        <div class="col vstack gap-2">
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-          <div
-            class="alert alert-secondary connect-account-board border mb-0 focus-ring"
-            class:interactive={!panoAccount && !connecting}
-            role="alert"
-            on:click={!panoAccount && !connecting ? onConnectClick : null}
-            style="background-image: var(--welcome-gradient), url('{base}/assets/img/connect-pano-bg.png');">
-            <div class="row align-items-center">
-              <div class="col-lg-9">
-                <h5 class="alert-heading mb-2">
-                  <i class="fa-solid fa-circle-user me-2"></i>
-                  {panoAccount
-                    ? panoAccount.username
-                    : $_("steps.account.online-account")}
-                </h5>
-                {#if panoAccount}
-                  <p class="mb-0 text-success">
-                    Pano hesabınız başarıyla bağlandı.
-                  </p>
-                {:else}
-                  <ul class="list-unstyled vstack gap-1 mb-0 text-body">
-                    {#each benefits as benefit (benefit.key)}
-                      <li>
-                        <i
-                          class="fa-solid {benefit.icon} fa-fw text-primary me-2"
-                          aria-hidden="true"></i>
-                        {$_("steps.account.backup." + benefit.key, {
-                          values: benefit.values,
-                        })}
-                      </li>
-                    {/each}
-                  </ul>
-                {/if}
-              </div>
-              <div class="col-lg-3 text-lg-end mt-3 mt-lg-0">
-                {#if panoAccount}
-                  <div class="hstack gap-2 justify-content-lg-end">
-                    <span class="badge text-bg-gray"
-                      >{maskEmail(panoAccount.email)}</span>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      use:tooltip={[
-                        $_("buttons.remove"),
-                        { placement: "bottom" },
-                      ]}
-                      aria-label={$_("buttons.remove")}
-                      on:click={onDisconnectClick}
-                      disabled={disconnecting}></button>
-                  </div>
-                {:else}
-                  <div class="alert-link rounded border-0 bg-transparent p-0">
-                    {connecting
-                      ? $_("buttons.connecting")
-                      : $_("buttons.connect")}
-
-                    {#if connecting}
-                      <span
-                        class="spinner-border spinner-border-sm text-primary ms-2"
-                        role="status"></span>
-                    {:else}
-                      <i class="fa-solid fa-arrow-right ms-1"></i>
-                    {/if}
-                  </div>
-                {/if}
-              </div>
+      <div class="alert alert-info d-flex align-items-start" role="alert">
+        <div class="flex-grow-1">
+          <h5 class="alert-heading mb-2">
+            {panoAccount
+              ? panoAccount.username
+              : $_("steps.account.online-account")}
+          </h5>
+          {#if panoAccount}
+            <div class="mb-2">
+              Pano hesabınız başarıyla bağlandı. ({maskEmail(
+                panoAccount.email,
+              )})
             </div>
-          </div>
+            <button
+              type="button"
+              class="btn alert-btn text-capitalize"
+              on:click={onDisconnectClick}
+              disabled={disconnecting}>
+              {$_("buttons.remove")}
+            </button>
+          {:else}
+            <ul class="mb-2">
+              {#each benefits as benefit (benefit.key)}
+                <li>
+                  {$_("steps.account.backup." + benefit.key, {
+                    values: benefit.values,
+                  })}
+                </li>
+              {/each}
+            </ul>
+            <button
+              type="button"
+              class="btn alert-btn text-capitalize"
+              on:click={onConnectClick}
+              disabled={connecting}>
+              {$_("buttons.connect")}
+            </button>
+          {/if}
         </div>
       </div>
 
@@ -294,15 +219,12 @@
           bind:checked={telemetryEnabled} />
         <label class="form-check-label" for="telemetry-enabled">
           {telemetryLabelParts[0]}<button
-            class="btn btn-link align-baseline p-0"
+            class="btn btn-link text-decoration-none align-baseline p-0"
             type="button"
             on:click|preventDefault|stopPropagation={showUsageDataModal}
             >{$_("steps.account.telemetry.label-link")}</button
           >{telemetryLabelParts[1] ?? ""}
         </label>
-        <small class="text-body-secondary d-block">
-          {$_("steps.account.telemetry.description")}
-        </small>
       </div>
     </div>
   </form>

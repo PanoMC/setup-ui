@@ -114,9 +114,9 @@
       <!-- Selection Details / Context -->
       {#if dbType === "portable"}
         <div class="vstack gap-2">
-          <small class="opacity-75">
+          <div class="opacity-75">
             {$_("steps.database.databases.local-portable-db-description")}
-          </small>
+          </div>
 
           {#if !portableSupported}
             <div class="alert alert-warning mb-0 p-2 small">
@@ -147,21 +147,23 @@
               {/if}
             </button>
           {:else}
-            <div class="badge text-bg-success rounded-pill me-auto">
-              <i class="fa fa-check-circle me-1"></i>
-              {$_("steps.database.databases.portable-installed")}
+            <div class="alert alert-success d-flex align-items-start mb-0" role="alert">
+              <i
+                class="fa-solid fa-circle-check me-3 mt-1"
+                aria-hidden="true"></i>
+              <div>{$_("steps.database.databases.portable-installed")}</div>
             </div>
           {/if}
         </div>
       {:else}
-        <small class="opacity-75">
+        <div class="opacity-75 mb-0">
           {$_("steps.database.databases.mysql-or-mariadb-description")}
-        </small>
+        </div>
       {/if}
 
       <!-- Manual Connection Fields -->
       <div
-        class="d-flex flex-column align-items-center w-100 pt-2"
+        class="d-flex flex-column align-items-center w-100"
         class:d-none={dbType === "portable"}>
         <div class="merged-grid w-100">
           <div class="form-floating">

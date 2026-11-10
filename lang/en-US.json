@@ -1,323 +1,325 @@
 {
-  "name": "English (US)",
-  "derivatives": ["en-us"],
-  "date-fns-code": "en-US",
-  "buttons": {
-    "connect": "Connect",
-    "connecting": "Connecting...",
-    "remove": "Remove",
-    "close": "Close",
-    "skip": "Skip",
-    "disconnect": "Disconnect",
-    "next": "Next",
-    "back": "Back",
-    "finish": "Finish",
-    "docs": "Documentation",
-    "other": "Other",
-    "yes": "Yes",
-    "cancel": "Cancel",
-    "start": "Start"
-  },
-  "title": "Pano Installer",
-  "welcome-title": "Welcome",
-  "steps": {
-    "start": {
-      "title": "Start"
-    },
-    "website": {
-      "title": "Details",
-      "inputs": {
-        "title": "Title (Required)",
-        "panel-name": "Panel Name (Required)",
-        "description": "Description (Required)",
-        "url": "Website Url (Required)",
-        "url-servers": "Panel Address (Required)",
-        "url-placeholder": "https://my-minecraft-server-website.com",
-        "url-helper": "Enter the full address where your website will be visited.",
-        "url-helper-servers": "The address your panel and your Minecraft servers will use to reach Pano.",
-        "url-host-mismatch": "This address is different from the one you are using to open Pano right now. After setup, visitors are sent to this address, so make sure it works.",
-        "url-port-mismatch": "The port in this address ({port}) is different from the port you're using to reach Pano right now ({current}). Make sure it's the port your visitors will actually use.",
-        "url-explicit-port": "This address includes a port ({port}). If visitors reach your site through a reverse proxy (Nginx, Apache, Cloudflare) on the standard port, remove the port so links and redirects don't point to an internal one."
-      }
-    },
-    "database": {
-      "title": "Database",
-      "databases": {
-        "mysql-or-mariadb": "MySQL or MariaDB",
-        "mysql-or-mariadb-description": "Manually provide the connection details for an existing MySQL or MariaDB server.",
-        "local-portable-db": "Local Portable MariaDB",
-        "local-portable-db-description": "Automatically download, install and configure a portable MariaDB instance on your server. This is recommended if you don't have a database server already set up.",
-        "download-and-install": "Download & Install",
-        "installing": "Installing...",
-        "portable-not-supported": "Portable DB is not supported on this system.",
-        "supported-systems": "Supported: {systems}",
-        "portable-installed": "Portable DB installed and configured!"
-      },
-      "inputs": {
-        "address": "Database Address (Required)",
-        "name": "Database Name (Required)",
-        "username": "Database Username (Required)",
-        "password": "Database Password",
-        "prefix": "Database Table Prefix"
-      }
-    },
-    "email": {
-      "title": "E-mail",
-      "description": "Pano requires an email provider to be able to send emails. Please log in with the e-mail service you want to use.",
-      "servers-intro": "Pano uses e-mail to send you alerts — a server crashed, a backup failed — and to let you reset your password. Please log in with the e-mail service you want to use.",
-      "return-back-to-service-list-text": "Back to service list",
-      "inputs": {
-        "username": "Username (Address) (Required)",
-        "password": "Password (Required)",
-        "details-button": "Details",
-        "ssl": "Use SSL",
-        "active": "Active",
-        "tls-setting": "TLS Setting",
-        "sending-address": "Sender Address (Required)",
-        "hostname": "Hostname (Required)",
-        "port": "Port (Required)",
-        "auth-method": "Auth Method"
-      },
-      "pano-mail": {
-        "free": "Free",
-        "by": "E-mail service by {website}",
-        "allowance": "{count} e-mails a month",
-        "no-setup": "No setup, works right away.",
-        "sign-in": "Sign in with {website}",
-        "signed-in": "Signed in as {name}",
-        "allowance-both": "{month} e-mails a month, {day} a day",
-        "sender": "Sender address",
-        "sender-name": "Name",
-        "change-plan": "Change plan"
-      },
-      "own-server": "Use my own mail server",
-      "back-to-pano-mail": "Back to Pano Mail"
-    },
-    "account": {
-      "title": "Account",
-      "online-account": "Online Account",
-      "online-account-description": "Connect your online Pano account to access plugins, themes, and updates.",
-      "featured-plugins": {
-        "title": "Featured Plugins"
-      },
-      "inputs": {
-        "email": "E-Mail (Required)",
-        "username": "Username (Required)",
-        "password": "Password (Required)",
-        "password-repeat": "Password Repeat (Required)",
-        "password-help-text": "Minimum 6 letters."
-      },
-      "telemetry": {
-        "label": "Send {link}",
-        "label-link": "usage data",
-        "description": "This data is used to make Pano better."
-      },
-      "backup": {
-        "daily-free": "Back up daily with free Pano Backup ({gb} GB)",
-        "daily-free-nogb": "Back up daily with free Pano Backup",
-        "daily-plan": "Back up daily with {plan}",
-        "benefit-mail": "Free e-mail sending, {count} e-mails a month",
-        "benefit-mail-short": "Free e-mail sending",
-        "benefit-backup": "Free daily backups, {gb} GB",
-        "benefit-backup-short": "Free daily backups",
-        "benefit-store": "Plugins and themes from the store",
-        "benefit-updates": "Updates"
-      }
-    }
-  },
-  "connect-failed-alert": "Connecting your Pano account has been failed! Try again.",
-  "components": {
-    "modals": {
-      "confirm-remove-pano-account": {
-        "title": "Disconnect your online Pano account?",
-        "description": "Pano will no longer be linked to your online account. You can connect it again later.",
-        "pano-mail": "You chose Pano Mail for e-mail. If you disconnect, Pano cannot send e-mail until you set it up again in the e-mail step."
-      },
-      "confirm-skip-smtp": {
-        "title": "Skip e-mail setup?",
-        "description": "Skipping this step may result in missing/not working features such as Password Reset or E-Mail validation.",
-        "description-servers": "Skipping this step means Pano can't e-mail you alerts (server crashed, backup failed) or send password reset links."
-      },
-      "usage-data": {
-        "title": "Usage Data",
-        "sent-platform": "Pano version, stage and channel",
-        "sent-system": "Java version, OS, CPU and memory",
-        "sent-website": "Website URL and domain",
-        "sent-ip": "Server IP address and country",
-        "sent-resources": "Active theme and installed plugins",
-        "sent-counts": "User, post, ticket, server and online player counts",
-        "sent-account": "panomc.com account connection status",
-        "sent-install": "Install date and a random install ID",
-        "turn-off": "You can turn this off anytime in Panel → Settings → Platform, or with {option} in config.conf.",
-        "turn-off-option": "telemetry.enabled = false",
-        "privacy-policy": "Privacy Policy",
-        "learn-more": "Learn more"
-      }
-    },
-    "toasts": {
-      "pano-account-connect-success": "Your Pano account has been successfully connected!",
-      "pano-account-disconnect-success": "Pano account removed successfully!",
-      "pano-account-disconnect-fail": "An error occurred during the removing Pano account!"
-    }
-  },
-  "errors": {
-    "PLATFORM_ALREADY_INSTALLED": "Platform is already installed! Choose another database location to fix this.",
-    "INVALID_DB_DATA": "Can't connect to DB: Invalid data.",
-    "INVALID_EMAIL_DATA": "Can't verify SMTP: {mailError}",
-    "NETWORK_ERROR": "Network error: Can't reach to Pano, check your connection!",
-    "ALREADY_CONNECTED_TO_PANO": "Already connected an account to Pano servers!",
-    "PANO_CONNECT_FAILED": "Failed to connect Pano servers, please try again later.",
-    "PANO_DISCONNECT_FAILED": "Failed to disconnect Pano account, please try again later.",
-    "INTERNAL_SERVER_ERROR": "An error occurred, please check Pano console and report it!",
-    "DB_INSTALL_FAILED": "Failed to download and install portable MariaDB.",
-    "CONNECT_REQUIRED": "Sign in with {website} first.",
-    "PANO_MAIL_UNAVAILABLE": "Pano Mail is not available right now. Try again in a moment.",
-    "PANO_MAIL_CONNECT_FAILED": "Could not sign in with {website}. Try again.",
-    "PANO_MAIL_NAME_TAKEN": "This name is taken, try another one.",
-    "PANO_MAIL_NAME_INVALID": "The name can only have lowercase letters, digits and hyphens.",
-    "PANO_MAIL_NAME_RATE_LIMITED": "The name was just changed. Try again in {minutes} minutes.",
-    "PANO_MAIL_LOCAL_INVALID": "The part before @ is not valid.",
-    "PANO_MAIL_NAME_LENGTH": "The name must be {min}–{max} characters."
-  },
-  "alpha-warning": {
-    "title": "Alpha Version",
-    "description": "This version is experimental and may contain critical errors."
-  },
-  "beta-warning": {
-    "title": "Beta Version",
-    "description": "You are about to install the Beta version. Beta versions are generally release candidates, much more stable than Alpha, and include the latest features."
-  },
-  "language-label": "Select Language",
-  "usage-mode": {
-    "title": "How will you use Pano?",
-    "subtitle": "You can change this later in the panel settings.",
-    "website": {
-      "title": "Website",
-      "description": "A website for your server."
-    },
-    "servers": {
-      "title": "Server management",
-      "description": "Manage your servers from here."
-    },
-    "both": {
-      "title": "Both",
-      "description": "Website and server management in one."
-    },
-    "recommended": "Recommended"
-  },
-  "import": {
-    "toggle-btn": "Transfer",
-    "modal-title": "Transfer Platform Data",
-    "pano-host": {
-      "title": "Pano Backup",
-      "badge": "Recommended",
-      "description": "Sign in with your {website} account and restore one of your Pano Backups."
-    },
-    "move": {
-      "title": "Pano Host",
-      "description": "Move one of your Pano Host instances here: its files and database come over as they are now.",
-      "intro": "Connect this Pano to your {website} account to see your Pano Host instances.",
-      "none": "This account has no Pano Host instances.",
-      "note": "The instance keeps running on Pano Host. End its subscription on the website once the move is done.",
-      "submit": "Move Here",
-      "reasons": {
-        "SUSPENDED": "Suspended, so it cannot be exported.",
-        "STATE": "It is being set up or changed right now, so it cannot be exported yet.",
-        "NO_PORTAL": "Not placed on a server yet, so it cannot be exported."
-      },
-      "code-sent": "Enter the confirmation code sent to {email}.",
-      "code-label": "Confirmation code",
-      "code-resend": "Send again",
-      "code-wait": "You can ask for a new code in {seconds} s.",
-      "confirm": "Confirm and Move",
-      "code-hint": "We will e-mail a confirmation code to the account owner before the move starts."
-    },
-    "other-pano": {
-      "title": "Restore from a backup file",
-      "description": "Upload a .panoarc backup or export you downloaded from a Pano panel or Pano Host."
-    },
-    "file": {
-      "label": "Backup file",
-      "drop": "Drop a backup here or click to choose",
-      "change": "Choose another file",
-      "plain": "This backup is not encrypted.",
-      "plain-short": "Plain archive",
-      "encrypted": "This backup is encrypted. Enter the passphrase it was made with.",
-      "encrypted-short": "Encrypted",
-      "workload": "This backup is locked to its Pano Host instance and can't be opened here. Download an export of it on {website} instead.",
-      "unknown": "This is not a Pano backup file."
-    },
-    "passphrase": "Passphrase",
-    "host": {
-      "intro": "Connect this Pano to your {website} account to see your Pano Backups.",
-      "connect": "Connect {website} account",
-      "linked": "Connected to {website} as {username}.",
-      "no-backups": "This account has no finished Pano Backups yet.",
-      "passphrase-hint": "Only needed when the backup was encrypted with a passphrase.",
-      "connect-failed": "The {website} account could not be connected. Try again."
-    },
-    "database": {
-      "title": "Database to restore into",
-      "description": "The backed-up site is restored into this MySQL or MariaDB database. Pano tables already in it are replaced."
-    },
-    "restore-warning": "Restoring replaces this setup with the backed-up site, including its admin accounts and settings. Pano restarts when it is done.",
-    "restore": "Restore",
-    "progress": {
-      "title": "Restoring your site",
-      "UPLOADING": "Uploading the backup...",
-      "EXPORTING": "Pano Host is preparing the export of the instance...",
-      "DOWNLOADING": "Downloading the backup from Pano Backup...",
-      "RESTORING": "Checking and restoring the backup...",
-      "keep-open": "Keep this page open."
-    },
-    "done": {
-      "title": "Restore complete",
-      "description": "Pano is restarting with the restored site. This page opens it in a moment.",
-      "manual": "If nothing happens, restart Pano yourself and open this address again.",
-      "open": "Open the site"
-    },
-    "errors": {
-      "generic": "Restore failed ({code}).",
-      "NETWORK_ERROR": "Can't reach Pano. Check your connection and try again.",
-      "BAD_REQUEST": "Something is missing. Check the form and try again.",
-      "NOT_EXISTS": "That backup no longer exists.",
-      "FILE_TOO_LARGE": "The file is too large to upload here.",
-      "PANO_BACKUP_BUSY": "Another restore is already running.",
-      "NOT_AN_ARCHIVE": "This is not a Pano backup file.",
-      "UNSUPPORTED_FORMAT": "This backup was made by a newer Pano. Update Pano first.",
-      "PASSPHRASE_REQUIRED": "This backup is encrypted. Enter its passphrase.",
-      "WRONG_PASSPHRASE": "The passphrase is wrong. Nothing was changed.",
-      "TAMPERED": "The backup is damaged or was changed. Nothing was restored.",
-      "TRUNCATED": "The backup file is incomplete. Nothing was restored.",
-      "INVALID_ARCHIVE": "The backup file is damaged. Nothing was restored.",
-      "UNSAFE_ENTRY": "The backup contains unsafe files and was refused.",
-      "UNSAFE_SQL": "The backup's database dump contains statements Pano doesn't allow, so it was refused.",
-      "TOO_LARGE": "The backup is too large to restore.",
-      "WRONG_KIND": "This file is not a whole-site Pano backup.",
-      "ARCHIVE_NEWER_THAN_TARGET": "This backup was made by a newer Pano. Update Pano first, then restore it.",
-      "HASH_MISMATCH": "The backup failed its integrity check. Nothing was restored.",
-      "RESTORE_FAILED": "The restore failed. Check the Pano console for details.",
-      "DATABASE_CONNECTION_FAILED": "Can't connect to the database. Check the database details.",
-      "PANO_HOST_UNAVAILABLE": "{website} can't be reached right now. Try again later.",
-      "PANO_HOST_NOT_LINKED": "This Pano isn't connected to {website}. Connect again.",
-      "INVALID_TOKEN": "The {website} connection was revoked. Connect again.",
-      "DOWNLOAD_FAILED": "The backup couldn't be downloaded from Pano Backup. Try again.",
-      "INTEGRITY_FAILED": "The downloaded backup failed its integrity check. Try again.",
-      "BACKUP_NOT_FOUND": "That Pano Backup no longer exists.",
-      "PAYMENT_REQUIRED": "This {website} account has no Pano Backup plan.",
-      "LINK_EXPIRED": "The code expired. Connect again.",
-      "EXPORT_FAILED": "Pano Host could not export this instance. Try again later.",
-      "RATE_LIMITED": "This instance was exported recently. A new export is possible once a day.",
-      "TASK_IN_PROGRESS": "The instance is busy with another task on Pano Host. Try again in a few minutes.",
-      "PORTAL_OFFLINE": "The server running this instance is offline. Try again later.",
-      "PORTAL_UNSUPPORTED": "The server running this instance cannot export it yet.",
-      "WORKLOAD_SUSPENDED": "This instance is suspended, so it cannot be exported.",
-      "INVALID_WORKLOAD_STATE": "This instance cannot be exported in its current state.",
-      "WORKLOAD_NOT_FOUND": "This instance was not found in your account.",
-      "CONNECT_REQUIRED": "Connect your account first.",
-      "TRANSFER_CODE_INVALID": "The code is wrong or has expired.",
-      "TRANSFER_CODE_REQUIRED": "The confirmation has expired. Ask for a new code and try again.",
-      "TRANSFER_CODE_COOLDOWN": "Please wait {seconds} s before asking for another code."
-    }
-  }
+    "name":  "English",
+    "derivatives":  [
+                        "en-us"
+                    ],
+    "date-fns-code":  "en-US",
+    "buttons":  {
+                    "connect":  "Connect",
+                    "connecting":  "Connecting...",
+                    "remove":  "Remove",
+                    "close":  "Close",
+                    "skip":  "Skip",
+                    "disconnect":  "Disconnect",
+                    "next":  "Next",
+                    "back":  "Back",
+                    "finish":  "Finish",
+                    "docs":  "Documentation",
+                    "other":  "Other",
+                    "yes":  "Yes",
+                    "cancel":  "Cancel",
+                    "start":  "Start"
+                },
+    "title":  "Pano Installer",
+    "welcome-title":  "Welcome",
+    "steps":  {
+                  "start":  {
+                                "title":  "Start"
+                            },
+                  "website":  {
+                                  "title":  "Details",
+                                  "inputs":  {
+                                                 "title":  "Title",
+                                                 "panel-name":  "Panel Name",
+                                                 "description":  "Description",
+                                                 "url":  "Website Url",
+                                                 "url-servers":  "Panel Address",
+                                                 "url-placeholder":  "https://my-minecraft-server-website.com",
+                                                 "url-helper":  "Enter the full address where your website will be visited.",
+                                                 "url-helper-servers":  "The address your panel and your Minecraft servers will use to reach Pano.",
+                                                 "url-host-mismatch":  "This address is different from the one you are using to open Pano right now. After setup, visitors are sent to this address, so make sure it works.",
+                                                 "url-port-mismatch":  "The port in this address ({port}) is different from the port you\u0027re using to reach Pano right now ({current}). Make sure it\u0027s the port your visitors will actually use.",
+                                                 "url-explicit-port":  "This address includes a port ({port}). If visitors reach your site through a reverse proxy (Nginx, Apache, Cloudflare) on the standard port, remove the port so links and redirects don\u0027t point to an internal one."
+                                             }
+                              },
+                  "database":  {
+                                   "title":  "Database",
+                                   "databases":  {
+                                                     "mysql-or-mariadb":  "External Database",
+                                                     "mysql-or-mariadb-description":  "Manually provide the connection details for an existing MySQL or MariaDB server.",
+                                                     "local-portable-db":  "Built-in Database",
+                                                     "local-portable-db-description":  "Automatically download, install and configure a portable MariaDB instance on your server. This is recommended if you don\u0027t have a database server already set up.",
+                                                     "download-and-install":  "Download \u0026 Install",
+                                                     "installing":  "Installing...",
+                                                     "portable-not-supported":  "Portable DB is not supported on this system.",
+                                                     "supported-systems":  "Supported: {systems}",
+                                                     "portable-installed":  "Portable DB installed and configured."
+                                                 },
+                                   "inputs":  {
+                                                  "address":  "Database Address",
+                                                  "name":  "Database Name",
+                                                  "username":  "Database Username",
+                                                  "password":  "Database Password",
+                                                  "prefix":  "Database Table Prefix"
+                                              }
+                               },
+                  "email":  {
+                                "title":  "E-mail",
+                                "description":  "Pano requires an email provider to be able to send emails. Please log in with the e-mail service you want to use.",
+                                "servers-intro":  "Pano uses e-mail to send you alerts — a server crashed, a backup failed — and to let you reset your password. Please log in with the e-mail service you want to use.",
+                                "return-back-to-service-list-text":  "Service List",
+                                "inputs":  {
+                                               "username":  "Username (Address)",
+                                               "password":  "Password",
+                                               "details-button":  "Details",
+                                               "ssl":  "Use SSL",
+                                               "active":  "Active",
+                                               "tls-setting":  "TLS Setting",
+                                               "sending-address":  "Sender Address",
+                                               "hostname":  "Hostname",
+                                               "port":  "Port",
+                                               "auth-method":  "Auth Method"
+                                           },
+                                "pano-mail":  {
+                                                  "free":  "Free",
+                                                  "by":  "E-mail service by {website}",
+                                                  "allowance":  "{count} e-mails a month",
+                                                  "no-setup":  "No setup, works right away",
+                                                  "sign-in":  "Sign In with Pano Account",
+                                                  "signed-in":  "Signed in as {name}",
+                                                  "allowance-both":  "{month} e-mails a month, {day} a day",
+                                                  "sender":  "Sender address",
+                                                  "sender-name":  "Name",
+                                                  "change-plan":  "Change plan"
+                                              },
+                                "own-server":  "Own Mail Server",
+                                "back-to-pano-mail":  "Back"
+                            },
+                  "account":  {
+                                  "title":  "Account",
+                                  "online-account":  "Online Account",
+                                  "online-account-description":  "Connect your online Pano account to access plugins, themes, and updates.",
+                                  "featured-plugins":  {
+                                                           "title":  "Featured Plugins"
+                                                       },
+                                  "inputs":  {
+                                                 "email":  "E-Mail",
+                                                 "username":  "Username",
+                                                 "password":  "Password",
+                                                 "password-repeat":  "Password Repeat",
+                                                 "password-help-text":  "Minimum 6 letters."
+                                             },
+                                  "telemetry":  {
+                                                    "label":  "Send {link}",
+                                                    "label-link":  "usage data",
+                                                    "description":  "This data is used to make Pano better."
+                                                },
+                                  "backup":  {
+                                                 "daily-free":  "Back up daily with free Pano Backup ({gb} GB)",
+                                                 "daily-free-nogb":  "Back up daily with free Pano Backup",
+                                                 "daily-plan":  "Back up daily with {plan}",
+                                                 "benefit-mail":  "Free e-mail sending, {count} e-mails a month",
+                                                 "benefit-mail-short":  "Free e-mail sending",
+                                                 "benefit-backup":  "Free daily backups, {gb} GB",
+                                                 "benefit-backup-short":  "Free daily backups",
+                                                 "benefit-store":  "Plugins and themes from the store",
+                                                 "benefit-updates":  "Updates"
+                                             }
+                              }
+              },
+    "connect-failed-alert":  "Connecting your Pano account has been failed! Try again.",
+    "components":  {
+                       "modals":  {
+                                      "confirm-remove-pano-account":  {
+                                                                          "title":  "Disconnect your online Pano account?",
+                                                                          "description":  "Pano will no longer be linked to your online account. You can connect it again later.",
+                                                                          "pano-mail":  "You chose Pano Mail for e-mail. If you disconnect, Pano cannot send e-mail until you set it up again in the e-mail step."
+                                                                      },
+                                      "confirm-skip-smtp":  {
+                                                                "title":  "Skip e-mail setup?",
+                                                                "description":  "Skipping this step may result in missing/not working features such as Password Reset or E-Mail validation.",
+                                                                "description-servers":  "Skipping this step means Pano can\u0027t e-mail you alerts (server crashed, backup failed) or send password reset links."
+                                                            },
+                                      "usage-data":  {
+                                                         "title":  "Usage Data",
+                                                         "sent-platform":  "Pano version, stage and channel",
+                                                         "sent-system":  "Java version, OS, CPU and memory",
+                                                         "sent-website":  "Website URL and domain",
+                                                         "sent-ip":  "Server IP address and country",
+                                                         "sent-resources":  "Active theme and installed plugins",
+                                                         "sent-counts":  "User, post, ticket, server and online player counts",
+                                                         "sent-account":  "panomc.com account connection status",
+                                                         "sent-install":  "Install date and a random install ID",
+                                                         "turn-off":  "You can turn this off anytime in Panel → Settings → Platform, or with {option} in config.conf.",
+                                                         "turn-off-option":  "telemetry.enabled = false",
+                                                         "privacy-policy":  "Privacy Policy",
+                                                         "learn-more":  "Learn more"
+                                                     }
+                                  },
+                       "toasts":  {
+                                      "pano-account-connect-success":  "Your Pano account has been successfully connected!",
+                                      "pano-account-disconnect-success":  "Pano account removed successfully!",
+                                      "pano-account-disconnect-fail":  "An error occurred during the removing Pano account!"
+                                  }
+                   },
+    "errors":  {
+                   "PLATFORM_ALREADY_INSTALLED":  "Platform is already installed! Choose another database location to fix this.",
+                   "INVALID_DB_DATA":  "Can\u0027t connect to DB: Invalid data.",
+                   "INVALID_EMAIL_DATA":  "Can\u0027t verify SMTP: {mailError}",
+                   "NETWORK_ERROR":  "Network error: Can\u0027t reach to Pano, check your connection!",
+                   "ALREADY_CONNECTED_TO_PANO":  "Already connected an account to Pano servers!",
+                   "PANO_CONNECT_FAILED":  "Failed to connect Pano servers, please try again later.",
+                   "PANO_DISCONNECT_FAILED":  "Failed to disconnect Pano account, please try again later.",
+                   "INTERNAL_SERVER_ERROR":  "An error occurred, please check Pano console and report it!",
+                   "DB_INSTALL_FAILED":  "Failed to download and install portable MariaDB.",
+                   "CONNECT_REQUIRED":  "Sign in with {website} first.",
+                   "PANO_MAIL_UNAVAILABLE":  "Pano Mail is not available right now. Try again in a moment.",
+                   "PANO_MAIL_CONNECT_FAILED":  "Could not sign in with {website}. Try again.",
+                   "PANO_MAIL_NAME_TAKEN":  "This name is taken, try another one.",
+                   "PANO_MAIL_NAME_INVALID":  "The name can only have lowercase letters, digits and hyphens.",
+                   "PANO_MAIL_NAME_RATE_LIMITED":  "The name was just changed. Try again in {minutes} minutes.",
+                   "PANO_MAIL_LOCAL_INVALID":  "The part before @ is not valid.",
+                   "PANO_MAIL_NAME_LENGTH":  "The name must be {min}–{max} characters."
+               },
+    "alpha-warning":  {
+                          "title":  "Alpha Version",
+                          "description":  "This version is experimental and may contain critical errors."
+                      },
+    "beta-warning":  {
+                         "title":  "Beta Version",
+                         "description":  "You are about to install the Beta version. Beta versions are generally release candidates, much more stable than Alpha, and include the latest features."
+                     },
+    "language-label":  "Select Language",
+    "usage-mode":  {
+                       "title":  "How will you use Pano?",
+                       "subtitle":  "You can change this later in the panel settings.",
+                       "website":  {
+                                       "title":  "Website",
+                                       "description":  "A website for your server."
+                                   },
+                       "servers":  {
+                                       "title":  "Server management",
+                                       "description":  "Manage your servers from here."
+                                   },
+                       "both":  {
+                                    "title":  "Both",
+                                    "description":  "Website and server management in one."
+                                },
+                       "recommended":  "Recommended"
+                   },
+    "import":  {
+                   "toggle-btn":  "Transfer",
+                   "modal-title":  "Transfer Platform Data",
+                   "pano-host":  {
+                                     "title":  "Pano Backup",
+                                     "badge":  "Recommended",
+                                     "description":  "Sign in with your {website} account and restore one of your Pano Backups."
+                                 },
+                   "move":  {
+                                "title":  "Pano Host",
+                                "description":  "Move one of your Pano Host instances here: its files and database come over as they are now.",
+                                "intro":  "Connect this Pano to your {website} account to see your Pano Host instances.",
+                                "none":  "This account has no Pano Host instances.",
+                                "note":  "The instance keeps running on Pano Host. End its subscription on the website once the move is done.",
+                                "submit":  "Move Here",
+                                "reasons":  {
+                                                "SUSPENDED":  "Suspended, so it cannot be exported.",
+                                                "STATE":  "It is being set up or changed right now, so it cannot be exported yet.",
+                                                "NO_PORTAL":  "Not placed on a server yet, so it cannot be exported."
+                                            },
+                                "code-sent":  "Enter the confirmation code sent to {email}.",
+                                "code-label":  "Confirmation code",
+                                "code-resend":  "Send again",
+                                "code-wait":  "You can ask for a new code in {seconds} s.",
+                                "confirm":  "Confirm and Move",
+                                "code-hint":  "We will e-mail a confirmation code to the account owner before the move starts."
+                            },
+                   "other-pano":  {
+                                      "title":  "Restore from a backup file",
+                                      "description":  "Upload a .panoarc backup or export you downloaded from a Pano panel or Pano Host."
+                                  },
+                   "file":  {
+                                "label":  "Backup file",
+                                "drop":  "Drop a backup here or click to choose",
+                                "change":  "Choose another file",
+                                "plain":  "This backup is not encrypted.",
+                                "plain-short":  "Plain archive",
+                                "encrypted":  "This backup is encrypted. Enter the passphrase it was made with.",
+                                "encrypted-short":  "Encrypted",
+                                "workload":  "This backup is locked to its Pano Host instance and can\u0027t be opened here. Download an export of it on {website} instead.",
+                                "unknown":  "This is not a Pano backup file."
+                            },
+                   "passphrase":  "Passphrase",
+                   "host":  {
+                                "intro":  "Connect this Pano to your {website} account to see your Pano Backups.",
+                                "connect":  "Connect {website} account",
+                                "linked":  "Connected to {website} as {username}.",
+                                "no-backups":  "This account has no finished Pano Backups yet.",
+                                "passphrase-hint":  "Only needed when the backup was encrypted with a passphrase.",
+                                "connect-failed":  "The {website} account could not be connected. Try again."
+                            },
+                   "database":  {
+                                    "title":  "Database to restore into",
+                                    "description":  "The backed-up site is restored into this MySQL or MariaDB database. Pano tables already in it are replaced."
+                                },
+                   "restore-warning":  "Restoring replaces this setup with the backed-up site, including its admin accounts and settings. Pano restarts when it is done.",
+                   "restore":  "Restore",
+                   "progress":  {
+                                    "title":  "Restoring your site",
+                                    "UPLOADING":  "Uploading the backup...",
+                                    "EXPORTING":  "Pano Host is preparing the export of the instance...",
+                                    "DOWNLOADING":  "Downloading the backup from Pano Backup...",
+                                    "RESTORING":  "Checking and restoring the backup...",
+                                    "keep-open":  "Keep this page open."
+                                },
+                   "done":  {
+                                "title":  "Restore complete",
+                                "description":  "Pano is restarting with the restored site. This page opens it in a moment.",
+                                "manual":  "If nothing happens, restart Pano yourself and open this address again.",
+                                "open":  "Open the site"
+                            },
+                   "errors":  {
+                                  "generic":  "Restore failed ({code}).",
+                                  "NETWORK_ERROR":  "Can\u0027t reach Pano. Check your connection and try again.",
+                                  "BAD_REQUEST":  "Something is missing. Check the form and try again.",
+                                  "NOT_EXISTS":  "That backup no longer exists.",
+                                  "FILE_TOO_LARGE":  "The file is too large to upload here.",
+                                  "PANO_BACKUP_BUSY":  "Another restore is already running.",
+                                  "NOT_AN_ARCHIVE":  "This is not a Pano backup file.",
+                                  "UNSUPPORTED_FORMAT":  "This backup was made by a newer Pano. Update Pano first.",
+                                  "PASSPHRASE_REQUIRED":  "This backup is encrypted. Enter its passphrase.",
+                                  "WRONG_PASSPHRASE":  "The passphrase is wrong. Nothing was changed.",
+                                  "TAMPERED":  "The backup is damaged or was changed. Nothing was restored.",
+                                  "TRUNCATED":  "The backup file is incomplete. Nothing was restored.",
+                                  "INVALID_ARCHIVE":  "The backup file is damaged. Nothing was restored.",
+                                  "UNSAFE_ENTRY":  "The backup contains unsafe files and was refused.",
+                                  "UNSAFE_SQL":  "The backup\u0027s database dump contains statements Pano doesn\u0027t allow, so it was refused.",
+                                  "TOO_LARGE":  "The backup is too large to restore.",
+                                  "WRONG_KIND":  "This file is not a whole-site Pano backup.",
+                                  "ARCHIVE_NEWER_THAN_TARGET":  "This backup was made by a newer Pano. Update Pano first, then restore it.",
+                                  "HASH_MISMATCH":  "The backup failed its integrity check. Nothing was restored.",
+                                  "RESTORE_FAILED":  "The restore failed. Check the Pano console for details.",
+                                  "DATABASE_CONNECTION_FAILED":  "Can\u0027t connect to the database. Check the database details.",
+                                  "PANO_HOST_UNAVAILABLE":  "{website} can\u0027t be reached right now. Try again later.",
+                                  "PANO_HOST_NOT_LINKED":  "This Pano isn\u0027t connected to {website}. Connect again.",
+                                  "INVALID_TOKEN":  "The {website} connection was revoked. Connect again.",
+                                  "DOWNLOAD_FAILED":  "The backup couldn\u0027t be downloaded from Pano Backup. Try again.",
+                                  "INTEGRITY_FAILED":  "The downloaded backup failed its integrity check. Try again.",
+                                  "BACKUP_NOT_FOUND":  "That Pano Backup no longer exists.",
+                                  "PAYMENT_REQUIRED":  "This {website} account has no Pano Backup plan.",
+                                  "LINK_EXPIRED":  "The code expired. Connect again.",
+                                  "EXPORT_FAILED":  "Pano Host could not export this instance. Try again later.",
+                                  "RATE_LIMITED":  "This instance was exported recently. A new export is possible once a day.",
+                                  "TASK_IN_PROGRESS":  "The instance is busy with another task on Pano Host. Try again in a few minutes.",
+                                  "PORTAL_OFFLINE":  "The server running this instance is offline. Try again later.",
+                                  "PORTAL_UNSUPPORTED":  "The server running this instance cannot export it yet.",
+                                  "WORKLOAD_SUSPENDED":  "This instance is suspended, so it cannot be exported.",
+                                  "INVALID_WORKLOAD_STATE":  "This instance cannot be exported in its current state.",
+                                  "WORKLOAD_NOT_FOUND":  "This instance was not found in your account.",
+                                  "CONNECT_REQUIRED":  "Connect your account first.",
+                                  "TRANSFER_CODE_INVALID":  "The code is wrong or has expired.",
+                                  "TRANSFER_CODE_REQUIRED":  "The confirmation has expired. Ask for a new code and try again.",
+                                  "TRANSFER_CODE_COOLDOWN":  "Please wait {seconds} s before asking for another code."
+                              }
+               }
 }

@@ -45,10 +45,15 @@
         </p>
       </div>
       <div class="modal-footer">
-        <a href={PRIVACY_POLICY_URL} rel="noopener" target="_blank">
+        <a
+          class="text-decoration-none"
+          href={PRIVACY_POLICY_URL}
+          rel="noopener"
+          target="_blank">
           {$_("components.modals.usage-data.privacy-policy")}
         </a>
         <a
+          class="text-decoration-none"
           href={docsUrl("https://panomc.com", $locale, TELEMETRY_DOCS_PATH)}
           rel="noopener"
           target="_blank">

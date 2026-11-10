@@ -1,7 +1,7 @@
 <div class:opacity-50={disabled}>
   <div class="card-body vstack gap-3">
     <div>
-      <h5 class="mb-3" id="languageLabel">{$_("language-label")}</h5>
+      <div class="mb-3" id="languageLabel">{$_("language-label")}</div>
       <div
         class="list-group list-group-horizontal-md"
         role="radiogroup"

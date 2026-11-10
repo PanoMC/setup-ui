@@ -1,4 +1,33 @@
 <style>
+  /* Pano Mail plan card — the landing's featured card (HostPricingPlans). */
+  .transition-all {
+    transition: all 0.3s ease !important;
+  }
+
+  .pricing-card {
+    &:not(.featured) {
+      background-color: var(--bs-body-bg);
+    }
+    border: 1px solid var(--bs-border-color);
+  }
+
+  /* On the info colour, text keeps the card's contrast colour instead of white. */
+  .pricing-card.text-bg-info {
+    :global(.text-white),
+    :global(.text-white-50) {
+      color: inherit !important;
+    }
+
+    :global(.text-white-50) {
+      opacity: 0.75;
+    }
+  }
+
+  /* room for the `blocks` corner decoration under the last row */
+  .featured .card-body {
+    padding-bottom: 3.5rem;
+  }
+
   .smtp-steps-container {
     display: flex;
     width: 200%;
@@ -84,31 +113,42 @@
         <div class="p-3 vstack gap-3">
           <ErrorAlert error={error} />
 
-          <div class="card">
-            <div class="card-body vstack gap-3">
-              <div class="d-flex align-items-start gap-3">
-                <i
-                  class="fa-solid fa-envelope-circle-check fa-2x text-primary"
-                  aria-hidden="true"></i>
-                <div class="flex-grow-1">
-                  <div class="d-flex flex-wrap align-items-center gap-2">
-                    <h5 class="mb-0">Pano Mail</h5>
-                    <span class="badge text-bg-success"
-                      >{shownPlan.badge.free
-                        ? $_("steps.email.pano-mail.free")
-                        : shownPlan.badge.name}</span>
+          <div
+            class="card h-100 rounded-4 transition-all pricing-card featured text-bg-info p-1 p-sm-3 position-relative d-flex flex-column border shadow-sm blocks">
+            <div class="card-body d-flex flex-column h-100">
+              <div class="d-flex flex-column align-items-start gap-2 mb-4">
+                <h5
+                  class="card-title fs-5 fw-bold text-break mb-0 text-white flex-grow-1">
+                  Pano Mail — {shownPlan.badge.free
+                    ? $_("steps.email.pano-mail.free")
+                    : shownPlan.badge.name}
+                </h5>
+
+                {#if panoMail.connected}
+                  <div
+                    class="d-flex flex-wrap align-items-center justify-content-between gap-2 py-2 px-3 rounded-pill bg-white w-100">
+                    <span class="fw-semibold"
+                      >{$_("steps.email.pano-mail.signed-in", {
+                        values: { name: panoMail.username },
+                      })}</span>
+                    {#if panoMail.manageUrl}
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-sm text-capitalize"
+                        on:click={changePlan}>
+                        {$_("steps.email.pano-mail.change-plan")}
+                      </button>
+                    {/if}
                   </div>
-                  <div class="text-body-secondary">
-                    {$_("steps.email.pano-mail.by", { values: { website } })}
-                  </div>
-                </div>
+                {/if}
               </div>
 
-              <ul class="list-unstyled vstack gap-1 mb-0">
+              <ul
+                class="list-unstyled d-flex flex-column gap-3 mt-2 mb-0 flex-grow-1">
                 {#if shownPlan.mailsPerMonth}
-                  <li>
+                  <li class="d-flex align-items-start gap-2 fs-6 text-white">
                     <i
-                      class="fa-solid fa-check text-success me-2"
+                      class="fa-solid fa-circle-check mt-1 text-white"
                       aria-hidden="true"></i>
                     {#if shownPlan.mailsPerDay}
                       {$_("steps.email.pano-mail.allowance-both", {
@@ -124,93 +164,67 @@
                     {/if}
                   </li>
                 {/if}
-                <li>
+                <li class="d-flex align-items-start gap-2 fs-6 text-white">
                   <i
-                    class="fa-solid fa-check text-success me-2"
+                    class="fa-solid fa-circle-check mt-1 text-white"
                     aria-hidden="true"></i>
                   {$_("steps.email.pano-mail.no-setup")}
                 </li>
               </ul>
 
-              {#if panoMail.connected}
-                <div
-                  class="d-flex flex-wrap align-items-center justify-content-between gap-2">
-                  <div class="fw-semibold">
-                    <i
-                      class="fa-solid fa-circle-check text-success me-2"
-                      aria-hidden="true"></i>
-                    {$_("steps.email.pano-mail.signed-in", {
-                      values: { name: panoMail.username },
-                    })}
+              {#if panoMail.sender}
+                <div>
+                  <label class="form-label small mb-1 text-white" for="panoMailLocal"
+                    >{$_("steps.email.pano-mail.sender")}</label>
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      id="panoMailLocal"
+                      type="text"
+                      autocomplete="off"
+                      spellcheck="false"
+                      maxlength="64"
+                      bind:value={panoMail.sender.localPart} />
+                    <span class="input-group-text">@</span>
+                    <input
+                      class="form-control"
+                      id="panoMailName"
+                      type="text"
+                      autocomplete="off"
+                      spellcheck="false"
+                      maxlength="63"
+                      class:is-valid={nameClass === "is-valid"}
+                      class:is-invalid={nameClass === "is-invalid"}
+                      title={$_("steps.email.pano-mail.sender-name")}
+                      aria-label={$_("steps.email.pano-mail.sender-name")}
+                      value={panoMail.sender.name}
+                      on:input={onSenderNameInput} />
+                    <span class="input-group-text"
+                      >.{panoMail.sender.zone}</span>
                   </div>
-                  {#if panoMail.manageUrl}
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-sm text-capitalize"
-                      on:click={changePlan}>
-                      {$_("steps.email.pano-mail.change-plan")}
-                    </button>
+                  {#if nameMessage}
+                    <div class="invalid-feedback d-block">
+                      {$_("errors." + nameMessage.key, {
+                        values: nameMessage.props,
+                      })}
+                    </div>
                   {/if}
                 </div>
-
-                {#if panoMail.sender}
-                  <div>
-                    <label class="form-label small mb-1" for="panoMailLocal"
-                      >{$_("steps.email.pano-mail.sender")}</label>
-                    <div class="input-group">
-                      <input
-                        class="form-control"
-                        id="panoMailLocal"
-                        type="text"
-                        autocomplete="off"
-                        spellcheck="false"
-                        maxlength="64"
-                        bind:value={panoMail.sender.localPart} />
-                      <span class="input-group-text">@</span>
-                      <input
-                        class="form-control"
-                        id="panoMailName"
-                        type="text"
-                        autocomplete="off"
-                        spellcheck="false"
-                        maxlength="63"
-                        class:is-valid={nameClass === "is-valid"}
-                        class:is-invalid={nameClass === "is-invalid"}
-                        title={$_("steps.email.pano-mail.sender-name")}
-                        aria-label={$_("steps.email.pano-mail.sender-name")}
-                        value={panoMail.sender.name}
-                        on:input={onSenderNameInput} />
-                      <span class="input-group-text"
-                        >.{panoMail.sender.zone}</span>
-                    </div>
-                    {#if nameMessage}
-                      <div class="invalid-feedback d-block">
-                        {$_("errors." + nameMessage.key, {
-                          values: nameMessage.props,
-                        })}
-                      </div>
-                    {/if}
-                  </div>
-                {/if}
-              {:else}
+              {/if}
+              {#if !panoMail.connected}
                 <button
                   type="button"
-                  class="btn btn-primary w-100"
+                  class="btn mt-3 w-100 rounded-pill py-2 btn-light text-capitalize"
                   disabled={checking || connecting}
                   on:click={connectAccount}>
                   {#if connecting}
                     <span
-                      class="spinner-border spinner-border-sm me-2"
+                      class="spinner-border spinner-border-sm me-1"
                       aria-hidden="true"></span>
-                    {$_("buttons.connecting")}
-                  {:else}
-                    <i
-                      class="fa-solid fa-right-to-bracket me-2"
-                      aria-hidden="true"></i>
-                    {$_("steps.email.pano-mail.sign-in", {
-                      values: { website },
-                    })}
                   {/if}
+                  {$_("steps.email.pano-mail.sign-in", {
+                    values: { website },
+                  })}
                 </button>
               {/if}
             </div>
@@ -218,7 +232,7 @@
 
           <button
             type="button"
-            class="btn btn-link text-decoration-none align-self-center"
+            class="btn btn-link text-decoration-none align-self-center text-capitalize"
             on:click={() => chooseMode("own")}>
             {$_("steps.email.own-server")}
           </button>
@@ -229,7 +243,7 @@
           <div class="smtp-step-pane p-3">
             <button
               type="button"
-              class="btn btn-link px-0 text-decoration-none mb-3"
+              class="btn btn-link px-0 text-decoration-none mb-3 text-capitalize"
               on:click={() => chooseMode("panomail")}>
               <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>
               {$_("steps.email.back-to-pano-mail")}
@@ -260,7 +274,7 @@
             {#if lastChosenService && mailConfiguration[lastChosenService]}
               <button
                 type="button"
-                class="btn btn-link px-0 text-decoration-none mb-3"
+                class="btn btn-link px-0 text-decoration-none mb-3 text-capitalize"
                 on:click={() => (chosenService = null)}>
                 <i class="fa-solid fa-arrow-left me-1"></i>
                 {$_("steps.email.return-back-to-service-list-text")}
