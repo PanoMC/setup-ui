@@ -189,9 +189,9 @@
                          "title":  "Beta Sürüm",
                          "description":  "Beta sürümünü kurmak üzeresiniz. Beta sürümleri genellikle yayın adayıdır (release candidate), Alpha\u0027ya kıyasla çok daha stabildir ve en yeni özellikleri içerir."
                      },
-    "language-label":  "Dil Seçin",
+    "language-label":  "Dil",
     "usage-mode":  {
-                       "title":  "Pano\u0027yu nasıl kullanacaksınız?",
+                       "title":  "Kullanım Modu",
                        "subtitle":  "Bunu daha sonra panel ayarlarından değiştirebilirsiniz.",
                        "website":  {
                                        "title":  "Web Sitesi",
@@ -262,6 +262,7 @@
                                     "title":  "Geri yüklenecek veritabanı",
                                     "description":  "Yedeklenen site bu MySQL veya MariaDB veritabanına geri yüklenir. İçindeki Pano tabloları değiştirilir."
                                 },
+                   "restore-warning-title":  "Geri Yükleme Uyarısı",
                    "restore-warning":  "Geri yükleme, bu kurulumu yönetici hesapları ve ayarlarıyla birlikte yedeklenen siteyle değiştirir. İşlem bitince Pano yeniden başlar.",
                    "restore":  "Geri Yükle",
                    "progress":  {

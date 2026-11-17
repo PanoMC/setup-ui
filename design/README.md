@@ -20,5 +20,16 @@ building. Do not load every file.
 | A data table: columns, header row, row controls    | `tables.md`              |
 | A colored statistic card, with or without a chart  | `cards-colored.md`       |
 | Tooltips                                           | `tooltips.md`            |
+| A filter dropdown in a card header                 | `filter-dropdown.md`     |
 
 If no topic file covers the element, follow the closest existing screen in `panel-ui`.
+
+## Typography
+
+- The default text weight of `list-group-item` elements is declared with the `fw-normal` class.
+  Plain list items do not use `fw-semibold` or `fw-bold`.
+- A `list-group-item` title is capitalized (add `text-capitalize` when the string cannot carry it)
+  and uses `text-body`; its description uses `text-body-secondary`. These theme-token classes keep
+  both legible in dark and light mode.
+- All button labels are capitalized. Add `text-capitalize` when the translation string cannot carry
+  it.

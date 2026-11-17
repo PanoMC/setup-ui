@@ -157,6 +157,9 @@
     {/if}
 
     <div class="vstack gap-3" class:d-none={$isFinishing}>
+      {#if $currentStep === 0}
+        <StageAlert stage={stepInfo.stage} />
+      {/if}
       <ErrorAlert error={stepInfo.error} />
       <PageActions>
         <div slot="left">
@@ -194,8 +197,8 @@
           {#if $currentStep === 0}
             <button
               class="btn btn-link"
+              title={$_("import.toggle-btn")}
               aria-label={$_("import.toggle-btn")}
-              use:tooltip={[$_("import.toggle-btn"), { placement: "top" }]}
               on:click={() => $navigationState.transferAction?.()}
               disabled={$navigationState.nextLoading}>
               <i class="fa-solid fa-right-left"></i></button>
@@ -228,9 +231,6 @@
       <div class="card">
         <slot />
       </div>
-      {#if $currentStep === 0}
-        <StageAlert stage={stepInfo.stage} />
-      {/if}
     </div>
   </div>
 </App>
@@ -356,7 +356,6 @@
   import ErrorAlert from "$lib/components/ErrorAlert.svelte";
   import StageAlert from "$lib/components/StageAlert.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
-  import tooltip from "$lib/tooltip.util.js";
   import PageHeader from "$lib/components/PageHeader.svelte";
   import PageActions from "$lib/components/PageActions.svelte";
   import PageNav from "$lib/components/PageNav.svelte";

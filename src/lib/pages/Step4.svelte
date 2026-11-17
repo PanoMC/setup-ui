@@ -398,10 +398,13 @@
         },
       })
         .then(async (body) => {
+          // Release the button before awaiting navigation: the route is reused, so a
+          // pending or rejected `goto` otherwise leaves the connect spinner forever.
+          connecting = false;
+
           if (body.error) {
             if (body.error.code === "ALREADY_CONNECTED_TO_PANO") {
               await goto($page.url.pathname, { refreshAll: true });
-              connecting = false;
               return;
             }
 
@@ -409,7 +412,6 @@
             await goto($page.url.pathname + queryParameters, {
               refreshAll: true,
             });
-            connecting = false;
 
             return;
           }
@@ -424,10 +426,9 @@
           if (!account.email) {
             account.email = body.email;
           }
-
-          connecting = false;
         })
         .catch(async (_) => {
+          connecting = false;
           const queryParameters = buildQueryParams({ failed: true });
           await goto($page.url.pathname + queryParameters, {
             refreshAll: true,

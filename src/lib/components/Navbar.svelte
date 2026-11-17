@@ -5,7 +5,7 @@
       <!-- Mobile Toggler (Left) -->
       <div class="d-xl-none d-flex align-items-center">
         <button
-          class="nav-link p-0"
+          class="nav-link p-0 text-body-secondary"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#mobileMenuOffcanvas"
@@ -65,7 +65,7 @@
     <!-- Right Section: Version Info (Order 3) -->
     <div
       class="col-4 d-flex justify-content-end align-items-center gap-2 order-3">
-      <span class="small"
+      <span class="small text-body-secondary"
         >{version === "local-build" ? version : "v" + version}</span>
     </div>
   </div>

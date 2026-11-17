@@ -30,7 +30,7 @@
   them goes to `onerror` instead of `ondrop`.
 -->
 <div
-  class="p-3 w-100 d-flex flex-column align-items-center justify-content-center border rounded text-center drop-zone"
+  class="p-3 w-100 h-100 flex-grow-1 d-flex flex-column align-items-center justify-content-center border rounded overflow-hidden text-center drop-zone"
   class:drag-over={dragOver}
   class:disabled={disabled}
   style={style}
@@ -45,10 +45,10 @@
     <i class="{icon} mb-2" aria-hidden="true"></i>
   {/if}
   {#if title}
-    <p class="mb-0">{title}</p>
+    <p class="mb-0 text-capitalize">{title}</p>
   {/if}
   {#if subtitle}
-    <small class="opacity-75">{subtitle}</small>
+    <small class="opacity-75 text-capitalize">{subtitle}</small>
   {/if}
 
   <input

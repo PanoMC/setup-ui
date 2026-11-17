@@ -26,17 +26,17 @@
             class="{mode.icon} text-center"
             style="width: 1.25rem;"
             aria-hidden="true"></i>
-          <span class="fw-semibold">
+          <span class="fw-semibold text-capitalize text-body">
             {$_("usage-mode." + mode.key + ".title")}
           </span>
           {#if mode.recommended && !selected}
             <span
-              class="badge text-bg-primary position-absolute top-0 end-0 mt-2 me-2">
+              class="badge text-bg-secondary position-absolute top-0 end-0 mt-2 me-2">
               {$_("usage-mode.recommended")}
             </span>
           {/if}
         </span>
-        <span class="d-block">
+        <span class="d-block text-body-secondary">
           {$_("usage-mode." + mode.key + ".description")}
         </span>
       </button>

@@ -1,6 +1,7 @@
 <style>
   .transfer-steps-container {
     display: flex;
+    flex-shrink: 0;
     width: 200%;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -14,24 +15,6 @@
     transform: translateX(-50%);
   }
 
-  .host-item-gradient {
-    background: linear-gradient(
-      135deg,
-      rgba(var(--bs-primary-rgb), 0.12) 0%,
-      rgba(var(--bs-info-rgb), 0.12) 100%
-    ) !important;
-    border: 1px solid rgba(var(--bs-primary-rgb), 0.25) !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  }
-  .host-item-gradient:hover {
-    background: linear-gradient(
-      135deg,
-      rgba(var(--bs-primary-rgb), 0.2) 0%,
-      rgba(var(--bs-info-rgb), 0.2) 100%
-    ) !important;
-    border-color: rgba(var(--bs-primary-rgb), 0.45) !important;
-    box-shadow: 0 4px 15px rgba(var(--bs-primary-rgb), 0.15) !important;
-  }
   .form-floating:focus-within {
     z-index: 5;
     position: relative;
@@ -71,7 +54,7 @@
           {/if}
         </div>
 
-        <div class="modal-body p-0 overflow-hidden">
+        <div class="modal-body p-0 d-flex overflow-x-hidden overflow-y-auto">
           <div
             class="transfer-steps-container"
             class:slide-active={step !== "selection"}>
@@ -80,75 +63,72 @@
               <div class="list-group">
                 <button
                   type="button"
-                  class="list-group-item list-group-item-action host-item-gradient d-flex justify-content-between align-items-start p-3"
-                  onclick={openHost}>
-                  <div class="me-auto text-start">
-                    <div class="d-flex align-items-center gap-2">
-                      <!-- The Pano Host mark (Pano Backup is a Pano Host service), as on panomc.com/host. -->
-                      <div
-                        class="d-inline-flex align-items-center justify-content-center rounded"
-                        style="width: 24px; height: 24px; background-image: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-info) 100%);">
-                        <img
-                          src="/assets/img/logo.svg"
-                          width="16"
-                          height="16"
-                          alt="Pano Host" />
-                      </div>
-                      <h5 class="mb-0">{$_("import.pano-host.title")}</h5>
-                      <span class="badge text-bg-primary"
-                        >{$_("import.pano-host.badge")}</span>
-                    </div>
-                    <div class="text-body-secondary mt-2 fw-normal">
-                      {$_("import.pano-host.description", {
-                        values: { website },
-                      })}
-                    </div>
-                  </div>
-                  <i
-                    class="fa-solid fa-cloud-arrow-down text-body-secondary align-self-center fs-5"
-                  ></i>
+                  class="list-group-item list-group-item-action d-flex flex-column justify-content-start text-start"
+                  disabled={connecting}
+                  onclick={() => openHost()}>
+                  <span class="d-flex align-items-center gap-2 mb-1">
+                    <!-- The Pano Host mark (Pano Backup is a Pano Host service), as on panomc.com/host. -->
+                    <span
+                      class="d-inline-flex align-items-center justify-content-center rounded"
+                      style="width: 24px; height: 24px; background-image: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-info) 100%);">
+                      <img
+                        src="/assets/img/logo.svg"
+                        width="16"
+                        height="16"
+                        alt="Pano Host" />
+                    </span>
+                    <span class="fw-semibold text-capitalize text-body">
+                      {$_("import.pano-host.title")}
+                    </span>
+                  </span>
+                  <span class="d-block text-body-secondary">
+                    {$_("import.pano-host.description", {
+                      values: { website },
+                    })}
+                  </span>
                 </button>
 
                 <!-- Move a Pano Host instance here (its export, downloaded and restored). -->
                 <button
                   type="button"
-                  class="list-group-item list-group-item-action d-flex justify-content-between align-items-start p-3"
-                  onclick={openMove}>
-                  <div class="me-auto text-start">
-                    <div class="d-flex align-items-center gap-2">
-                      <div
-                        class="d-inline-flex align-items-center justify-content-center rounded"
-                        style="width: 24px; height: 24px; background-image: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-info) 100%);">
-                        <img
-                          src="/assets/img/logo.svg"
-                          width="16"
-                          height="16"
-                          alt="Pano Host" />
-                      </div>
-                      <h5 class="mb-0">{$_("import.move.title")}</h5>
-                    </div>
-                    <div class="text-body-secondary mt-2 fw-normal">
-                      {$_("import.move.description")}
-                    </div>
-                  </div>
-                  <i
-                    class="fa-solid fa-right-left text-body-secondary align-self-center fs-5"
-                  ></i>
+                  class="list-group-item list-group-item-action d-flex flex-column justify-content-start text-start"
+                  disabled={connecting}
+                  onclick={() => openMove()}>
+                  <span class="d-flex align-items-center gap-2 mb-1">
+                    <span
+                      class="d-inline-flex align-items-center justify-content-center rounded"
+                      style="width: 24px; height: 24px; background-image: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-info) 100%);">
+                      <img
+                        src="/assets/img/logo.svg"
+                        width="16"
+                        height="16"
+                        alt="Pano Host" />
+                    </span>
+                    <span class="fw-semibold text-capitalize text-body">
+                      {$_("import.move.title")}
+                    </span>
+                  </span>
+                  <span class="d-block text-body-secondary">
+                    {$_("import.move.description")}
+                  </span>
                 </button>
 
                 <button
                   type="button"
-                  class="list-group-item list-group-item-action d-flex justify-content-between align-items-start p-3"
+                  class="list-group-item list-group-item-action d-flex flex-column justify-content-start text-start"
                   onclick={() => (step = "file")}>
-                  <div class="me-auto text-start">
-                    <h5 class="mb-0">{$_("import.other-pano.title")}</h5>
-                    <div class="text-body-secondary mt-1 fw-normal">
-                      {$_("import.other-pano.description")}
-                    </div>
-                  </div>
-                  <i
-                    class="fa-solid fa-file-import text-body-secondary align-self-center fs-5"
-                  ></i>
+                  <span class="d-flex align-items-center gap-2 mb-1">
+                    <i
+                      class="fa-solid fa-file-import text-center"
+                      style="width: 1.25rem;"
+                      aria-hidden="true"></i>
+                    <span class="fw-semibold text-capitalize text-body">
+                      {$_("import.other-pano.title")}
+                    </span>
+                  </span>
+                  <span class="d-block text-body-secondary">
+                    {$_("import.other-pano.description")}
+                  </span>
                 </button>
               </div>
             </div>
@@ -160,7 +140,7 @@
               {#if shownStep === "file" || shownStep === "host" || shownStep === "move"}
                 <button
                   type="button"
-                  class="btn btn-link text-decoration-none p-0 hstack gap-2 align-self-start"
+                  class="btn btn-link text-decoration-none p-0 hstack gap-2 align-self-start text-capitalize"
                   onclick={back}>
                   <i class="fa-solid fa-arrow-left"></i>
                   <span>{$_("buttons.back")}</span>
@@ -168,7 +148,7 @@
 
                 {#if shownStep === "file"}
                   <!-- Same as the panel's restore dialog: drop zone, then the picked file as a card. -->
-                  <div class="vstack gap-2">
+                  <div class="vstack gap-2 flex-grow-1">
                     {#if file}
                       <div
                         class="d-flex align-items-center gap-3 border rounded p-3">
@@ -192,19 +172,16 @@
                         </div>
                         <button
                           type="button"
-                          class="btn btn-link btn-sm ms-auto"
+                          class="btn-close ms-auto"
                           aria-label={$_("import.file.change")}
                           title={$_("import.file.change")}
                           disabled={submitting}
-                          onclick={clearFile}>
-                          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-                        </button>
+                          onclick={clearFile}></button>
                       </div>
                     {:else}
                       <DragAndDropZone
                         id="restoreFile"
                         accept={[".panoarc", ".zip"]}
-                        style="min-height: 9rem;"
                         icon="fa-solid fa-file-arrow-up fa-2x"
                         title={$_("import.file.drop")}
                         subtitle={$_("import.file.label")}
@@ -223,15 +200,13 @@
                   </div>
                 {:else if shownStep === "move"}
                   {#if moveState === "checking"}
-                    <div class="text-center py-3">
-                      <span
-                        class="spinner-border spinner-border-sm"
-                        aria-hidden="true"></span>
+                    <div
+                      class="vstack gap-3 placeholder-glow py-3"
+                      aria-busy="true">
+                      <span class="placeholder col-7"></span>
+                      <span class="placeholder col-5"></span>
+                      <span class="placeholder col-6"></span>
                     </div>
-                  {:else if moveState === "connect"}
-                    <p class="mb-0 text-body-secondary">
-                      {$_("import.move.intro", { values: { website } })}
-                    </p>
                   {:else}
                     <div class="vstack gap-2">
                       <div class="small text-success">
@@ -326,7 +301,7 @@
                               {:else}
                                 <button
                                   type="button"
-                                  class="btn btn-link btn-sm text-decoration-none"
+                                  class="btn btn-link btn-sm text-decoration-none text-capitalize"
                                   disabled={submitting}
                                   onclick={() => void requestMoveCode()}>
                                   {$_("import.move.code-resend")}
@@ -346,18 +321,12 @@
                     </div>
                   {/if}
                 {:else if hostState === "checking"}
-                  <div class="text-center py-3">
-                    <span
-                      class="spinner-border spinner-border-sm"
-                      aria-hidden="true"></span>
-                  </div>
-                {:else if hostState === "connect"}
-                  <!-- Not connected yet: the same connect flow as the last setup step; the dialog
-                   opens here again when the website sends the owner back. -->
-                  <div class="vstack gap-2">
-                    <p class="mb-0 text-body-secondary">
-                      {$_("import.host.intro", { values: { website } })}
-                    </p>
+                  <div
+                    class="vstack gap-3 placeholder-glow py-3"
+                    aria-busy="true">
+                    <span class="placeholder col-7"></span>
+                    <span class="placeholder col-5"></span>
+                    <span class="placeholder col-6"></span>
                   </div>
                 {:else}
                   <div class="vstack gap-2">
@@ -422,58 +391,70 @@
 
                 {#if showDatabase}
                   <fieldset class="vstack gap-2">
-                    <legend class="fs-6 mb-0"
+                    <legend class="fs-6 mb-0 text-capitalize"
                       >{$_("import.database.title")}</legend>
-                    <div class="small text-body-secondary">
+                    <div class="small text-body-secondary text-capitalize">
                       {$_("import.database.description")}
                     </div>
-                    <div class="row g-2">
-                      <div class="col-7 form-floating">
-                        <input
-                          class="form-control"
-                          id="restoreDbHost"
-                          placeholder="localhost:3306"
-                          bind:value={database.host} />
-                        <label for="restoreDbHost"
-                          >{$_("steps.database.inputs.address")}</label>
+                    <div class="vstack gap-2">
+                      <div class="input-group">
+                        <div class="form-floating">
+                          <input
+                            class="form-control"
+                            id="restoreDbHost"
+                            placeholder="localhost:3306"
+                            bind:value={database.host} />
+                          <label class="text-capitalize" for="restoreDbHost"
+                            >{$_("steps.database.inputs.address")}</label>
+                        </div>
+                        <div class="form-floating">
+                          <input
+                            class="form-control"
+                            id="restoreDbName"
+                            placeholder="pano"
+                            bind:value={database.dbName} />
+                          <label class="text-capitalize" for="restoreDbName"
+                            >{$_("steps.database.inputs.name")}</label>
+                        </div>
                       </div>
-                      <div class="col-5 form-floating">
-                        <input
-                          class="form-control"
-                          id="restoreDbName"
-                          placeholder="pano"
-                          bind:value={database.dbName} />
-                        <label for="restoreDbName"
-                          >{$_("steps.database.inputs.name")}</label>
-                      </div>
-                      <div class="col-6 form-floating">
-                        <input
-                          class="form-control"
-                          id="restoreDbUser"
-                          autocomplete="off"
-                          placeholder="root"
-                          bind:value={database.username} />
-                        <label for="restoreDbUser"
-                          >{$_("steps.database.inputs.username")}</label>
-                      </div>
-                      <div class="col-6 form-floating">
-                        <input
-                          class="form-control"
-                          id="restoreDbPassword"
-                          type="password"
-                          autocomplete="off"
-                          placeholder="password"
-                          bind:value={database.password} />
-                        <label for="restoreDbPassword"
-                          >{$_("steps.database.inputs.password")}</label>
+                      <div class="input-group">
+                        <div class="form-floating">
+                          <input
+                            class="form-control"
+                            id="restoreDbUser"
+                            autocomplete="off"
+                            placeholder="root"
+                            bind:value={database.username} />
+                          <label class="text-capitalize" for="restoreDbUser"
+                            >{$_("steps.database.inputs.username")}</label>
+                        </div>
+                        <div class="form-floating">
+                          <input
+                            class="form-control"
+                            id="restoreDbPassword"
+                            type="password"
+                            autocomplete="off"
+                            placeholder="password"
+                            bind:value={database.password} />
+                          <label class="text-capitalize" for="restoreDbPassword"
+                            >{$_("steps.database.inputs.password")}</label>
+                        </div>
                       </div>
                     </div>
                   </fieldset>
 
-                  <div class="alert alert-warning small mb-0">
-                    <i class="fa-solid fa-triangle-exclamation me-1"></i>{$_(
-                      "import.restore-warning",
-                    )}
+                  <div
+                    class="alert alert-warning d-flex align-items-start"
+                    role="alert">
+                    <i
+                      class="fa-solid fa-triangle-exclamation me-3 mt-1"
+                      aria-hidden="true"></i>
+                    <div>
+                      <h5 class="alert-heading mb-2">
+                        {$_("import.restore-warning-title")}
+                      </h5>
+                      <div>{$_("import.restore-warning")}</div>
+                    </div>
                   </div>
                 {/if}
               {:else if shownStep === "running"}
@@ -511,62 +492,30 @@
                     >{$_("import.done.open")}</a>
                 </div>
               {/if}
-
-              {#if error}
-                <div
-                  class="alert alert-danger mb-0"
-                  transition:slide={{ duration: 150 }}>
-                  <i class="fa-solid fa-triangle-exclamation me-2"></i>
-                  {$_(error.key, {
-                    values: {
-                      code: error.code,
-                      website,
-                      seconds: error.seconds ?? 0,
-                    },
-                  })}
-                </div>
-              {/if}
             </div>
           </div>
         </div>
 
         {#if step === "file" || step === "host" || step === "move"}
           <div class="modal-footer">
-            {#if (step === "host" && hostState !== "linked") || (step === "move" && moveState !== "linked")}
-              <button
-                type="button"
-                class="btn btn-primary w-100"
-                disabled={(step === "move" ? moveState : hostState) ===
-                  "checking" || connecting}
-                onclick={connect}>
-                {#if connecting}
-                  <span
-                    class="spinner-border spinner-border-sm me-2"
-                    aria-hidden="true"></span>
-                  {$_("buttons.connecting")}
-                {:else}
-                  <i class="fa-solid fa-link me-2" aria-hidden="true"></i>
-                  {$_("import.host.connect", { values: { website } })}
-                {/if}
-              </button>
-            {:else}
-              <button
-                type="button"
-                class="btn btn-primary w-100"
-                disabled={!canRestore || submitting}
-                onclick={restore}>
-                {#if submitting}
-                  <span
-                    class="spinner-border spinner-border-sm me-2"
-                    aria-hidden="true"></span>
-                {/if}
-                {step === "move"
-                  ? moveCode
-                    ? $_("import.move.confirm")
-                    : $_("import.move.submit")
-                  : $_("import.restore")}
-              </button>
-            {/if}
+            <button
+              type="button"
+              class="btn btn-primary w-100 text-capitalize"
+              class:placeholder-glow={submitting}
+              disabled={!canRestore || submitting}
+              onclick={restore}>
+              {#if submitting}
+                <span
+                  class="placeholder rounded d-inline-block align-middle me-2"
+                  style="width: 1.25rem; height: 0.5rem;"
+                  aria-hidden="true"></span>
+              {/if}
+              {step === "move"
+                ? moveCode
+                  ? $_("import.move.confirm")
+                  : $_("import.move.submit")
+                : $_("import.restore")}
+            </button>
           </div>
         {/if}
       </div>
@@ -580,6 +529,8 @@
   import { _ } from "svelte-i18n";
 
   import DragAndDropZone from "$lib/components/DragAndDropZone.svelte";
+  import { show as showToast } from "$lib/components/ToastContainer.svelte";
+  import TransferErrorToast from "$lib/components/toasts/TransferErrorToast.svelte";
 
   import { startPanoConnect } from "$lib/pano-connect.util.js";
   import ApiUtil, { NETWORK_ERROR } from "$lib/api.util.js";
@@ -637,16 +588,16 @@
   let passphrase = $state("");
   let database = $state({ host: "", dbName: "", username: "", password: "" });
 
-  /** Pano Backup: asking the account, not connected yet, or connected with its backups listed. */
-  /** @type {"checking" | "connect" | "linked"} */
+  /** Pano Backup: checking the account, or connected with its backups listed. */
+  /** @type {"checking" | "linked"} */
   let hostState = $state("checking");
   let connecting = $state(false);
   let accountName = $state("");
   let backups = $state([]);
   let selectedBackupId = $state(null);
 
-  /** Moving from Pano Host: the same connect step, then the account's instances. */
-  /** @type {"checking" | "connect" | "linked"} */
+  /** Moving from Pano Host: checking the account, then the account's instances. */
+  /** @type {"checking" | "linked"} */
   let moveState = $state("checking");
   let instances = $state([]);
   let selectedInstanceId = $state(null);
@@ -790,9 +741,14 @@
     if (open) {
       reset();
 
-      if (initialStep === "host") openHost();
-      if (initialStep === "move") openMove();
-      if (initialError) error = initialError;
+      // `initialStep` is only "host"/"move" when the setup page reopens us after the website
+      // returned from an account connect. Never auto-connect on that path: the freshly finished
+      // connect may not be reflected by the GET yet, and a repeated CONNECT_REQUIRED would send
+      // the owner back to the website again — an endless redirect loop. A real connect only ever
+      // starts from an explicit click on the selection list.
+      if (initialStep === "host") openHost({ autoConnect: false });
+      if (initialStep === "move") openMove({ autoConnect: false });
+      if (initialError) fail(initialError);
     }
 
     return () => {
@@ -816,9 +772,25 @@
 
   function fail(body) {
     submitting = false;
-    error = describeError(
-      body && body.error ? body : { error: { code: NETWORK_ERROR } },
-    );
+    // The connect round trip hands back an already described `{ key, code }` error.
+    error =
+      body?.key && body?.code
+        ? body
+        : describeError(
+            body && body.error ? body : { error: { code: NETWORK_ERROR } },
+          );
+
+    if (error) {
+      void showToast(TransferErrorToast, {
+        message: $_(error.key, {
+          values: {
+            code: error.code,
+            website,
+            seconds: error.seconds ?? 0,
+          },
+        }),
+      });
+    }
   }
 
   /**
@@ -853,8 +825,8 @@
     error = null;
   }
 
-  /** Pano Backup: lists the connected account's backups, or offers to connect one. */
-  function openHost() {
+  /** Pano Backup: lists the connected account's backups, or starts the connect right away. */
+  function openHost({ autoConnect = true } = {}) {
     step = "host";
     hostState = "checking";
     error = null;
@@ -871,20 +843,21 @@
           selectedBackupId = backups[0]?.id ?? null;
           hostState = "linked";
         } else if (hostErrorOf(body) === "CONNECT_REQUIRED") {
-          hostState = "connect";
+          if (autoConnect) connect();
+          else step = "selection";
         } else {
-          hostState = "connect";
+          step = "selection";
           fail(body);
         }
       })
       .catch(() => {
-        hostState = "connect";
+        step = "selection";
         fail(null);
       });
   }
 
-  /** Pano Host: the account's instances (the exportable one preselected), or the connect step. */
-  function openMove() {
+  /** Pano Host: the account's instances (the exportable one preselected), or starts the connect. */
+  function openMove({ autoConnect = true } = {}) {
     step = "move";
     moveState = "checking";
     error = null;
@@ -900,13 +873,16 @@
           selectedInstanceId =
             instances.find((instance) => instance.exportable)?.id ?? null;
           moveState = "linked";
+        } else if (hostErrorOf(body) === "CONNECT_REQUIRED") {
+          if (autoConnect) connect();
+          else step = "selection";
         } else {
-          moveState = "connect";
-          if (hostErrorOf(body) !== "CONNECT_REQUIRED") fail(body);
+          step = "selection";
+          fail(body);
         }
       })
       .catch(() => {
-        moveState = "connect";
+        step = "selection";
         fail(null);
       });
   }
@@ -917,6 +893,8 @@
    * on Pano Backup then (see Beginning.svelte).
    */
   function connect() {
+    if (connecting) return;
+
     error = null;
     connecting = true;
 
@@ -931,12 +909,20 @@
           // blocked storage: the account still connects, the dialog just does not reopen itself
         }
       },
-    }).then((failed) => {
-      if (!failed) return;
+    })
+      .then((failed) => {
+        // `null` means the browser is being sent to the website.
+        if (!failed) return;
 
-      connecting = false;
-      fail(failed.error ? failed : null);
-    });
+        connecting = false;
+        step = "selection";
+        fail(failed.error ? failed : null);
+      })
+      .catch(() => {
+        connecting = false;
+        step = "selection";
+        fail(null);
+      });
   }
 
   function started(body) {
@@ -1047,7 +1033,7 @@
           finished();
         } else if (current.status === "FAILED") {
           step = source;
-          error = describeError(current);
+          fail(current);
           // The code was used when the move started: another try asks for a new one.
           if (source === "move") clearMoveCode();
         } else {

@@ -90,22 +90,29 @@
 
     if (reopen !== "host" && reopen !== "move") return;
 
-    const failed = await finishPanoConnect(window.location.search);
-    const connectError = failed
+    let failed = null;
+    try {
+      failed = await finishPanoConnect(window.location.search);
+    } catch {
+      failed = { code: "FAILED" };
+    }
+
+    // Open the dialog before touching the URL: `goto` on the same route can stay
+    // pending, which used to leave the page looking frozen with no modal at all.
+    transferInitialStep = reopen;
+    transferInitialError = failed
       ? {
           key: "import.host.connect-failed",
           code: failed.code,
         }
       : null;
+    showTransferModal = true;
 
     if (window.location.search) {
-      await goto(window.location.pathname, {
-        replace: true, reset: false });
+      goto(window.location.pathname, { replace: true, reset: false }).catch(
+        () => {},
+      );
     }
-
-    transferInitialStep = reopen;
-    transferInitialError = connectError;
-    showTransferModal = true;
   });
 
   $: navigationState.update((s) => ({

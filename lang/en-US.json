@@ -189,9 +189,9 @@
                          "title":  "Beta Version",
                          "description":  "You are about to install the Beta version. Beta versions are generally release candidates, much more stable than Alpha, and include the latest features."
                      },
-    "language-label":  "Select Language",
+    "language-label":  "Language",
     "usage-mode":  {
-                       "title":  "How will you use Pano?",
+                       "title":  "Usage Mode",
                        "subtitle":  "You can change this later in the panel settings.",
                        "website":  {
                                        "title":  "Website",
@@ -262,6 +262,7 @@
                                     "title":  "Database to restore into",
                                     "description":  "The backed-up site is restored into this MySQL or MariaDB database. Pano tables already in it are replaced."
                                 },
+                   "restore-warning-title":  "Restore Warning",
                    "restore-warning":  "Restoring replaces this setup with the backed-up site, including its admin accounts and settings. Pano restarts when it is done.",
                    "restore":  "Restore",
                    "progress":  {
