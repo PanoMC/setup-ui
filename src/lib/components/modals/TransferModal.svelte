@@ -524,7 +524,7 @@
 {/if}
 
 <script>
-  import { tick } from "svelte";
+  import { tick, untrack } from "svelte";
   import { fade, fly, slide } from "svelte/transition";
   import { _ } from "svelte-i18n";
 
@@ -738,17 +738,26 @@
 
   // Fresh dialog on every open (on `initialStep`); timers never outlive it.
   $effect(() => {
-    if (open) {
-      reset();
+    // Depends on `open` + the initial props only. Everything below reads and writes dialog state
+    // (`fail` writes `error` and reads it back); tracked, that re-ran this effect, whose `reset`
+    // cleared `error` again: a loop of up to 1000 runs, each with a toast, froze the tab.
+    const isOpen = open;
+    const startStep = initialStep;
+    const startError = initialError;
 
-      // `initialStep` is only "host"/"move" when the setup page reopens us after the website
-      // returned from an account connect. Never auto-connect on that path: the freshly finished
-      // connect may not be reflected by the GET yet, and a repeated CONNECT_REQUIRED would send
-      // the owner back to the website again — an endless redirect loop. A real connect only ever
-      // starts from an explicit click on the selection list.
-      if (initialStep === "host") openHost({ autoConnect: false });
-      if (initialStep === "move") openMove({ autoConnect: false });
-      if (initialError) fail(initialError);
+    if (isOpen) {
+      untrack(() => {
+        reset();
+
+        // `initialStep` is only "host"/"move" when the setup page reopens us after the website
+        // returned from an account connect. Never auto-connect on that path: the freshly finished
+        // connect may not be reflected by the GET yet, and a repeated CONNECT_REQUIRED would send
+        // the owner back to the website again — an endless redirect loop. A real connect only ever
+        // starts from an explicit click on the selection list.
+        if (startStep === "host") openHost({ autoConnect: false });
+        if (startStep === "move") openMove({ autoConnect: false });
+        if (startError) fail(startError);
+      });
     }
 
     return () => {
