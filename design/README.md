@@ -33,3 +33,14 @@ If no topic file covers the element, follow the closest existing screen in `pane
   both legible in dark and light mode.
 - All button labels are capitalized. Add `text-capitalize` when the translation string cannot carry
   it.
+
+## Badges
+
+- **The default badge colour is primary** (`badge text-bg-primary`). A badge with no state to
+  express (a count, a code, a type, a tag, a source, a phase) is primary.
+- **Never fall back to secondary.** A status-to-class map returns `text-bg-primary` for an unknown
+  value, not `text-bg-secondary`.
+- `text-bg-secondary` is only for a passive state the grey itself means: inactive, hidden,
+  cancelled, expired, skipped, offline.
+- State colours keep their meaning: `success` done / active, `warning` waiting / needs a look,
+  `danger` failed / blocking, `info` neutral information that is not the default.
