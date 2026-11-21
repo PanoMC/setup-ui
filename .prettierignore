@@ -6,6 +6,9 @@ functions
 node_modules
 theme-core
 temp_step2.svelte
-agent-guide
 CLAUDE.md
 AGENTS.md
+docs
+GEMINI.md
+REPO-NOTES.md
+.github/copilot-instructions.md

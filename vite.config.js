@@ -144,7 +144,7 @@ export default defineConfig(({ command }) => {
       include: ["tippy.js"],
     },
     server: {
-      watch: { ignored: ['**/build/**', '**/dist/**', '**/src-tauri/**', '**/target/**'] },
+      watch: { ignored: ['**/build/**', '**/dist/**', '**/src-tauri/**', '**/target/**', '**/docs/**'] },
       proxy: {
         "/api": env.VITE_API_URL.replace("/api", ""),
       },
