@@ -114,7 +114,7 @@
           <ErrorAlert error={error} />
 
           <div
-            class="card h-100 rounded-4 transition-all pricing-card featured text-bg-info p-1 p-sm-3 position-relative d-flex flex-column border shadow-sm blocks">
+            class="card h-100 transition-all pricing-card featured text-bg-info p-1 p-sm-3 position-relative d-flex flex-column border shadow-sm blocks">
             <div class="card-body d-flex flex-column h-100">
               <div class="d-flex flex-column align-items-start gap-2 mb-4">
                 <h5
@@ -214,7 +214,7 @@
               {#if !panoMail.connected}
                 <button
                   type="button"
-                  class="btn mt-3 w-100 rounded-pill py-2 btn-light text-capitalize"
+                  class="btn mt-3 w-100 py-2 btn-light text-capitalize"
                   disabled={checking || connecting}
                   on:click={connectAccount}>
                   {#if connecting}
