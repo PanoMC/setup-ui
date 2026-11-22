@@ -99,6 +99,7 @@
                                   "title":  "Account",
                                   "online-account":  "Online Account",
                                   "online-account-description":  "Connect your online Pano account to access plugins, themes, and updates.",
+                                  "connected-account-description":  "Your online Pano account is successfully connected. You can now access plugins, themes, and updates.",
                                   "featured-plugins":  {
                                                            "title":  "Featured Plugins"
                                                        },
@@ -113,6 +114,24 @@
                                                     "label":  "Send {link}",
                                                     "label-link":  "usage data",
                                                     "description":  "This data is used to make Pano better."
+                                                },
+                                  "tabs":  {
+                                               "local":  "Local",
+                                               "pano":  "Pano Account"
+                                           },
+                                  "resources":  {
+                                                    "title":  "Pre-installed resources",
+                                                    "description":  "These will be installed with your site. You can remove them later from the panel.",
+                                                    "types":  {
+                                                                  "plugin":  "Plugin",
+                                                                  "theme":  "Theme"
+                                                              },
+                                                    "items":  {
+                                                                  "vanilla-theme":  "The default Pano theme.",
+                                                                  "announcement":  "Publish announcements on your site.",
+                                                                  "avatar":  "Player avatars from Minecraft skins.",
+                                                                  "slider":  "An image slider for the home page."
+                                                              }
                                                 },
                                   "backup":  {
                                                  "daily-free":  "Back up daily with free Pano Backup ({gb} GB)",

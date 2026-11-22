@@ -1,4 +1,47 @@
 <style>
+  /* Same board as panel-ui's Settings / Platform connect alert. */
+  .connect-account-board {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  :global([data-bs-theme="light"]) .connect-account-board {
+    --welcome-gradient: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.95) 20%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+  }
+
+  :global([data-bs-theme="dark"]) .connect-account-board,
+  :global([data-bs-theme="copper"]) .connect-account-board {
+    --welcome-gradient: linear-gradient(
+      90deg,
+      rgba(20, 22, 25, 0.95) 20%,
+      rgba(20, 22, 25, 0.5) 100%
+    );
+  }
+
+  @media (max-width: 991.98px) {
+    .connect-account-board {
+      --welcome-gradient: linear-gradient(
+        180deg,
+        rgba(var(--bs-body-bg-rgb), 0.95) 40%,
+        rgba(var(--bs-body-bg-rgb), 0.8) 100%
+      ) !important;
+    }
+  }
+
+  .connect-account-board .alert-link {
+    text-decoration: none;
+  }
+
+  .connect-account-board.interactive {
+    cursor: pointer;
+  }
+
   .merged-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -82,134 +125,217 @@
     <div class="card-body vstack gap-3">
       <ErrorAlert error={error} />
 
-      {#if !panoAccount && failed}
-        <!-- Error Alert -->
-        <div
-          class="alert alert-danger alert-dismissible fade show mb-0"
-          role="alert">
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-            aria-label={$_("buttons.close")}></button>
-          <i class="fa-solid fa-triangle-exclamation me-2"></i>
-          {$_("connect-failed-alert")}
-        </div>
-      {/if}
+      <ul class="nav nav-pills nav-fill gap-2" role="tablist">
+        {#each tabs as tab (tab)}
+          <li class="nav-item" role="presentation">
+            <button
+              type="button"
+              class="nav-link text-capitalize"
+              class:active={activeTab === tab}
+              role="tab"
+              aria-selected={activeTab === tab}
+              on:click={() => (activeTab = tab)}>
+              {$_("steps.account.tabs." + tab)}
+            </button>
+          </li>
+        {/each}
+      </ul>
 
-      <div class="d-flex flex-column align-items-center w-100">
-        <div class="merged-grid w-100">
-          <div class="form-floating">
-            <input
-              class="form-control"
-              id="admin-email"
-              type="email"
-              placeholder="admin@example.com"
-              bind:value={account.email} />
-            <label for="admin-email">{$_("steps.account.inputs.email")}</label>
-          </div>
-          <div class="form-floating">
-            <input
-              class="form-control"
-              id="admin-username"
-              type="text"
-              placeholder="admin"
-              bind:value={account.username} />
-            <label for="admin-username"
-              >{$_("steps.account.inputs.username")}</label>
-          </div>
-          <div class="form-floating">
-            <input
-              type="password"
-              class="form-control"
-              id="admin-password"
-              placeholder="************"
-              bind:value={account.password} />
-            <label for="admin-password"
-              >{$_("steps.account.inputs.password")}</label>
-          </div>
-          <div class="form-floating">
-            <input
-              type="password"
-              class="form-control"
-              id="admin-password-repeat"
-              placeholder="************"
-              bind:value={account.passwordRepeat} />
-            <label for="admin-password-repeat"
-              >{$_("steps.account.inputs.password-repeat")}</label>
-          </div>
-        </div>
-        <small class="text-body-secondary w-100 mt-2"
-          >{$_("steps.account.inputs.password-help-text")}</small>
-      </div>
-
-      <div class="alert alert-info d-flex align-items-start" role="alert">
-        <div class="flex-grow-1">
-          <h5 class="alert-heading mb-2">
-            {panoAccount
-              ? panoAccount.username
-              : $_("steps.account.online-account")}
-          </h5>
-          {#if panoAccount}
-            <div class="mb-2">
-              Pano hesabınız başarıyla bağlandı. ({maskEmail(
-                panoAccount.email,
-              )})
+      {#if activeTab === "local"}
+        <div class="d-flex flex-column align-items-center w-100">
+          <div class="merged-grid w-100">
+            <div class="form-floating">
+              <input
+                class="form-control"
+                id="admin-email"
+                type="email"
+                placeholder="admin@example.com"
+                bind:value={account.email} />
+              <label for="admin-email"
+                >{$_("steps.account.inputs.email")}</label>
             </div>
+            <div class="form-floating">
+              <input
+                class="form-control"
+                id="admin-username"
+                type="text"
+                placeholder="admin"
+                bind:value={account.username} />
+              <label for="admin-username"
+                >{$_("steps.account.inputs.username")}</label>
+            </div>
+            <div class="form-floating">
+              <input
+                type="password"
+                class="form-control"
+                id="admin-password"
+                placeholder="************"
+                bind:value={account.password} />
+              <label for="admin-password"
+                >{$_("steps.account.inputs.password")}</label>
+            </div>
+            <div class="form-floating">
+              <input
+                type="password"
+                class="form-control"
+                id="admin-password-repeat"
+                placeholder="************"
+                bind:value={account.passwordRepeat} />
+              <label for="admin-password-repeat"
+                >{$_("steps.account.inputs.password-repeat")}</label>
+            </div>
+          </div>
+          <small class="text-body-secondary w-100 mt-2"
+            >{$_("steps.account.inputs.password-help-text")}</small>
+        </div>
+      {:else if activeTab === "pano"}
+        {#if !panoAccount && failed}
+          <!-- Error Alert -->
+          <div
+            class="alert alert-danger alert-dismissible fade show mb-0"
+            role="alert">
             <button
               type="button"
-              class="btn alert-btn text-capitalize"
-              on:click={onDisconnectClick}
-              disabled={disconnecting}>
-              {$_("buttons.remove")}
-            </button>
-          {:else}
-            <ul class="mb-2">
-              {#each benefits as benefit (benefit.key)}
-                <li>
-                  {$_("steps.account.backup." + benefit.key, {
-                    values: benefit.values,
-                  })}
-                </li>
-              {/each}
-            </ul>
-            <button
-              type="button"
-              class="btn alert-btn text-capitalize"
-              on:click={onConnectClick}
-              disabled={connecting}>
-              {$_("buttons.connect")}
-            </button>
-          {/if}
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label={$_("buttons.close")}></button>
+            <i class="fa-solid fa-triangle-exclamation me-2"></i>
+            {$_("connect-failed-alert")}
+          </div>
+        {/if}
+
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+        <div
+          class="alert alert-secondary connect-account-board border mb-0 focus-ring"
+          class:interactive={!panoAccount && !connecting}
+          role="alert"
+          on:click={!panoAccount && !connecting ? onConnectClick : null}
+          style="background-image: var(--welcome-gradient), url('{base}/assets/img/connect-pano-bg.png');">
+          <div class="row align-items-center">
+            <div class="col-lg-9">
+              <div class="d-flex align-items-start">
+                <i class="fa-solid fa-circle-user me-3 mt-1" aria-hidden="true"
+                ></i>
+                <div>
+                  <b>
+                    {panoAccount
+                      ? panoAccount.username
+                      : $_("steps.account.online-account")}
+                  </b>
+                  {#if panoAccount}
+                    <div>
+                      {$_("steps.account.connected-account-description")}
+                    </div>
+                  {:else}
+                    <ul class="mb-0 ps-3">
+                      {#each benefits as benefit (benefit.key)}
+                        <li>
+                          {$_("steps.account.backup." + benefit.key, {
+                            values: benefit.values,
+                          })}
+                        </li>
+                      {/each}
+                    </ul>
+                  {/if}
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 text-lg-end mt-3 mt-lg-0">
+              {#if panoAccount}
+                <div class="hstack gap-2 justify-content-lg-end">
+                  <span class="badge text-bg-gray"
+                    >{maskEmail(panoAccount.email)}</span>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    title={$_("buttons.remove")}
+                    aria-label={$_("buttons.remove")}
+                    on:click={onDisconnectClick}
+                    disabled={disconnecting}></button>
+                </div>
+              {:else}
+                <div class="alert-link text-capitalize">
+                  {connecting
+                    ? $_("buttons.connecting")
+                    : $_("buttons.connect")}
+
+                  {#if connecting}
+                    <span
+                      class="spinner-border spinner-border-sm text-primary"
+                      role="status"></span>
+                  {:else}
+                    <i class="fa-solid fa-arrow-right ms-1"></i>
+                  {/if}
+                </div>
+              {/if}
+            </div>
+          </div>
+        </div>
+
+        {#if showBackupSwitch(panoBackup, !!panoAccount)}
+          <div
+            class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div class="form-check form-switch mb-0">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="daily-backup"
+                bind:checked={dailyBackup} />
+              <label class="form-check-label" for="daily-backup">
+                {$_("steps.account.backup." + backupLabel.key, {
+                  values: backupLabel.values,
+                })}
+              </label>
+            </div>
+            {#if panoBackup.manageUrl}
+              <button
+                type="button"
+                class="btn btn-primary btn-sm text-capitalize"
+                on:click={changePlan}>
+                {$_("steps.email.pano-mail.change-plan")}
+              </button>
+            {/if}
+          </div>
+        {/if}
+      {/if}
+
+      <div class="vstack gap-2">
+        <div>
+          <h6 class="mb-1 text-capitalize">
+            {$_("steps.account.resources.title")}
+          </h6>
+          <small class="text-body-secondary">
+            {$_("steps.account.resources.description")}
+          </small>
+        </div>
+
+        <div class="list-group">
+          {#each preInstalledResources as resource (resource.id)}
+            <label
+              class="list-group-item d-flex gap-2 align-items-start fw-normal">
+              <input
+                class="form-check-input mt-1 flex-shrink-0"
+                type="checkbox"
+                bind:group={selectedResources}
+                value={resource.id} />
+              <span class="vstack">
+                <span
+                  class="d-flex flex-wrap align-items-center gap-2 text-body text-capitalize">
+                  {resource.name}
+                  <span class="badge text-bg-primary">
+                    {$_("steps.account.resources.types." + resource.type)}
+                  </span>
+                </span>
+                <span class="small text-body-secondary">
+                  {$_("steps.account.resources.items." + resource.id)}
+                </span>
+              </span>
+            </label>
+          {/each}
         </div>
       </div>
-
-      {#if showBackupSwitch(panoBackup, !!panoAccount)}
-        <div
-          class="d-flex flex-wrap align-items-center justify-content-between gap-2">
-          <div class="form-check form-switch mb-0">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              role="switch"
-              id="daily-backup"
-              bind:checked={dailyBackup} />
-            <label class="form-check-label" for="daily-backup">
-              {$_("steps.account.backup." + backupLabel.key, {
-                values: backupLabel.values,
-              })}
-            </label>
-          </div>
-          {#if panoBackup.manageUrl}
-            <button
-              type="button"
-              class="btn btn-primary btn-sm text-capitalize"
-              on:click={changePlan}>
-              {$_("steps.email.pano-mail.change-plan")}
-            </button>
-          {/if}
-        </div>
-      {/if}
 
       <div class="form-check">
         <input
@@ -345,6 +471,20 @@
     );
   }
 
+  const tabs = ["local", "pano"];
+  // Back from the Pano sign-in (connected, connecting or failed): open on the Pano tab.
+  let activeTab =
+    panoAccount || failed || (state && encodedData) ? "pano" : "local";
+
+  // UI only for now: sample resources, the selection is not sent with the finish request yet.
+  const preInstalledResources = [
+    { id: "vanilla-theme", name: "Vanilla Theme", type: "theme" },
+    { id: "announcement", name: "Announcement", type: "plugin" },
+    { id: "avatar", name: "Avatar", type: "plugin" },
+    { id: "slider", name: "Slider", type: "plugin" },
+  ];
+
+  let selectedResources = preInstalledResources.map((resource) => resource.id);
   // Opt-out, not opt-in: the platform defaults to sending usage data, so the box starts
   // ticked and the value below is what the finish request actually commits.
   let telemetryEnabled = true;

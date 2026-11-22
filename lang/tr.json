@@ -99,6 +99,7 @@
                                   "title":  "Hesap",
                                   "online-account":  "Çevrimiçi Hesap",
                                   "online-account-description":  "Eklenti, tema ve güncellemelere erişebilmek için çevrimiçi Pano hesabınızı bağlayın.",
+                                  "connected-account-description":  "Çevrimiçi Pano hesabınız başarıyla bağlandı. Artık eklentilere, temalara ve güncellemelere erişebilirsiniz.",
                                   "featured-plugins":  {
                                                            "title":  "Öne Çıkan Eklentiler"
                                                        },
@@ -113,6 +114,24 @@
                                                     "label":  "{link} gönder",
                                                     "label-link":  "Kullanım verileri",
                                                     "description":  "Bu veriler Pano\u0027yu daha iyi hale getirmemiz için kullanılacaktır."
+                                                },
+                                  "tabs":  {
+                                               "local":  "Yerel",
+                                               "pano":  "Pano Hesabı"
+                                           },
+                                  "resources":  {
+                                                    "title":  "Hazır kurulacak kaynaklar",
+                                                    "description":  "Bunlar sitenizle birlikte kurulur. Daha sonra panelden kaldırabilirsiniz.",
+                                                    "types":  {
+                                                                  "plugin":  "Eklenti",
+                                                                  "theme":  "Tema"
+                                                              },
+                                                    "items":  {
+                                                                  "vanilla-theme":  "Varsayılan Pano teması.",
+                                                                  "announcement":  "Sitenizde duyuru yayınlayın.",
+                                                                  "avatar":  "Minecraft skinlerinden oyuncu avatarları.",
+                                                                  "slider":  "Ana sayfa için görsel slider."
+                                                              }
                                                 },
                                   "backup":  {
                                                  "daily-free":  "Ücretsiz Pano Backup ({gb} GB) ile günlük yedek al",
