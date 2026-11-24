@@ -460,20 +460,28 @@
               {:else if shownStep === "running"}
                 <div class="vstack gap-2 py-2">
                   <div class="fw-semibold">{$_("import.progress.title")}</div>
-                  <div class="small text-body-secondary">{phaseText}</div>
-                  <div
-                    class="progress"
-                    role="progressbar"
-                    aria-valuenow={percent ?? 0}
-                    aria-valuemin="0"
-                    aria-valuemax="100">
+                  {#if !job && uploadStats}
+                    <UploadProgress
+                      stats={uploadStats}
+                      phase={phaseText}
+                      oncancel={uploadHandle ? cancelUpload : null} />
+                  {:else}
+                    <div class="small text-body-secondary">{phaseText}</div>
                     <div
-                      class="progress-bar"
-                      class:progress-bar-striped={percent === null}
-                      class:progress-bar-animated={percent === null}
-                      style="width: {percent ?? 100}%">
+                      class="progress"
+                      role="progressbar"
+                      aria-label={phaseText}
+                      aria-valuenow={percent ?? 0}
+                      aria-valuemin="0"
+                      aria-valuemax="100">
+                      <div
+                        class="progress-bar"
+                        class:progress-bar-striped={percent === null}
+                        class:progress-bar-animated={percent === null}
+                        style="width: {percent ?? 100}%">
+                      </div>
                     </div>
-                  </div>
+                  {/if}
                   <div class="small text-body-secondary">
                     {$_("import.progress.keep-open")}
                   </div>
@@ -538,6 +546,8 @@
   import { isOk } from "$lib/api.result.js";
   import { currentLanguage } from "$lib/language.util";
   import { PANO_WEBSITE_URL } from "$lib/variables.js";
+  import { sendUpload, UPLOAD_CANCELLED } from "$lib/upload.util.js";
+  import UploadProgress from "$lib/components/UploadProgress.svelte";
   import {
     archiveKind,
     databaseProblem,
@@ -611,7 +621,10 @@
   let moveCodeInput = $state();
   let moveCodeTicker = null;
 
-  let uploadProgress = $state(null);
+  /** @type {import('$lib/upload.util.js').UploadStats | null} */
+  let uploadStats = $state(null);
+  /** @type {{ abort: () => void } | null} */
+  let uploadHandle = $state.raw(null);
   let job = $state(null);
 
   let timer = null;
@@ -639,11 +652,7 @@
           : !!selectedBackupId),
   );
   const percent = $derived(
-    job
-      ? jobPercent(job)
-      : uploadProgress === null
-        ? null
-        : Math.round(uploadProgress * 100),
+    job ? jobPercent(job) : uploadStats === null ? null : uploadStats.percent,
   );
   const phaseText = $derived.by(() => {
     if (!job) return $_("import.progress.UPLOADING");
@@ -732,7 +741,7 @@
     instances = [];
     selectedInstanceId = null;
     clearMoveCode();
-    uploadProgress = null;
+    uploadStats = null;
     job = null;
   }
 
@@ -934,6 +943,10 @@
       });
   }
 
+  function cancelUpload() {
+    uploadHandle?.abort();
+  }
+
   function started(body) {
     submitting = false;
 
@@ -960,7 +973,7 @@
     error = null;
     submitting = true;
     source = step;
-    uploadProgress = null;
+    uploadStats = null;
     job = null;
 
     const target = {
@@ -977,19 +990,30 @@
       if (fileKind === "passphrase") form.append("passphrase", passphrase);
       Object.entries(target).forEach(([key, value]) => form.append(key, value));
 
-      uploadProgress = 0;
       step = "running";
 
-      ApiUtil.post({
+      const handle = sendUpload({
         path: "/setup/restore",
         body: form,
-        onUploadProgress: (value) => (uploadProgress = value),
-      })
-        .then(started)
-        .catch(() => {
+        size: file.size,
+        onprogress: (stats) => (uploadStats = stats),
+      });
+
+      uploadHandle = handle;
+
+      handle.promise.then((body) => {
+        uploadHandle = null;
+
+        // Cancelled: back to the file, nothing went wrong.
+        if (body?.error?.code === UPLOAD_CANCELLED) {
+          uploadStats = null;
+          submitting = false;
           step = source;
-          fail(null);
-        });
+          return;
+        }
+
+        started(body);
+      });
     } else if (step === "move") {
       step = "running";
 

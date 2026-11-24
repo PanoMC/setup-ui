@@ -341,5 +341,14 @@
                                   "TRANSFER_CODE_REQUIRED":  "Срок подтверждения истёк. Запросите новый код и попробуйте снова.",
                                   "TRANSFER_CODE_COOLDOWN":  "Подождите {seconds} с, прежде чем запрашивать новый код."
                               }
-               }
+               },
+    "upload-progress":  {
+                            "uploading":  "Загрузка",
+                            "cancel":  "Отмена",
+                            "speed":  "{speed}/с",
+                            "calculating":  "вычисляется…",
+                            "seconds-left":  "осталось {seconds} с",
+                            "minutes-left":  "осталось {minutes} мин {seconds} с",
+                            "hours-left":  "осталось {hours} ч {minutes} мин"
+                        }
 }

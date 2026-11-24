@@ -341,5 +341,14 @@
                                   "TRANSFER_CODE_REQUIRED":  "The confirmation has expired. Ask for a new code and try again.",
                                   "TRANSFER_CODE_COOLDOWN":  "Please wait {seconds} s before asking for another code."
                               }
-               }
+               },
+    "upload-progress":  {
+                            "uploading":  "Uploading",
+                            "cancel":  "Cancel",
+                            "speed":  "{speed}/s",
+                            "calculating":  "calculating…",
+                            "seconds-left":  "{seconds} s left",
+                            "minutes-left":  "{minutes} min {seconds} s left",
+                            "hours-left":  "{hours} h {minutes} min left"
+                        }
 }

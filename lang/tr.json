@@ -341,5 +341,14 @@
                                   "TRANSFER_CODE_REQUIRED":  "Onayın süresi doldu. Yeni bir kod isteyip tekrar deneyin.",
                                   "TRANSFER_CODE_COOLDOWN":  "Yeni bir kod istemeden önce {seconds} sn bekleyin."
                               }
-               }
+               },
+    "upload-progress":  {
+                            "uploading":  "Yükleniyor",
+                            "cancel":  "İptal",
+                            "speed":  "{speed}/sn",
+                            "calculating":  "hesaplanıyor…",
+                            "seconds-left":  "{seconds} sn kaldı",
+                            "minutes-left":  "{minutes} dk {seconds} sn kaldı",
+                            "hours-left":  "{hours} sa {minutes} dk kaldı"
+                        }
 }
